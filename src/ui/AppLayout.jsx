@@ -2,7 +2,7 @@ import {Outlet} from 'react-router-dom'
 import Sidebar from './Sidebar'
 import Header from './Header'
 import styled from 'styled-components'
-
+//test
 const StyledAppLayout = styled.div`
     display: grid; //* grid is used to layout sidebar and main content
     grid-template-columns: 26rem 1fr; //* 26rem for sidebar and 1fr(fraction unit (flexible)) for main content (sidebar will stay 26rem and main content will take up the rest of the space)

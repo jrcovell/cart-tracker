@@ -74,6 +74,7 @@ function onSubmitData(data) {
 
 function onError(errors) {
   console.log(errors)
+  //golf test
 }
 
   return (

@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCart } from "../../services/apiCarts";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
+import CreateCartForm from "./CreateCartForm";
 
 const TableRow = styled.div`
   display: grid;
@@ -57,6 +59,8 @@ const Location = styled.div`
 `;
 
 function CartRow({cart}) { //* cart is passed as a prop to the CartRow from the CartTable 
+const [showForm, setShowForm] = useState(false); //* showForm is a state variable that is used to toggle the form on and off
+
 const {active, id: cartId, number, description, image} = cart //* destructure the cart object
 
 const queryClient = useQueryClient(); //* useQueryClient is a react-query hook that is used to access the queryClient
@@ -72,16 +76,20 @@ const {isLoading: isDeleting, mutate} = useMutation({ //* useMutation is a react
 onError: (err) => toast.error(err.message), //* onError is a function that is called when the mutation fails. alert is a function that displays an alert box with the error message
 });
   return (
-    
 
+    <>
   <TableRow role="row">  
     <Img src={image} />
     <Number>{number}</Number>
     <Active>{active ? 'Yes' : 'No'}</Active>
     <Description>{description}</Description>
+    <div>
+      <button onClick={() => setShowForm((show) => !show)}>Edit</button>
       <button onClick={() => mutate(cartId)} disabled={isDeleting}>Delete</button>
+      </div>
       </TableRow>
-    
+    {showForm && <CreateCartForm cartToEdit={cart}/>}
+    </>
   )
 }
 

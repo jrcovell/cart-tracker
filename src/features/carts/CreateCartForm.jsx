@@ -1,4 +1,4 @@
-import styled from "styled-components";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
@@ -8,18 +8,25 @@ import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
-import { get, useForm } from "react-hook-form";
-import { createCart } from "../../services/apiCarts";
+
+import {useForm } from "react-hook-form";
+import { createEditCart } from "../../services/apiCarts";
 
 
-function CreateCartForm() {
-const {register, handleSubmit, reset, getValues, formState} = useForm() //* register and handleSubmit are destructured from useForm
+function CreateCartForm({cartToEdit = {}}) {
+const {id: editId, ...editValues} = cartToEdit //* destructuring id from cartToEdit and renaming it to editId. editValues is the rest of the object. (for the edit form)
+const isEditSession = Boolean(editId) //* determines if using the form for editing or creating a new cart
+
+
+const {register, handleSubmit, reset, getValues, formState} = useForm({
+  defaultValues: isEditSession ? editValues : {} //* if isEditSession is true, use editValues, otherwise use undefined
+}) //* register and handleSubmit are destructured from useForm
 // console.log(getValues().number) //* gets the value of the form input with the name 'number'
 const {errors} = formState //* destructuring errors from formState (shows error messages on the form)
 
 const queryClient = useQueryClient() //* needed to invalidate the query after adding a new cart(so data is refetched)
-const {mutate, isLoading: isCreating} = useMutation({ //* whenever we change something(add, delete, update) we use useMutation(react-query hook)
-mutationFn: createCart,
+const {mutate: createCart, isLoading: isCreating} = useMutation({ //* whenever we change something(add, delete, update) we use useMutation(react-query hook)
+mutationFn: createEditCart,
 // mutationFn: newCart => createCart(newCart), //* same as above
 onSuccess: () => {
   toast.success('Cart added')
@@ -29,15 +36,32 @@ onSuccess: () => {
 onError: (error) => {
   toast.error(error.message)
   
-},
+},})
 
-})
+const {mutate: editCabin, isLoading: isEditing} = useMutation({ //* whenever we change something(add, delete, update) we use useMutation(react-query hook)
+  mutationFn: ({newCartData, id}) => createEditCart(newCartData, id),
+  // mutationFn: newCart => createCart(newCart), //* same as above
+  onSuccess: () => {
+    toast.success('Cart successfully edited')
+    queryClient.invalidateQueries({ queryKey:['cart']}) //* invalidates the query so data is refetched
+    reset() //* resets the form after adding a new cart
+  },
+  onError: (error) => {
+    toast.error(error.message)
+  },
+  });
 
+  const isWorking = isCreating || isEditing //* isWorking is true if isCreating or isEditing is true
 
 function onSubmitData(data) {
-  // console.log(data) //* exact shape needed for supabase {number: "123", description: "test", image: {File}}
-  // mutate(data) //* data is passed to the mutate function
-  mutate({...data, image: data.image[0]}) //* image is an array so we need to pass the first element of the array
+const image = typeof data.image === 'string' ? data.image : data.image[0] //* if image is a string, use that, otherwise use the first element of the array (again choosing which form of the image to use (file or bucket path))
+
+
+if(isEditSession) 
+ editCabin({newCartData: {...data, image}, id: editId})
+ else
+  createCart({...data, image: image}) //* image is an array so we need to pass the first element of the array
+
 }
 
 function onError(errors) {
@@ -52,28 +76,28 @@ function onError(errors) {
     {/* //* onSubmit called when form is submitted(when button is clicked)  */}
 
       <FormRow label="Number" error={errors?.number?.message}>
-        <Input type="text" id="number" disabled={isCreating} {...register('number' ,{ required: 'Cart number is required', min: {
+        <Input type="text" id="number" disabled={isWorking} {...register('number' ,{ required: 'Cart number is required', min: {
           value: 1, message: 'Cart number must be greater than 0'},
         })} 
         />
       </FormRow>
 
       <FormRow label="Description" error={errors?.description?.message} >
-        <Textarea type="number" id="description" disabled={isCreating}  defaultValue="" {...register('description', 
+        <Textarea type="number" id="description" disabled={isWorking}  defaultValue="" {...register('description', 
       {required: 'Description is required', validate: value => value.length > 10 || 'Description must be at least 10 characters'}
       )}/>
       </FormRow>
 
-      <FormRow label="Image" error={errors?.image?.message} disabled={isCreating}>
-        <FileInput id="image" accept="image/*" disabled={isCreating} {...register("image", {required: "Image is required"})}/>
+      <FormRow label="Image" error={errors?.image?.message} disabled={isWorking}>
+        <FileInput id="image" accept="image/*" disabled={isWorking} {...register("image", {required: isEditSession ? false : "Image is required"})}/>
       </FormRow>
 
-      <FormRow disabled={isCreating}>
+      <FormRow disabled={isWorking}>
         {/* type is an HTML attribute. Resets the form */}
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button >Add cabin</Button>
+        <Button >{ isEditSession ? 'Edit Cart' : 'Create new Cart'}</Button>
       </FormRow>
 
     </Form>

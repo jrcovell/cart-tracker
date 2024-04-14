@@ -1,3 +1,6 @@
+//^ Version Prior to adding FormRow component. Cleaner way of adding multiple form rows, while keeping the UseForm logic in the parent component
+
+
 import styled from "styled-components";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
@@ -5,12 +8,46 @@ import { toast } from "react-hot-toast";
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
-import FormRow from "../../ui/FormRow";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import { get, useForm } from "react-hook-form";
 import { createCart } from "../../services/apiCarts";
 
+const FormRow = styled.div`
+  display: grid;
+  align-items: center;
+  grid-template-columns: 24rem 1fr 1.2fr;
+  gap: 2.4rem;
+
+  padding: 1.2rem 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-grey-100);
+  }
+
+  &:has(button) {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+  }
+`;
+
+const Label = styled.label`
+  font-weight: 500;
+`;
+
+const Error = styled.span`
+  font-size: 1.4rem;
+  color: var(--color-red-700);
+`;
 
 function CreateCartForm() {
 const {register, handleSubmit, reset, getValues, formState} = useForm() //* register and handleSubmit are destructured from useForm
@@ -37,6 +74,7 @@ onError: (error) => {
 function onSubmitData(data) {
   // console.log(data) //* exact shape needed for supabase {number: "123", description: "test", image: File}
   mutate(data) //* data is passed to the mutate function
+  
 }
 
 function onError(errors) {
@@ -45,25 +83,37 @@ function onError(errors) {
 }
 
 
+
+
+
+
+
+
   return (
     
     <Form onSubmit={handleSubmit(onSubmitData, onError)}> 
     {/* //* onSubmit called when form is submitted(when button is clicked)  */}
-
-      <FormRow label="Number" error={errors?.number?.message}>
+      <FormRow>
+        <Label htmlFor="number">Cart Number</Label>
         <Input type="text" id="number"{...register('number' ,{ required: 'Cart number is required', min: {
           value: 1, message: 'Cart number must be greater than 0'},
         })} 
+        // {/* register(from react-hook-form) adds onBlur/onChange to input */ }
         />
+        {errors.number && <Error>{errors.number.message}</Error>}
       </FormRow>
 
-      <FormRow label="Description" error={errors?.description?.message}>
+
+      <FormRow>
+        <Label htmlFor="description">Description for website</Label>
         <Textarea type="number" id="description" defaultValue="" {...register('description', 
       {required: 'Description is required', validate: value => value.length > 10 || 'Description must be at least 10 characters'}
       )}/>
+        {errors.description && <Error>{errors.description.message}</Error>}
       </FormRow>
 
-      <FormRow label="Image" error={errors?.image?.message}>
+      <FormRow>
+        <Label htmlFor="image">Cart photo</Label>
         <FileInput id="image" accept="image/*" {...register('image')}/>
       </FormRow>
 
@@ -74,7 +124,6 @@ function onError(errors) {
         </Button>
         <Button disabled={isCreating}>Add cabin</Button>
       </FormRow>
-      
     </Form>
   );
 }

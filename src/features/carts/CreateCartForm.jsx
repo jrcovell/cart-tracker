@@ -7,7 +7,7 @@ import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import { createCart } from "../../services/apiCarts";
 
 const FormRow = styled.div`
@@ -47,8 +47,9 @@ const Error = styled.span`
 `;
 
 function CreateCartForm() {
-const {register, handleSubmit, reset} = useForm() //* register and handleSubmit are destructured from useForm
-
+const {register, handleSubmit, reset, getValues, formState} = useForm() //* register and handleSubmit are destructured from useForm
+// console.log(getValues().number) //* gets the value of the input with the name 'number'
+const {errors} = formState //* destructuring errors from formState (shows error messages on the form)
 
 const queryClient = useQueryClient() //* needed to invalidate the query after adding a new cart(so data is refetched)
 const {mutate, isLoading: isCreating} = useMutation({ //* whenever we change something(add, delete, update) we use useMutation(react-query hook)
@@ -70,6 +71,7 @@ onError: (error) => {
 function onSubmitData(data) {
   // console.log(data) //* exact shape needed for supabase {number: "123", description: "test", image: File}
   mutate(data) //* data is passed to the mutate function
+  
 }
 
 function onError(errors) {
@@ -98,7 +100,7 @@ function onError(errors) {
       <FormRow>
         <Label htmlFor="description">Description for website</Label>
         <Textarea type="number" id="description" defaultValue="" {...register('description', 
-      {validate: value => value.length > 10 || 'Description must be at least 10 characters'}
+      {required: 'Description is required', validate: value => value.length > 103 || 'Description must be at least 10 characters'}
       )}/>
       </FormRow>
 

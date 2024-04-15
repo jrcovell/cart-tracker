@@ -1,3 +1,6 @@
+//^ hook used to create a new cart
+
+
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createEditCart } from "../../services/apiCarts"
 import toast from "react-hot-toast"
@@ -6,7 +9,7 @@ import toast from "react-hot-toast"
 export function useCreateCart() {
 const queryClient = useQueryClient() //* needed to invalidate the query after adding a new cart(so data is refetched)
 
-const {mutate: createCart, isLoading: isCreating} = useMutation({ //* whenever we change something(add, delete, update) we use useMutation(react-query hook)
+const {mutate: createCart, isPending: isCreating} = useMutation({ //* whenever we change something(add, delete, update) we use useMutation(react-query hook)
 mutationFn: createEditCart,
 // mutationFn: newCart => createCart(newCart), //* same as above
 onSuccess: () => {

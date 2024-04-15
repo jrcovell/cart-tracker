@@ -79,6 +79,8 @@ let query = supabase.from('carts')
 
     // 2. Upload the image to the storage bucket
 
+if(hasImagePath) return data; //* if the image is already in the storage bucket, return the data
+
 const { error: storageError } = await supabase
   .storage
   .from('carts-icons')

@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { useState } from "react";
 import CreateCartForm from "./CreateCartForm";
 import useDeleteCart from "./useDeleteCart";
+import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiSquare2Stack } from "react-icons/hi2";
+import { useCreateCart } from "./useCreateCart";
 
 const TableRow = styled.div`
   display: grid;
@@ -60,8 +63,19 @@ function CartRow({cart}) { //* cart is passed as a prop to the CartRow from the 
 const [showForm, setShowForm] = useState(false); //* showForm is a state variable that is used to toggle the form on and off
 
 const {active, id: cartId, number, description, image} = cart //* destructure the cart object
-
 const {isDeleting, deleteCart} = useDeleteCart();  //* custom hook that returns isDeleting and deleteCart (isDeleting is a boolean that is true when the mutation is in progress. deleteCart(mutate renamed))
+const {isCreating, createCart} = useCreateCart();
+
+
+
+function handleDuplicate() {
+  createCart({
+    number: `${number}`,
+    description: `copy of ${number}`,
+    active,
+    image,
+  })
+}
 
   return (
 
@@ -72,8 +86,9 @@ const {isDeleting, deleteCart} = useDeleteCart();  //* custom hook that returns 
     <Active>{active ? 'Yes' : 'No'}</Active>
     <Description>{description}</Description>
     <div>
-      <button onClick={() => setShowForm((show) => !show)}>Edit</button>
-      <button onClick={() => deleteCart(cartId)} disabled={isDeleting}>Delete</button>
+      <button disabled={isCreating} onClick={handleDuplicate}><HiSquare2Stack/></button>
+      <button onClick={() => setShowForm((show) => !show)}><HiPencil/></button>
+      <button onClick={() => deleteCart(cartId)} disabled={isDeleting}><HiTrash/></button>
       </div>
       </TableRow>
     {showForm && <CreateCartForm cartToEdit={cart}/>}

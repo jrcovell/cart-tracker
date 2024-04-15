@@ -9,7 +9,7 @@ export default function useDeleteCart() {
 
 const queryClient = useQueryClient(); //* useQueryClient is a react-query hook that is used to access the queryClient
 
-const {isLoading: isDeleting, mutate: deleteCart} = useMutation({ //* useMutation is a react-query hook that is used to mutate data(useQuery is used to fetch data)
+const {isPending: isDeleting, mutate: deleteCart} = useMutation({ //* useMutation is a react-query hook that is used to mutate data(useQuery is used to fetch data)
   mutationFn: (id) => deleteCartApi(id), //* mutationFn is a function that is called when the mutation is triggered. deleteCartApi defined in apiCarts.js 
   onSuccess: () => {
   toast.success('cart deleted');

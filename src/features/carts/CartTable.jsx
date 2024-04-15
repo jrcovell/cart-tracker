@@ -28,9 +28,9 @@ const TableHeader = styled.header`
 `;
 
 function CartTable() {
-const {isLoading, carts, error} = useCarts() 
+const {isPending, carts, error} = useCarts() 
 
-if (isLoading) return <Spinner/> //* same as above but with a spinner component
+if (isPending) return <Spinner/> //* same as above but with a spinner component
 
   return (
     <Table role="table"> {/*//* role="table" identifier for html, lets browser know this is a table */}

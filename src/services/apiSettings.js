@@ -1,7 +1,7 @@
 import supabase from "./supabase";
 
 export async function getSettings() {
-  const { data, error } = await supabase.from("settings").select("*").single();
+  const { data, error } = await supabase.from("settings").select("*").single(); //* single is attached because we only will ever have one row of settings.(single returns only one row of data, not an array of rows.) could also return data[0] if .single() is not used
 
   if (error) {
     console.error(error);

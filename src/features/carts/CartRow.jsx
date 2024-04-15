@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCart } from "../../services/apiCarts";
-import { toast } from "react-hot-toast";
 import { useState } from "react";
 import CreateCartForm from "./CreateCartForm";
+import useDeleteCart from "./useDeleteCart";
 
 const TableRow = styled.div`
   display: grid;
@@ -63,6 +61,29 @@ const [showForm, setShowForm] = useState(false); //* showForm is a state variabl
 
 const {active, id: cartId, number, description, image} = cart //* destructure the cart object
 
+const {isDeleting, deleteCart} = useDeleteCart();  //* custom hook that returns isDeleting and deleteCart (isDeleting is a boolean that is true when the mutation is in progress. deleteCart(mutate renamed))
+
+  return (
+
+    <>
+  <TableRow role="row">  
+    <Img src={image} />
+    <Number>{number}</Number>
+    <Active>{active ? 'Yes' : 'No'}</Active>
+    <Description>{description}</Description>
+    <div>
+      <button onClick={() => setShowForm((show) => !show)}>Edit</button>
+      <button onClick={() => deleteCart(cartId)} disabled={isDeleting}>Delete</button>
+      </div>
+      </TableRow>
+    {showForm && <CreateCartForm cartToEdit={cart}/>}
+    </>
+  )
+}
+
+export default CartRow
+
+/* //* refactored into a custom hook useDeleteCart
 const queryClient = useQueryClient(); //* useQueryClient is a react-query hook that is used to access the queryClient
 
 const {isLoading: isDeleting, mutate} = useMutation({ //* useMutation is a react-query hook that is used to mutate data(useQuery is used to fetch data)
@@ -75,23 +96,4 @@ const {isLoading: isDeleting, mutate} = useMutation({ //* useMutation is a react
 },
 onError: (err) => toast.error(err.message), //* onError is a function that is called when the mutation fails. alert is a function that displays an alert box with the error message
 });
-  return (
-
-    <>
-  <TableRow role="row">  
-    <Img src={image} />
-    <Number>{number}</Number>
-    <Active>{active ? 'Yes' : 'No'}</Active>
-    <Description>{description}</Description>
-    <div>
-      <button onClick={() => setShowForm((show) => !show)}>Edit</button>
-      <button onClick={() => mutate(cartId)} disabled={isDeleting}>Delete</button>
-      </div>
-      </TableRow>
-    {showForm && <CreateCartForm cartToEdit={cart}/>}
-    </>
-  )
-}
-
-export default CartRow
-
+*/

@@ -11,9 +11,12 @@ import Textarea from "../../ui/Textarea";
 
 import {useForm } from "react-hook-form";
 import { createEditCart } from "../../services/apiCarts";
+import { useCreateCart } from "./useCreateCart";
+import { useEditCart } from "./useEditCart";
 
 
 function CreateCartForm({cartToEdit = {}}) {
+  
 const {id: editId, ...editValues} = cartToEdit //* destructuring id from cartToEdit and renaming it to editId. editValues is the rest of the object. (for the edit form)
 const isEditSession = Boolean(editId) //* determines if using the form for editing or creating a new cart
 
@@ -24,7 +27,12 @@ const {register, handleSubmit, reset, getValues, formState} = useForm({
 // console.log(getValues().number) //* gets the value of the form input with the name 'number'
 const {errors} = formState //* destructuring errors from formState (shows error messages on the form)
 
-const queryClient = useQueryClient() //* needed to invalidate the query after adding a new cart(so data is refetched)
+const {isCreating, createCart} = useCreateCart()
+const {isEditing, editCabin} = useEditCart()
+
+const isWorking = isCreating || isEditing //* isWorking is true if isCreating or isEditing is true
+
+/* //* now useCreateCart is a custom hook
 const {mutate: createCart, isLoading: isCreating} = useMutation({ //* whenever we change something(add, delete, update) we use useMutation(react-query hook)
 mutationFn: createEditCart,
 // mutationFn: newCart => createCart(newCart), //* same as above
@@ -37,7 +45,9 @@ onError: (error) => {
   toast.error(error.message)
   
 },})
+*/
 
+/* //* now useEditCart is a custom hook
 const {mutate: editCabin, isLoading: isEditing} = useMutation({ //* whenever we change something(add, delete, update) we use useMutation(react-query hook)
   mutationFn: ({newCartData, id}) => createEditCart(newCartData, id),
   // mutationFn: newCart => createCart(newCart), //* same as above
@@ -50,17 +60,24 @@ const {mutate: editCabin, isLoading: isEditing} = useMutation({ //* whenever we 
     toast.error(error.message)
   },
   });
+*/
 
-  const isWorking = isCreating || isEditing //* isWorking is true if isCreating or isEditing is true
 
 function onSubmitData(data) {
 const image = typeof data.image === 'string' ? data.image : data.image[0] //* if image is a string, use that, otherwise use the first element of the array (again choosing which form of the image to use (file or bucket path))
 
 
 if(isEditSession) 
- editCabin({newCartData: {...data, image}, id: editId})
+ editCabin({newCartData: {...data, image}, id: editId}, {
+  onSuccess: (data) => reset(), 
+  // console.log(data) //* {id: 1, number: "1", description: "test", image: "https://example.com/image.jpg", active: true}
+  
+})
  else
-  createCart({...data, image: image}) //* image is an array so we need to pass the first element of the array
+  createCart({...data, image: image}, {
+onSuccess: (data) => reset(), //* resets the form after adding a new cart(moved here after making custom hook useCreateCart)
+  }
+) //* image is an array so we need to pass the first element of the array
 
 }
 
@@ -92,7 +109,7 @@ function onError(errors) {
         <FileInput id="image" accept="image/*" disabled={isWorking} {...register("image", {required: isEditSession ? false : "Image is required"})}/>
       </FormRow>
 
-      <FormRow disabled={isWorking}>
+      <FormRow>
         {/* type is an HTML attribute. Resets the form */}
         <Button variation="secondary" type="reset">
           Cancel

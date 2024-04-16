@@ -1,10 +1,14 @@
 import UpdateSettingsForm from "../features/settings/UpdateSettingsForm";
 import Heading from "../ui/Heading";
+import Row from "../ui/Row";
 
 function Settings() {
-  return <Row>
-    <UpdateSettingsForm
-  </Row> <Heading as="h1">Update hotel settings</Heading>;
+  return (
+  <Row>
+    <Heading>Settings</Heading>
+    <UpdateSettingsForm/>
+  </Row> 
+  )
 }
 
 export default Settings;

@@ -15,7 +15,7 @@ import { useCreateCart } from "./useCreateCart";
 import { useEditCart } from "./useEditCart";
 
 
-function CreateCartForm({cartToEdit = {}}) {
+function CreateCartForm({cartToEdit = {}, onCloseModal}) {
   
 const {id: editId, ...editValues} = cartToEdit //* destructuring id from cartToEdit and renaming it to editId. editValues is the rest of the object. (for the edit form)
 const isEditSession = Boolean(editId) //* determines if using the form for editing or creating a new cart
@@ -69,13 +69,19 @@ const image = typeof data.image === 'string' ? data.image : data.image[0] //* if
 
 if(isEditSession) 
  editCabin({newCartData: {...data, image}, id: editId}, {
-  onSuccess: (data) => reset(), 
+  onSuccess: (data) => {
+  reset()
   // console.log(data) //* {id: 1, number: "1", description: "test", image: "https://example.com/image.jpg", active: true}
+  onCloseModal?.(); //* close the modal after successfully editing a cart
+  }
   
 })
  else
   createCart({...data, image: image}, {
-onSuccess: (data) => reset(), //* resets the form after adding a new cart(moved here after making custom hook useCreateCart)
+onSuccess: (data) => {
+reset() //* resets the form after adding a new cart(moved here after making custom hook useCreateCart)
+onCloseModal?.(); //* close the modal after successfully adding a new cart
+}
   }
 ) //* image is an array so we need to pass the first element of the array
 
@@ -88,8 +94,8 @@ function onError(errors) {
 
 
   return (
-    
-    <Form onSubmit={handleSubmit(onSubmitData, onError)}> 
+    // set type prop to 'modal' if form is used inside a modal(for styling purposes) check by seeing if onCloseModal exists(only exists in modal component)
+    <Form onSubmit={handleSubmit(onSubmitData, onError)} type={onCloseModal ? 'modal' : 'standard'}> 
     {/* //* onSubmit called when form is submitted(when button is clicked)  */}
 
       <FormRow label="Number" error={errors?.number?.message}>
@@ -111,7 +117,8 @@ function onError(errors) {
 
       <FormRow>
         {/* type is an HTML attribute. Resets the form */}
-        <Button variation="secondary" type="reset">
+        {/* optional chaining here in case form is used outside of modal(will not receive the onCloseModal prop) */}
+        <Button onClick={() => onCloseModal?.()} variation="secondary" type="reset">
           Cancel
         </Button>
         <Button >{ isEditSession ? 'Edit Cart' : 'Create new Cart'}</Button>

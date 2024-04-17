@@ -1,5 +1,8 @@
+import { createPortal } from "react-dom";
+import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 
+// center the modal
 const StyledModal = styled.div`
   position: fixed;
   top: 50%;
@@ -12,6 +15,7 @@ const StyledModal = styled.div`
   transition: all 0.5s;
 `;
 
+// blur the background
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -48,3 +52,23 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+
+//* createPortal allows us to render a component outside of dom tree while keeping props working. good for modals, dropdowns, etc.
+function Modal({children, onCloseModal}) {
+  return createPortal ( 
+    <Overlay>
+   <StyledModal>
+    <Button onClick={onCloseModal}><HiXMark/></Button>
+    <div>
+    {children}
+    </div>
+   </StyledModal>
+    </Overlay>,
+    document.body 
+    //* render the modal to the body, instead of in the dom tree normally (child of the parent component AddCart.jsx) 
+  );
+}
+
+export default Modal
+

@@ -1,20 +1,13 @@
-import { useEffect, useState } from "react";
+
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
-import { getCarts } from "../services/apiCarts";
+
 import CartTable from "../features/carts/CartTable";
-import Button from "../ui/Button";
-import CreateCartForm from "../features/carts/CreateCartForm";
+
+import AddCart from "../features/carts/AddCart";
 
 function Carts() {
 
-    // useEffect(function() { //* retrieve cart data as soon as page loads
-    //   getCarts().then(data=>console.log(data) //* getCarts(from apiCarts.js) async so .then to retrieve data 
-    // )}
-    //   , [])
-
-
-    const [showForm, setShowForm] = useState(false) //* useState to toggle form visibility
   return (
     <>
     <Row type="horizontal">
@@ -24,9 +17,7 @@ function Carts() {
 
     <Row>
       <CartTable/>
-
-      <Button onClick={() => setShowForm((show)=>(!show))}>Add new cart</Button>
-      {showForm && <CreateCartForm/>}
+      <AddCart/>
     </Row>
     </>
   );

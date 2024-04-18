@@ -1,6 +1,8 @@
+import { cloneElement, createContext, useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
 // center the modal
 const StyledModal = styled.div`
@@ -53,9 +55,98 @@ const Button = styled.button`
   }
 `;
 
+//^ steps to make a compound component
+//^ 1. create a context
+const ModalContext = createContext();
 
-//* createPortal allows us to render a component outside of dom tree while keeping props working. good for modals, dropdowns, etc.
-function Modal({children, onCloseModal}) {
+//^2. create a parent component
+function Modal({children}) {
+  //* empty string so we can set multiple modals by name 
+const [selectedModal, setSelectedModal] = useState('')
+const closeModal = () => setSelectedModal('')
+//* generated from open prop in AddCart.jsx
+const openModal = (open) => setSelectedModal(open)
+
+
+return (
+ <ModalContext.Provider value={{selectedModal, setSelectedModal, closeModal, openModal}}>
+{children}
+</ModalContext.Provider>
+)
+}
+
+//^3. create a child components that will implement the context functionality
+
+function OpenButton({children, open}) {
+const {openModal} = useContext(ModalContext)
+//* creates a clone of the child component(ex. <Button>Add new cart</Button>) and allows us to add props to it. 
+ //* onClick sets value defined to selectedModal state (to determine which modal to open)(ex. open='cart-form') 
+return cloneElement(children, 
+  {onClick: () => openModal(open)} 
+)
+}
+
+function Window({children, name}) {
+const  {selectedModal, closeModal} = useContext(ModalContext)
+  
+
+const ref = useOutsideClick(closeModal)
+
+/* //* refactored to useOutsideClick hook
+//* useRef to reference the modal element <StyledModal> 
+const ref= useRef()
+
+  //* close modal when clicked outside of it
+  useEffect(function() { 
+    function handleClickedOutside(e) {
+      //* if the modal exists and the clicked element is not inside the modal, close the modal
+      if(ref.current && !ref.current.contains(e.target)) {
+        setSelectedModal('')
+        console.log('clicked outside')
+      }
+    }
+    //* setting true to capture the event in the capturing phase(downwards) default is false(bubbling phase moving up the tree)
+    document.addEventListener('click', handleClickedOutside, true)
+    //* remove event listener when modal is closed
+    return () => document.removeEventListener('click', handleClickedOutside, true)
+      }, [ref, setSelectedModal])
+*/
+
+//* if the name of the modal does not match the selectedModal, return null
+if(name !== selectedModal) return null
+
+//* if name matches, render that modal below
+if(name === selectedModal) {
+
+
+
+//* cloneElement here to retrieve styling logic issued from onCloseModal(old state that was originally used to close the modal in AddCart.jsx)(used to tell form it is a modal version of the form, style accordingly)
+  return (
+    createPortal ( 
+      <Overlay>
+     <StyledModal ref={ref}>
+      <Button onClick={closeModal}><HiXMark/></Button>
+      <div>
+      {cloneElement(children, {onCloseModal: closeModal})}
+      </div>
+     </StyledModal>
+      </Overlay>,
+      document.body 
+      //* render the modal to the body, instead of in the dom tree normally (child of the parent component AddCart.jsx) 
+  )
+  )
+}
+}
+
+//^4. Add child components as properties of the parent component
+
+Modal.OpenButton = OpenButton
+Modal.Window = Window
+
+export default Modal
+
+
+/*
   return createPortal ( 
     <Overlay>
    <StyledModal>
@@ -72,3 +163,4 @@ function Modal({children, onCloseModal}) {
 
 export default Modal
 
+*/

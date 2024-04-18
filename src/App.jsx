@@ -43,13 +43,13 @@ function App() {
 <Route index element={<Navigate replace to='dashboard' />} /> {/*//* same as {<Route path='dashboard' element={<DashBoard/>} />}*/}
 <Route path='dashboard' element={<DashBoard/>} />
 <Route path='bookings' element={<Bookings/>} />
-<Route path='map' element={<Map/>} />
 <Route path='cabins' element={<Cabins/>} />
 <Route path='carts' element={<Carts/>} />
 <Route path='users' element={<Users/>} />
 <Route path='settings' element={<Settings/>} />
 <Route path='account' element={<Account/>} />
 </Route>
+<Route path='map' element={<Map/>} />
 
 <Route path='login' element={<Login/>} />
 <Route path='*' element={<PageNotFound/>} />

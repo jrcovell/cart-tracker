@@ -1,5 +1,16 @@
-import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
+
+export async function getBookings() {
+  const {data, error} = await supabase.from('bookings').select('id, carts(*), golfers(fullName)'); // access to carts and golfers(without, would only get the ids) can specify only certain columns(fullName) to save data.
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not be loaded");
+  }
+
+  return data;
+}
+
 /*
 export async function getBooking(id) {
   const { data, error } = await supabase

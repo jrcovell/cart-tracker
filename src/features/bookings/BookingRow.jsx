@@ -1,13 +1,12 @@
 import styled from "styled-components";
-import { format, isToday } from "date-fns";
+// import { format, isToday } from "date-fns";
 
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
 
-import { formatCurrency } from "../../utils/helpers";
-import { formatDistanceFromNow } from "../../utils/helpers";
 
-const Cabin = styled.div`
+
+const Cart = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
@@ -37,15 +36,9 @@ const Amount = styled.div`
 function BookingRow({
   booking: {
     id: bookingId,
-    created_at,
-    startDate,
-    endDate,
-    numNights,
-    numGuests,
-    totalPrice,
-    status,
-    guests: { fullName: guestName, email },
-    cabins: { name: cabinName },
+    carts: { id: cartId},
+    golfers: { fullName },
+    
   },
 }) {
   const statusToTagName = {
@@ -56,29 +49,21 @@ function BookingRow({
 
   return (
     <Table.Row>
-      <Cabin>{cabinName}</Cabin>
+      <Cart>{bookingId}</Cart>
 
       <Stacked>
-        <span>{guestName}</span>
-        <span>{email}</span>
+        <span>18</span>
+        <span>{fullName}</span>
       </Stacked>
+      
 
       <Stacked>
-        <span>
-          {isToday(new Date(startDate))
-            ? "Today"
-            : formatDistanceFromNow(startDate)}{" "}
-          &rarr; {numNights} night stay
-        </span>
-        <span>
-          {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
-          {format(new Date(endDate), "MMM dd yyyy")}
-        </span>
+    Carry
       </Stacked>
 
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
-      <Amount>{formatCurrency(totalPrice)}</Amount>
+      <Amount>  </Amount>
     </Table.Row>
   );
 }

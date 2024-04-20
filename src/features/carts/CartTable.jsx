@@ -4,6 +4,7 @@ import { useCarts } from "./useCarts";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
+import Empty from "../../ui/Empty";
 
 /* //* Using Table component from ui (compounded component)
 const Table = styled.div`
@@ -23,6 +24,8 @@ const {isPending, carts, error} = useCarts()
 const [searchParams] = useSearchParams() //* from Filter.jsx
 
 if (isPending) return <Spinner/> //* same as above but with a spinner component
+
+if (!carts.length) return <Empty resourceName="carts"/> 
 
 //* filter logic
 const filteredCarts = searchParams.get('type') || 'allCarts' //* short circuit to default to allCarts (usually null)

@@ -1,3 +1,4 @@
+import { createContext, useContext } from "react";
 import styled from "styled-components";
 
 const StyledTable = styled.div`
@@ -11,7 +12,7 @@ const StyledTable = styled.div`
 
 const CommonRow = styled.div`
   display: grid;
-  grid-template-columns: ${(props) => props.columns};
+  grid-template-columns: ${(props) => props.columns}; //* string passed from table (columns = '0.6fr 1.8fr 2.2fr 1fr 1fr 1fr')
   column-gap: 2.4rem;
   align-items: center;
   transition: none;
@@ -58,3 +59,42 @@ const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `;
+
+const TableContext = createContext();
+
+
+function Table({columns, children}) {
+  return (
+    <TableContext.Provider value={{columns}}>
+      <StyledTable role="table">
+        {children}
+      </StyledTable>
+    </TableContext.Provider>
+  )
+}
+
+function Header({children}) {
+const {columns} = useContext(TableContext)
+return <StyledHeader role="row" columns={columns}>{children}</StyledHeader>
+}
+
+function Row({children}) {
+  const {columns} = useContext(TableContext)
+  return <StyledRow role="row" columns={columns}>{children}</StyledRow>
+}
+
+function Body({data, render}) {
+if(data.length === 0) return <Empty>No data available</Empty>
+
+  return <StyledBody>
+    {data.map(render)}
+  </StyledBody>
+
+}
+
+Table.Header = Header;
+Table.Row = Row;
+Table.Body = Body;
+Table.Footer = Footer; //* accepts no children so can just use styled component above
+
+export default Table;

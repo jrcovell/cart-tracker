@@ -1,3 +1,5 @@
+//^ before refactor with context menu addition
+
 import styled from "styled-components";
 import { useState } from "react";
 import CreateCartForm from "./CreateCartForm";
@@ -99,30 +101,19 @@ function handleDuplicate() {
     <Active>{active ? 'Yes' : 'No'}</Active>
     <Description>{description}</Description>
     <div>
-   
+     
 
       <Modal>
-
-      <Menus.Menu>
-<Menus.Toggle id={cartId}/> {/* Toggle is a button that toggles the menu id same purpose to name/open from modals (connecting)  */}
-
-<Menus.List id={cartId}> {/* List contains then menu buttons */}
-<Menus.Button onClick={handleDuplicate} icon={<HiSquare2Stack/>}>Duplicate</Menus.Button>
-<Modal.OpenButton open='edit-form'>
-        <Menus.Button icon={<HiPencil/>}>Edit</Menus.Button>
+        <Modal.OpenButton open='edit-form'>
+      <button><HiPencil/></button>
       </Modal.OpenButton>
-
-      <Modal.OpenButton open='delete-form'>
-      <Menus.Button icon={<HiTrash/>}>Delete</Menus.Button>
-      </Modal.OpenButton>
-</Menus.List>
-
-    
       <Modal.Window name='edit-form'>
       <CreateCartForm cartToEdit={cart}/>
       </Modal.Window>
 
-     
+      <Modal.OpenButton open='delete-form'>
+      <button disabled={isDeleting}><HiTrash/></button>
+      </Modal.OpenButton>
       <Modal.Window name='delete-form'>
       <ConfirmDelete 
       resourceName='cart'
@@ -130,10 +121,9 @@ function handleDuplicate() {
       onConfirm={() => deleteCart(cartId)}
       />
       </Modal.Window>
-
-
-      </Menus.Menu>
       </Modal>
+
+   
       </div>
       </Table.Row>
     

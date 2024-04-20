@@ -1,7 +1,7 @@
 import {  useEffect, useRef } from "react"
 
 export function useOutsideClick(handler) {
-console.log('useOutsideClick')
+// console.log('useOutsideClick')
 const ref = useRef();
 
 
@@ -11,7 +11,7 @@ const ref = useRef();
           function handleClickedOutside(e) {
             //* if the modal exists and the clicked element is not inside the modal, close the modal
             if(ref.current && !ref.current.contains(e.target)) {
-              console.log('clicked outside')
+              // console.log('clicked outside')
               handler()
             }
           }

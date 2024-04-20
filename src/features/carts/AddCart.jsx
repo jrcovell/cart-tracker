@@ -1,4 +1,3 @@
-import { useState } from "react"
 import Button from "../../ui/Button"
 import Modal from "../../ui/Modal"
 import CreateCartForm from "./CreateCartForm"
@@ -7,6 +6,7 @@ import CartTable from "./CartTable"
 
 function AddCart() {
     return (
+        <div>
         <Modal>
             {/*//* open prop to only let one modal be open at a time */}
             <Modal.OpenButton open='cart-form'>
@@ -15,14 +15,8 @@ function AddCart() {
             <Modal.Window name='cart-form'>
                 <CreateCartForm/>
             </Modal.Window>
-
-            <Modal.OpenButton open='table'>
-                <Button>Show table</Button>
-            </Modal.OpenButton>
-            <Modal.Window name='table'>
-              <span><CartTable/></span>
-            </Modal.Window>
         </Modal>
+        </div>
     )
 }
 

@@ -2,10 +2,7 @@ import styled from "styled-components";
 import Spinner from "../../ui/Spinner";
 import CartRow from "./CartRow";
 import { useCarts } from "./useCarts";
-import Table from "../../ui/Table";
-import Menus from "../../ui/Menus";
 
-/* //* Using Table component from ui (compounded component)
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
 
@@ -14,7 +11,6 @@ const Table = styled.div`
   border-radius: 7px;
   overflow: hidden;
 `;
-*/
 
 const TableHeader = styled.header`
   display: grid;
@@ -36,19 +32,16 @@ const {isPending, carts, error} = useCarts()
 
 if (isPending) return <Spinner/> //* same as above but with a spinner component
 
-//* wrap table in menus component
   return (
-    <Menus> 
-    <Table columns='1fr 0.5fr 0.5fr 2fr 1fr'> 
-      <Table.Header>
-        <div>Icon</div>
+    <Table role="table"> {/*//* role="table" identifier for html, lets browser know this is a table */}
+      <TableHeader role="row">
+        <div></div>
         <div>Number</div>
         <div>Active</div>
         <div>Description?</div>
-      </Table.Header>
-      <Table.Body data={carts} render={(cart) => <CartRow cart={cart} key={cart.id}/>}/>
+      </TableHeader>
+      {carts.map((cart) => <CartRow cart={cart} key={cart.id} />)} {/*//* maps over the carts array and returns a CartRow component for each cart */}
     </Table>
-    </Menus>
   )
 }
 

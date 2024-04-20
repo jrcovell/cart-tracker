@@ -52,7 +52,7 @@ setSearchParams(searchParams) //* (/carts?type=allCarts)
   {options.map(option=>
   
 <FilterButton
-onClick={()=> handleClick(option.value)} key={option.label} active={option.value === currentSelection} >
+onClick={()=> handleClick(option.value)} key={option.label} active={option.value === currentSelection} disabled={option.value === currentSelection} >
   {option.label}
 </FilterButton>
   

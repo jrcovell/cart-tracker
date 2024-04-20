@@ -3,7 +3,7 @@ import { useState } from "react";
 import CreateCartForm from "./CreateCartForm";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import useDeleteCart from "./useDeleteCart";
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiCheck, HiPencil, HiTrash, HiX } from "react-icons/hi";
 import { HiSquare2Stack } from "react-icons/hi2";
 import { useCreateCart } from "./useCreateCart";
 import Modal from "../../ui/Modal";
@@ -43,8 +43,7 @@ const Cart = styled.div`
 `;
 
 const Active = styled.div`
-  font-family: "Sono";
-  font-weight: 600;
+ 
 `;
 
 const Number = styled.div`
@@ -96,7 +95,7 @@ function handleDuplicate() {
   <Table.Row>
     <Img src={image} />
     <Number>{number}</Number>
-    <Active>{active ? 'Yes' : 'No'}</Active>
+    <Active>{active ? <HiCheck/> : <HiX/>}</Active>
     <Description>{description}</Description>
     <div>
    

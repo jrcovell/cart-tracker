@@ -24,6 +24,7 @@ const [searchParams] = useSearchParams() //* from Filter.jsx
 
 if (isPending) return <Spinner/> //* same as above but with a spinner component
 
+//* filter logic
 const filteredCarts = searchParams.get('type') || 'allCarts' //* short circuit to default to allCarts (usually null)
 // console.log(filteredCarts) //* (allCarts || activeCarts)
 
@@ -35,6 +36,16 @@ if (filteredCarts === 'activeCarts') {
  filteredCartsList = carts.filter((cart) => cart.active !== null)
 }
 
+//* sort logic
+const sortValue = searchParams.get('sort') || 'ascending' //* short circuit to default to ascending (usually null)
+
+let sortedCartsList; //* takes the filteredCartsList and sorts it based on the sortValue
+if (sortValue === 'ascending') {
+  sortedCartsList = filteredCartsList.sort((a, b) => a.number - b.number)
+}
+if (sortValue === 'descending') {
+  sortedCartsList = filteredCartsList.sort((a, b) => b.number - a.number)
+}
 
 //* wrap table in menus component
   return (

@@ -5,6 +5,7 @@ import Row from "../ui/Row";
 import CartTable from "../features/carts/CartTable";
 
 import AddCart from "../features/carts/AddCart";
+import CartTableOperations from "../features/carts/CartTableOperations";
 
 function Carts() {
 
@@ -12,7 +13,7 @@ function Carts() {
     <>
     <Row type="horizontal">
       <Heading as="h1">All Carts</Heading>
-      <p>Filter / Sort</p>
+    <CartTableOperations />
     </Row>
 
     <Row>

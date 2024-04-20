@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const StyledFilter = styled.div`
@@ -33,3 +34,50 @@ const FilterButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+function Filter({filterField, options}) {
+  const [searchParams, setSearchParams] = useSearchParams()  //* hook from react-router. It returns an array with two elements: the first element is a URLSearchParams object, and the second element is a function to update the query string. 
+const currentSelection = searchParams.get(filterField) || options.at(0) //* first value if not defined. allows the active filter to be styled with above styled components and active prop below
+
+
+
+function handleClick(value) {
+searchParams.set(filterField, value)
+setSearchParams(searchParams) //* (/carts?type=allCarts)
+
+}
+
+  return (
+<StyledFilter>
+  {options.map(option=>
+  
+<FilterButton
+onClick={()=> handleClick(option.value)} key={option.label} active={option.value === currentSelection} >
+  {option.label}
+</FilterButton>
+  
+  )}
+
+  </StyledFilter>
+  )
+}
+
+/* //* ver. 1 (not reusable)
+function Filter() {
+  const [searchParams, setSearchParams] = useSearchParams()  //* hook from react-router. It returns an array with two elements: the first element is a URLSearchParams object, and the second element is a function to update the query string. 
+
+function handleClick(value) {
+searchParams.set('type', value)
+setSearchParams(searchParams) //* (/carts?type=allCarts)
+
+}
+
+  return (
+<StyledFilter>
+<FilterButton onClick={()=> handleClick('allCarts')}>All Carts</FilterButton>
+<FilterButton onClick={()=> handleClick('activeCarts')}>Active Carts</FilterButton>
+  </StyledFilter>
+  )
+}
+*/
+export default Filter

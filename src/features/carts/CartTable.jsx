@@ -1,9 +1,9 @@
-import styled from "styled-components";
 import Spinner from "../../ui/Spinner";
 import CartRow from "./CartRow";
 import { useCarts } from "./useCarts";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import { useSearchParams } from "react-router-dom";
 
 /* //* Using Table component from ui (compounded component)
 const Table = styled.div`
@@ -16,25 +16,25 @@ const Table = styled.div`
 `;
 */
 
-const TableHeader = styled.header`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
 
-  background-color: var(--color-grey-50);
-  border-bottom: 1px solid var(--color-grey-100);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  font-weight: 600;
-  color: var(--color-grey-600);
-  padding: 1.6rem 2.4rem;
-`;
 
 function CartTable() {
 const {isPending, carts, error} = useCarts() 
+const [searchParams] = useSearchParams() //* from Filter.jsx
 
 if (isPending) return <Spinner/> //* same as above but with a spinner component
+
+const filteredCarts = searchParams.get('type') || 'allCarts' //* short circuit to default to allCarts (usually null)
+// console.log(filteredCarts) //* (allCarts || activeCarts)
+
+let filteredCartsList;
+if (filteredCarts === 'allCarts') {
+  filteredCartsList = carts
+}
+if (filteredCarts === 'activeCarts') {
+ filteredCartsList = carts.filter((cart) => cart.active !== null)
+}
+
 
 //* wrap table in menus component
   return (
@@ -46,7 +46,7 @@ if (isPending) return <Spinner/> //* same as above but with a spinner component
         <div>Active</div>
         <div>Description?</div>
       </Table.Header>
-      <Table.Body data={carts} render={(cart) => <CartRow cart={cart} key={cart.id}/>}/>
+      <Table.Body data={filteredCartsList} render={(cart) => <CartRow cart={cart} key={cart.id}/>}/>
     </Table>
     </Menus>
   )

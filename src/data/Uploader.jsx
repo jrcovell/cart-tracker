@@ -1,5 +1,5 @@
+/*
 import { useState } from "react";
-import { isFuture, isPast, isToday } from "date-fns";
 import supabase from "../services/supabase";
 import Button from "../ui/Button";
 import { subtractDates } from "../utils/helpers";
@@ -63,24 +63,24 @@ async function createBookings() {
       : 0; // hardcoded breakfast price
     const totalPrice = cabinPrice + extrasPrice;
 
-    let status;
-    if (
-      isPast(new Date(booking.endDate)) &&
-      !isToday(new Date(booking.endDate))
-    )
-      status = "checked-out";
-    if (
-      isFuture(new Date(booking.startDate)) ||
-      isToday(new Date(booking.startDate))
-    )
-      status = "unconfirmed";
-    if (
-      (isFuture(new Date(booking.endDate)) ||
-        isToday(new Date(booking.endDate))) &&
-      isPast(new Date(booking.startDate)) &&
-      !isToday(new Date(booking.startDate))
-    )
-      status = "checked-in";
+    // let status;
+    // if (
+    //   isPast(new Date(booking.endDate)) &&
+    //   !isToday(new Date(booking.endDate))
+    // )
+    //   status = "checked-out";
+    // if (
+    //   isFuture(new Date(booking.startDate)) ||
+    //   isToday(new Date(booking.startDate))
+    // )
+    //   status = "unconfirmed";
+    // if (
+    //   (isFuture(new Date(booking.endDate)) ||
+    //     isToday(new Date(booking.endDate))) &&
+    //   isPast(new Date(booking.startDate)) &&
+    //   !isToday(new Date(booking.startDate))
+    // )
+    //   status = "checked-in";
 
     return {
       ...booking,
@@ -152,3 +152,4 @@ function Uploader() {
 }
 
 export default Uploader;
+*/

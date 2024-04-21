@@ -1,17 +1,17 @@
-import { add } from 'date-fns';
+// import { add } from 'date-fns';
 
-function fromToday(numDays, withTime = false) {
-  const date = add(new Date(), { days: numDays });
-  if (!withTime) date.setUTCHours(0, 0, 0, 0);
-  return date.toISOString().slice(0, -1);
-}
-
+// function fromToday(numDays, withTime = false) {
+//   // const date = add(new Date(), { days: numDays });
+//   if (!withTime) date.setUTCHours(0, 0, 0, 0);
+//   return date.toISOString().slice(0, -1);
+// }
+/*
 export const bookings = [
   // CABIN 001
   {
-    created_at: fromToday(-20, true),
-    startDate: fromToday(0),
-    endDate: fromToday(7),
+    // created_at: fromToday(-20, true),
+    // startDate: fromToday(0),
+    // endDate: fromToday(7),
     cabinId: 1,
     guestId: 2,
     hasBreakfast: true,
@@ -21,9 +21,9 @@ export const bookings = [
     numGuests: 1,
   },
   {
-    created_at: fromToday(-33, true),
-    startDate: fromToday(-23),
-    endDate: fromToday(-13),
+    // created_at: fromToday(-33, true),
+    // startDate: fromToday(-23),
+    // endDate: fromToday(-13),
     cabinId: 1,
     guestId: 3,
     hasBreakfast: true,
@@ -291,3 +291,4 @@ export const bookings = [
     numGuests: 7,
   },
 ];
+*/

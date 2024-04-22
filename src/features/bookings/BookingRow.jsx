@@ -35,33 +35,38 @@ const Amount = styled.div`
 
 function BookingRow({
   booking: {
-    id: bookingId,
+    id: bookingId, status,
     carts: { id: cartId},
     golfers: { fullName },
     
   },
 }) {
   const statusToTagName = {
-    unconfirmed: "blue",
-    "checked-in": "green",
-    "checked-out": "silver",
+    'upcoming': "blue",
+    "playing": "green",
+    "completed": "silver",
   };
 
   return (
     <Table.Row>
-      <Cart>{bookingId}</Cart>
+      <Cart>{cartId}</Cart>
 
       <Stacked>
         <span>18</span>
         <span>{fullName}</span>
+        <span>Trolley</span>
+      </Stacked>
+
+      <Stacked>
+        <span>18</span>
+        <span>Test</span>
+        <span>Trolley</span>
       </Stacked>
       
 
-      <Stacked>
-    Carry
-      </Stacked>
+    
 
-      {/* <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag> */}
+      <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>  </Amount>
     </Table.Row>

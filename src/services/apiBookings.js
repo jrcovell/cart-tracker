@@ -1,7 +1,23 @@
 import supabase from "./supabase";
 
-export async function getBookings() {
-  const {data, error} = await supabase.from('bookings').select('id, carts(*), golfers(fullName)'); // access to carts and golfers(without, would only get the ids) can specify only certain columns(fullName) to save data.
+export async function getBookings({filter, sort}) {
+
+let query = supabase
+.from('bookings').select('id, status, carts(id), golfers(fullName)')
+
+
+//* add conditions to query (filter)
+if (filter !== null) { // we set filter to null if there is no filter value or filter value is 'all'
+  query = query.eq(filter.field, filter.value)
+}
+
+//& dynamic filter ex. (from apiBookings.js) query = query[filter.method || 'eq'](filter.field, filter.value). if no method is provided, use 'eq' as default(our default way of filtering (equal to))
+
+const {data, error} = await query
+//* modified to include filter and sort above 
+  // const {data, error} = await supabase.from('bookings').select('id, carts(id), golfers(fullName)')// access to carts and golfers(without, would only get the ids) can specify only certain columns(fullName) to save data.
+  // //* api sort example (.eq('status', 'playing') would only get bookings with status playing)
+
 
   if (error) {
     console.error(error);

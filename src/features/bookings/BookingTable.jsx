@@ -15,11 +15,13 @@ if(!bookings) return
 
   return (
     <Menus>
-      <Table columns="0.6fr 5fr 0.6fr ">
+      <Table columns="0.6fr 2fr 2fr 2fr 0.6fr ">
         <Table.Header>
-          <div>Start Time</div>
-          <div>Golfers</div>
-          <div>Location?</div>
+          <div>Cart Number</div>
+          <div>Golfer 1</div>
+          <div>Golfer 2</div>
+          <div>Status</div>
+          <div>Date</div>
         </Table.Header>
 
         <Table.Body

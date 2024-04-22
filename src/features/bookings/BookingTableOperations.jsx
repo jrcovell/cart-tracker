@@ -1,19 +1,19 @@
 import SortBy from "../../ui/Sort"
-// import Filter from "../../ui/Filter";
+import Filter from "../../ui/Filter";
 import TableOperations from "../../ui/TableOperations";
 
 function BookingTableOperations() {
   return (
     <TableOperations>
-      {/* <Filter
-        filterField="id"
+      <Filter
+        filterField="status"
         options={[
           { value: "all", label: "All" },
-          { value: "checked-out", label: "Checked out" },
-          { value: "checked-in", label: "Checked in" },
-          { value: "unconfirmed", label: "Unconfirmed" },
+          { value: "upcoming", label: "Upcoming" },
+          { value: "playing", label: "Playing" },
+          { value: "completed", label: "Completed" },
         ]}
-      /> */}
+      />
 
       <SortBy
         options={[

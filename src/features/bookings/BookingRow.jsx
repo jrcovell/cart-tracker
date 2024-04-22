@@ -35,7 +35,7 @@ const Amount = styled.div`
 
 function BookingRow({
   booking: {
-    id: bookingId, status,
+    id: bookingId, status, startDate,
     carts: { id: cartId},
     golfers: { fullName },
     
@@ -62,13 +62,11 @@ function BookingRow({
         <span>Test</span>
         <span>Trolley</span>
       </Stacked>
+
       
-
-    
-
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
-      <Amount>  </Amount>
+      <div>{startDate}</div>
     </Table.Row>
   );
 }

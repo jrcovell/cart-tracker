@@ -3,15 +3,22 @@ import supabase from "./supabase";
 export async function getBookings({filter, sort}) {
 
 let query = supabase
-.from('bookings').select('id, status, carts(id), golfers(fullName)')
+.from('bookings').select('id, status, startDate, carts(id), golfers(fullName)')
 
 
 //* add conditions to query (filter)
-if (filter !== null) { // we set filter to null if there is no filter value or filter value is 'all'
+if (filter) { // undefined is falsy, so if filter is undefined, this block will not run
   query = query.eq(filter.field, filter.value)
 }
-
 //& dynamic filter ex. (from apiBookings.js) query = query[filter.method || 'eq'](filter.field, filter.value). if no method is provided, use 'eq' as default(our default way of filtering (equal to))
+
+//* add sorting to query (sort)
+if (sort) { // undefined by default, same as filter
+query = query.order(sort.field, {
+  ascending: sort.direction === 'asc'
+})
+}
+
 
 const {data, error} = await query
 //* modified to include filter and sort above 

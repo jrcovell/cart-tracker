@@ -1,3 +1,5 @@
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledPagination = styled.div`
@@ -55,3 +57,49 @@ const PaginationButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+const NUMBER_OF_ITEMS = 10;
+
+function Pagination({count}) {
+
+const [searchParams, setSearchParams] = useSearchParams();
+const currentPage = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+
+const pageCount = Math.ceil(count / NUMBER_OF_ITEMS); // 10 items per page
+
+  function nextPage() {
+const next = currentPage === pageCount ? 
+currentPage : currentPage + 1; // prevent going over the last page
+
+searchParams.set( 'page', next);
+setSearchParams(searchParams)
+  }
+
+  function previousPage() {
+ const prev = currentPage === 1 ?
+  currentPage : currentPage - 1; // prevent going below the first page
+
+  searchParams.set( 'page', prev);
+setSearchParams(searchParams)
+  }
+  return (
+   <StyledPagination>
+    <p>
+      showing <span>1</span> of <span>10</span>
+    <span> of </span> <span>{count}</span> results
+    </p>
+    
+
+<Buttons>
+  <PaginationButton onClick={previousPage}>
+    <HiChevronLeft/> <span>Previous</span>
+  </PaginationButton>
+  <PaginationButton onClick={nextPage}>
+  <span>Next</span> <HiChevronRight/>
+  </PaginationButton>
+</Buttons>
+
+</StyledPagination>
+  )
+}
+
+export default Pagination

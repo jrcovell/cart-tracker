@@ -27,15 +27,22 @@ const sortValue = searchParams.get('sort') || 'startDate-asc' // if there is no 
 const [field, direction] = sortValue.split('-') // split the sort value into field and direction
 const sort = {field, direction} // set sort to field and direction
 
+// pagination
+const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+
 //& const x = useQuery({ //* useQuery custom hook from react-query
-const {isPending, data: bookings, error} = useQuery({ 
-    queryKey: ['bookings', filter, sort], //* stores result of getCart in cache with key 'cart'. whenever filter/sort changes, the cache is invalidated and new data is fetched.
-    queryFn: () => getBookings({filter ,sort}),  //* used to fetch data from api (needs to return a promise) (getCarts from apiCarts.js)
+const {
+  isPending, 
+  data: { data: bookings, count } = {},
+  error,
+  } = useQuery({  // data initially undefined after adding page variable, so set default to empty object to avoid error
+    queryKey: ['bookings', filter, sort, page], //* stores result of getCart in cache with key 'cart'. whenever filter/sort changes, the cache is invalidated and new data is fetched.
+    queryFn: () => getBookings({filter, sort, page}),  //* used to fetch data from api (needs to return a promise) (getCarts from apiCarts.js)
   }) 
   //& console.log(x) //* logs the data from the api data:, isLoading: true, error: undefined, isStale, etc.
   
   //& if (isLoading) return <p>Loading...</p> //* if data is loading, display 'Loading...'
 
-return {isPending, bookings, error}
+return {isPending, bookings, count, error}
 
 }

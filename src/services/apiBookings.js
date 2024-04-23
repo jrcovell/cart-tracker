@@ -1,9 +1,15 @@
+import { NUMBER_OF_ITEMS } from "../utils/globals";
 import supabase from "./supabase";
 
-export async function getBookings({filter, sort}) {
+export async function getBookings({filter, sort, page}) {
 
 let query = supabase
-.from('bookings').select('id, status, startDate, carts(id), golfers(fullName)')
+.from('bookings')
+.select(
+  'id, status, startDate, carts(id), golfers(fullName)',
+{ count: 'exact' }
+);
+//* count: 'exact' returns the number of results, without any other data. Useful for pagination. (can also use bookings.length to get the count which seems easier here)
 
 
 //* add conditions to query (filter)
@@ -19,8 +25,13 @@ query = query.order(sort.field, {
 })
 }
 
+if(page) {
+  const from = (page - 1) * NUMBER_OF_ITEMS // 1 * 10 = 10, 2 * 10 = 20
+  const to = from + NUMBER_OF_ITEMS - 1 // 10 + 10 - 1 = 19, 20 + 10 - 1 = 29
+  query = query.range(from, to) // range is method from supabase to get a range of results
+}
 
-const {data, error} = await query
+const {data, error, count} = await query
 //* modified to include filter and sort above 
   // const {data, error} = await supabase.from('bookings').select('id, carts(id), golfers(fullName)')// access to carts and golfers(without, would only get the ids) can specify only certain columns(fullName) to save data.
   // //* api sort example (.eq('status', 'playing') would only get bookings with status playing)
@@ -31,7 +42,7 @@ const {data, error} = await query
     throw new Error("Bookings could not be loaded");
   }
 
-  return data;
+  return {data, count};
 }
 
 /*

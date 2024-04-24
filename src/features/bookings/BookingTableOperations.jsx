@@ -11,7 +11,7 @@ function BookingTableOperations() {
           { value: "all", label: "All" },
           { value: "upcoming", label: "Upcoming" },
           { value: "playing", label: "Playing" },
-          { value: "completed", label: "Completed" },
+          { value: "behind schedule", label: "Behind Schedule" },
         ]}
       />
 

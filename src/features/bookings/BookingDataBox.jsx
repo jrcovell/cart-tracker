@@ -1,3 +1,5 @@
+/*
+
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
 import {
@@ -14,6 +16,8 @@ import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
 
 const StyledBookingDataBox = styled.section`
   /* Box */
+
+  /*
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
@@ -100,7 +104,9 @@ const Footer = styled.footer`
   color: var(--color-grey-500);
   text-align: right;
 `;
+*/
 
+/*
 // A purely presentational component
 function BookingDataBox({ booking }) {
   const {
@@ -185,3 +191,4 @@ function BookingDataBox({ booking }) {
 }
 
 export default BookingDataBox;
+*/

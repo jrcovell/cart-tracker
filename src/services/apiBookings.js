@@ -45,13 +45,13 @@ const {data, error, count} = await query
   return {data, count};
 }
 
-/*
+
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
-    .select("*, cabins(*), guests(*)")
-    .eq("id", id)
-    .single();
+    .select("*, carts(*), golfers(*)")
+    .eq("id", id) // get booking by id object
+    .single(); // grab array of booking object
 
   if (error) {
     console.error(error);
@@ -61,6 +61,34 @@ export async function getBooking(id) {
   return data;
 }
 
+
+export async function updateBooking(id, obj) { 
+  const { data, error } = await supabase
+    .from("bookings")
+    .update(obj)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be updated");
+  }
+  return data;
+}
+
+export async function deleteBooking(id) {
+  // REMEMBER RLS POLICIES
+  const { data, error } = await supabase.from("bookings").delete().eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be deleted");
+  }
+  return data;
+}
+
+/*
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
 export async function getBookingsAfterDate(date) {
   const { data, error } = await supabase
@@ -115,20 +143,7 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
-export async function updateBooking(id, obj) {
-  const { data, error } = await supabase
-    .from("bookings")
-    .update(obj)
-    .eq("id", id)
-    .select()
-    .single();
 
-  if (error) {
-    console.error(error);
-    throw new Error("Booking could not be updated");
-  }
-  return data;
-}
 
 export async function deleteBooking(id) {
   // REMEMBER RLS POLICIES

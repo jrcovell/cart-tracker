@@ -1,11 +1,13 @@
 //^ used to fetch data from api and store it in cache
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { getBookings } from "../../services/apiBookings";
 import { useSearchParams } from "react-router-dom";
+import { NUMBER_OF_ITEMS } from "../../utils/globals";
 
 export function useBookings() {
+const queryClient = useQueryClient(); //& useQueryClient hook from react-query(using it to prefetch data(pagination below))
 const [searchParams] = useSearchParams();
 
 // filter booking status
@@ -41,7 +43,20 @@ const {
   }) 
   //& console.log(x) //* logs the data from the api data:, isLoading: true, error: undefined, isStale, etc.
   
-  //& if (isLoading) return <p>Loading...</p> //* if data is loading, display 'Loading...'
+//pre fetching data 
+const pageCount = Math.ceil(count / NUMBER_OF_ITEMS) //
+if (page < pageCount) // don't prefetch if on the last page
+
+queryClient.prefetchQuery({
+  queryKey: ['bookings', filter, sort, page + 1], 
+    queryFn: () => getBookings({filter, sort, page: page + 1}),
+}) // prefetches the next page of data to improve performance(visible in react query dev tools)
+
+if (page > 1) // don't prefetch if on the first page
+queryClient.prefetchQuery({
+  queryKey: ['bookings', filter, sort, page - 1], 
+    queryFn: () => getBookings({filter, sort, page: page - 1}),
+}) // prefetches the previous page 
 
 return {isPending, bookings, count, error}
 

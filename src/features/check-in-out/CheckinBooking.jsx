@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import BookingDataBox from "../../features/bookings/BookingDataBox";
+import BookingDataBox from "../bookings/BookingDataBox";
 
 import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
@@ -17,18 +17,13 @@ const Box = styled.div`
   padding: 2.4rem 4rem;
 `;
 
-function CheckinBooking() {
+function CheckInBooking() {
   const moveBack = useMoveBack();
 
   const booking = {};
 
   const {
     id: bookingId,
-    guests,
-    totalPrice,
-    numGuests,
-    hasBreakfast,
-    numNights,
   } = booking;
 
   function handleCheckin() {}
@@ -52,4 +47,4 @@ function CheckinBooking() {
   );
 }
 
-export default CheckinBooking;
+export default CheckInBooking;

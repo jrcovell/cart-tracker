@@ -43,6 +43,7 @@ const currentSelection = searchParams.get(filterField) || options.at(0) //* firs
 
 function handleClick(value) {
 searchParams.set(filterField, value)
+if(searchParams.get('page')) searchParams.set('page', 1) //* reset page to 1 when filter is changed (bug when changing filter while not on page 1.) (filter was looking for current page of filtered data, but it did not exist)
 setSearchParams(searchParams) //* (/carts?type=allCarts)
 
 }

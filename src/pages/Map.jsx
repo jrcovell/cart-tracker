@@ -1,5 +1,11 @@
+//! move logic to hooks/features. general rule of thumb is to keep components as dumb as possible 
+
+
 import {useJsApiLoader, GoogleMap, MarkerF, InfoWindow} from '@react-google-maps/api';
 import { useState } from "react";
+import ButtonGroup from '../ui/ButtonGroup';
+import Button from '../ui/Button';
+import { useMoveBack } from '../hooks/useMoveBack';
 
 
 const center = {
@@ -20,7 +26,7 @@ const cartTwo = {
 }
 
 function Map() {
-    
+    const moveBack = useMoveBack();
     const [currentLocation,setCurrentLocation] = useState([]);
   
     const { isLoaded } = useJsApiLoader({
@@ -28,7 +34,16 @@ function Map() {
         googleMapsApiKey: "AIzaSyA2Bd6UgLUAt-MUAg564Rh1VWnhHmp2rvg"
     });
     return isLoaded ? (
+     
+      
+
     <>
+<ButtonGroup>
+        <Button variation="secondary" onClick={moveBack}>
+          Back
+        </Button>
+      </ButtonGroup>
+
         <GoogleMap
         center={center}
         zoom={16}

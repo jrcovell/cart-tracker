@@ -6,15 +6,14 @@ const StyledLogo = styled.div`
 `;
 
 const Img = styled.img`
-  height: auto;
+  height: 15rem;
   width: auto;
-  
 `;
 
 function Logo() {
   return (
     <StyledLogo>
-      <Img src="/logo-main.png" alt="Logo" />
+      <Img src="/golfLogoNew.png" alt="Logo" />
     </StyledLogo>
   );
 }

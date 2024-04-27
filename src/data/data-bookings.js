@@ -1,3 +1,35 @@
+
+export const bookings = [
+
+  {
+    id: 1,
+    status: 'upcoming',
+    startDate: '2022-09-01',
+    endDate: '2022-09-07',
+    cartId: 1,
+    golferId: 2,
+  },
+  {
+    id: 2,
+    status: 'checked-in',
+    startDate: '2022-08-08',
+    endDate: '2022-08-15',
+    cartId: 2,
+    golferId: 3,
+  },
+  {
+    id: 3,
+    status: 'playing',
+    startDate: '2022-08-12',
+    endDate: '2022-08-18',
+    cartId: 3,
+    golferId: 1,
+  },
+
+];
+
+
+
 // import { add } from 'date-fns';
 
 // function fromToday(numDays, withTime = false) {

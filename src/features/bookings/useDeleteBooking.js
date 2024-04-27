@@ -17,7 +17,7 @@ const {isPending: isDeleting, mutate: deleteBooking} = useMutation({
   onSuccess: () => {
   toast.success('booking deleted');
   queryClient.invalidateQueries({active: true})
-  navigate('/')
+  // navigate('/')
 },
 onError: (err) => toast.error(err.message), 
 });

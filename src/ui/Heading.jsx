@@ -18,6 +18,11 @@ ${(props) => props.type === "h1" && css`font-size: '5rem';
  font-weight: 100;  background-color: yellow;
 `}
 
+${(props) => props.type === "h4" && css`font-size: '6rem';
+    font-weight: 600;
+    text-align: center;
+    `}
+
  line-height: 1.4;
  color: steelblue;
 `;

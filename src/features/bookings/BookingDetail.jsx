@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { useCheckOut } from "../check-in-out/useCheckOut";
 import { HiCheckBadge, HiTrash } from "react-icons/hi2";
 import useDeleteBooking from "./useDeleteBooking";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -54,7 +56,9 @@ function BookingDetail() {
           <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
         </HeadingGroup>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
+        </Row>
 
+        <ButtonGroup>
         {status === "upcoming" && (
         <Button
    onClick={() => navigate(`/checkin/${bookingId}`)} >Pay / Check In
@@ -63,14 +67,24 @@ function BookingDetail() {
   {(status === "playing" || status === 'behind schedule') && (
   <Button onClick={() => checkOut(bookingId)} icon={<HiCheckBadge/>} disabled={isCheckOut} >Complete Round</Button>
 )}
-      </Row>
 
 
-      <ButtonGroup>
-      <Button onClick={() => deleteBooking(bookingId)} icon={<HiTrash/>} disabled={isDeleting} >Delete Booking</Button>
+        <Modal>
+          <Modal.OpenButton open='delete'>
+            <Button variation='danger'>
+              Delete Booking
+            </Button>
+          </Modal.OpenButton>
+          <Modal.Window name='delete'>
+            <ConfirmDelete resourceName='booking' disabled={isDeleting} onConfirm={() => deleteBooking(bookingId, {
+              onSettled: () => navigate(-1)
+            })}/>
+          </Modal.Window>
+      
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
+        </Modal>
       </ButtonGroup>
     </>
   );

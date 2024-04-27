@@ -4,10 +4,14 @@ import styled from "styled-components";
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
-import { HiArrowDownOnSquare, HiCheckBadge, HiEye } from "react-icons/hi2";
+import { HiArrowDownOnSquare, HiCheckBadge, HiEye, HiTrash } from "react-icons/hi2";
 import { Navigate, useNavigate } from "react-router-dom";
 import { HiCash } from "react-icons/hi";
 import { useCheckOut } from "../check-in-out/useCheckOut";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { deleteBooking } from "../../services/apiBookings";
+import useDeleteBooking from "./useDeleteBooking";
 
 
 
@@ -48,6 +52,7 @@ function BookingRow({
 }) {
 const navigate = useNavigate(); // useNavigate hook from react-router-dom
 const {checkOut, isCheckOut} = useCheckOut();
+const {deleteBooking, isDeleting} = useDeleteBooking();
 
   const statusToTagName = {
     'upcoming': "yellow",
@@ -78,6 +83,7 @@ const {checkOut, isCheckOut} = useCheckOut();
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <div>{startDate}</div>
+<Modal>
 
       <Menus.Menu>
         <Menus.Toggle id={bookingId} />
@@ -89,10 +95,20 @@ const {checkOut, isCheckOut} = useCheckOut();
           {(status === "playing" || status === 'behind schedule') && (
             <Menus.Button onClick={() => checkOut(bookingId)} icon={<HiCheckBadge/>} disabled={isCheckOut} >Complete Round</Menus.Button>
           )}
+
+          <Modal.OpenButton open='delete'>
+            <Menus.Button icon={<HiTrash/>}>
+              Delete Booking
+            </Menus.Button>
+          
+          </Modal.OpenButton>
         </Menus.List>
       </Menus.Menu>
 
-      
+<Modal.Window name='delete'>
+<ConfirmDelete resourceName='booking' disabled={isDeleting} onConfirm={() => deleteBooking(bookingId)}/>
+  </Modal.Window>
+      </Modal>
     </Table.Row>
   );
 }

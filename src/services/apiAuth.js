@@ -22,7 +22,7 @@ getSession(); // gets data from local storage(created when user logs in)
 if(!session.session) return null; // = no current user
 
 const {data: user, error } = await supabase.auth.getUser() 
-console.log(user)
+// console.log(user) 
 
 if (error) throw new Error(error.message)
 

@@ -19,6 +19,7 @@ import Carts from "./pages/Carts"
 import { BiFontSize } from "react-icons/bi"
 import Booking from "./pages/Booking"
 import CheckIn from "./pages/CheckIn"
+import ProtectedRoute from "./ui/ProtectedRoute"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,7 +42,11 @@ function App() {
 <BrowserRouter>
 <Routes>
 
-<Route element={<AppLayout/>}> 
+<Route element={
+<ProtectedRoute>
+<AppLayout />
+</ProtectedRoute>
+}>
 <Route index element={<Navigate replace to='dashboard' />} /> {/*//* same as {<Route path='dashboard' element={<DashBoard/>} />}*/}
 <Route path='dashboard' element={<DashBoard/>} />
 <Route path='bookings' element={<Bookings/>} />
@@ -52,8 +57,8 @@ function App() {
 <Route path='users' element={<Users/>} />
 <Route path='settings' element={<Settings/>} />
 <Route path='account' element={<Account/>} />
-</Route>
 <Route path='map' element={<Map/>} />
+</Route>
 
 <Route path='login' element={<Login/>} />
 <Route path='*' element={<PageNotFound/>} />

@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 export function useRecentBookings() {
   const [searchParams] = useSearchParams();
 
-  const numDays = !searchParams.get("last") ? 1 : searchParams.get("last");
+  const numDays = !searchParams.get("day") ? 1 : searchParams.get("day");
 
   //subDays is a date-fns function that subtracts days from a given date
   // queryDate is a string that represents the date of the last numDays
@@ -18,7 +18,7 @@ export function useRecentBookings() {
     error,
   } = useQuery({
     queryFn: () => getBookingsAfterDate(queryDate),
-    queryKey: ["bookings", `last-${numDays}`],
+    queryKey: ["bookings", `day-${numDays}`],
   });
 
   return { isPending, bookings, error };

@@ -4,6 +4,19 @@ import Filter from "../../ui/Filter";
 function DashboardFilter() {
   return (
     <Filter
+      filterField="day"
+      options={[
+        { value: "1", label: "Yesterday" },
+        { value: "0", label: "Today" },
+      ]}
+    />
+  );
+}
+
+export default DashboardFilter;
+
+/*
+   <Filter
       filterField="last"
       options={[
         { value: "0", label: "Today" },
@@ -12,7 +25,4 @@ function DashboardFilter() {
         { value: "90", label: "Last 90 days" },
       ]}
     />
-  );
-}
-
-export default DashboardFilter;
+    */

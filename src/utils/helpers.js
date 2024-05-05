@@ -19,9 +19,18 @@ export const getToday = function (options = {}) {
   if (options?.end)
     // Set to the last second of the day
     // today.setUTCHours(23, 59, 59, 999);
-    today.setUTCHours(9, 14, 42, 0);
+    today.setUTCHours(23, 59, 59, 999);
   else today.setUTCHours(0, 0, 0, 0);
   return today.toISOString();
+};
+
+export const getYesterday = function (options = {}) {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  if (options?.end) yesterday.setUTCHours(23, 59, 59, 999);
+  else yesterday.setUTCHours(0, 0, 0, 0);
+  return yesterday.toISOString();
 };
 
 export const formatCurrency = (value) =>

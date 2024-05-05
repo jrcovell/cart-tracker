@@ -5,21 +5,22 @@ import {
   getRoundsSelectedDate,
 } from "../../services/apiBookings";
 import { useQuery } from "@tanstack/react-query";
-import { getToday } from "../../utils/helpers";
+import { getToday, getYesterday } from "../../utils/helpers";
 import { get } from "react-hook-form";
 
 export function useRecentRounds() {
   const [searchParams] = useSearchParams();
-  console.log(getToday({ end: true }));
-  console.log(getToday());
+
+  const currentDate = !searchParams.get("day") ? 0 : searchParams.get("day");
+  console.log(currentDate);
 
   const {
     isPending,
     data: rounds,
     error,
   } = useQuery({
-    queryFn: () => getRoundsSelectedDate(),
-    queryKey: ["rounds"], //"rounds" = query name, "today" = query key
+    queryFn: () => getRoundsSelectedDate(currentDate),
+    queryKey: ["rounds", `day-${currentDate}`], //"rounds" = query name, "today" = query key
   });
   console.log(rounds);
   const confirmedRounds = rounds?.filter(

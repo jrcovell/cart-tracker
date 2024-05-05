@@ -1,5 +1,5 @@
 import { NUMBER_OF_ITEMS } from "../utils/globals";
-import { getToday } from "../utils/helpers";
+import { getToday, getYesterday } from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function getBookings({ filter, sort, page }) {
@@ -118,19 +118,60 @@ export async function getRoundsAfterDate(date) {
   return data;
 }
 
-export async function getRoundsSelectedDate() {
-  const { data, error } = await supabase
-    .from("bookings")
-    .select("*, golfers(fullName)")
-    .eq("startDate", getToday({ end: true }));
+export async function getRoundsSelectedDate(currentDate) {
+  let query = supabase.from("bookings").select("*, golfers(fullName)");
+
+  if (currentDate === 0) {
+    query = query
+      .gte("startDate", getYesterday())
+      .lte("startDate", getYesterday({ end: true }));
+  } else if (currentDate === 1) {
+    query = query
+      .gte("startDate", getToday())
+      .lte("startDate", getToday({ end: true }));
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
-
   return data;
 }
+
+/*
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*, golfers(fullName)")
+
+
+    if (currentDate === 0) {
+    .gte("startDate", getYesterday())
+    .lte("startDate", getYesterday({ end: true }));
+    } else if (currentDate === 1) {
+    .gte("startDate", getToday())
+    .lte("startDate", getToday({ end: true }));
+    }
+*/
+
+/*
+  if (currentDate === 0) {
+    const { data, error } = await supabase
+      .from("bookings")
+      .select("*, golfers(fullName)")
+      .gte("startDate", getYesterday())
+      .lte("startDate", getYesterday({ end: true }));
+
+    if (error) {
+      console.error(error);
+      throw new Error("Bookings could not get loaded");
+    }
+
+    return data;
+  }
+}
+*/
 
 /*
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.

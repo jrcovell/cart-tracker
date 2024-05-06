@@ -8,7 +8,7 @@ const StyledStat = styled.div`
 
   padding: 1.1rem;
   display: grid;
-  grid-template-columns: 5rem 1fr;
+  grid-template-columns: 7rem 1fr;
   grid-template-rows: auto auto;
   column-gap: 1.1rem;
   row-gap: 0.4rem;

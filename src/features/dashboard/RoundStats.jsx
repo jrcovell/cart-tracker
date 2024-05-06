@@ -8,25 +8,24 @@ import Stat from "./Stat";
 
 function RoundStats({
   bookings,
-  rounds,
-
+  rounds, //* # of tee times for the day
   confirmedRounds,
   playingRounds,
+  completedRounds,
+  time,
 }) {
+  console.log(time);
   //1. get the total number of bookings
   const numBookings = bookings?.length; // the amount of bookings made depending on the filter range
   //2. get the total number of confirmed rounds
+  const numRounds = rounds?.length;
   const numConfirmedRounds = confirmedRounds?.length;
   const numPlayingRounds = playingRounds?.length;
+  const numCompletedRounds = completedRounds?.length;
+  const avgTime = time.reduce((acc, time) => acc + time, 0) / time.length;
 
   return (
     <>
-      <Stat
-        title="Total Tee Times"
-        color="blue"
-        icon={<HiOutlineNewspaper />}
-        value={numBookings}
-      />
       <Stat
         title="Checked In"
         color="green"
@@ -43,16 +42,25 @@ function RoundStats({
         title="Completed Rounds"
         color="red"
         icon={<HiOutlineCheckCircle />}
-        value={numConfirmedRounds}
+        value={numCompletedRounds}
       />
       <Stat
-        title="Average Round Duration"
+        title="Average Duration (hrs/mins)"
         color="yellow"
         icon={<HiOutlineClock />}
-        value="4h 30m"
+        value={avgTime}
       />
     </>
   );
 }
 
 export default RoundStats;
+
+/*
+   <Stat
+        title="Total Tee Times"
+        color="blue"
+        icon={<HiOutlineNewspaper />}
+        value={numRounds}
+      />
+      */

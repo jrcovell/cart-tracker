@@ -1,3 +1,4 @@
+import { da } from "date-fns/locale";
 import { NUMBER_OF_ITEMS } from "../utils/globals";
 import { getToday, getYesterday } from "../utils/helpers";
 import supabase from "./supabase";
@@ -119,6 +120,31 @@ export async function getRoundsAfterDate(date) {
 }
 
 export async function getRoundsSelectedDate(currentDate) {
+  // let date;
+  // if (currentDate === 0) {
+  //   date = getYesterday();
+  // } else if (currentDate === 1) {
+  //   date = getToday();
+  // }
+  // console.log(currentDate);
+  // console.log(currentDate({ end: true }));
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*, golfers(fullName)")
+    .gte("startDate", getToday())
+    .lte("startDate", getToday({ end: true }));
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not get loaded");
+  }
+
+  return data;
+}
+
+/*
+export async function getRoundsSelectedDate(currentDate) {
   let query = supabase.from("bookings").select("*, golfers(fullName)");
 
   if (currentDate === 0) {
@@ -139,6 +165,7 @@ export async function getRoundsSelectedDate(currentDate) {
   }
   return data;
 }
+*/
 
 /*
   const { data, error } = await supabase

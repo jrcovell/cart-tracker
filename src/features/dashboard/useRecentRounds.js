@@ -5,38 +5,67 @@ import {
   getRoundsSelectedDate,
 } from "../../services/apiBookings";
 import { useQuery } from "@tanstack/react-query";
-import { getToday, getYesterday } from "../../utils/helpers";
+import { getToday, getYesterday, subtractDates } from "../../utils/helpers";
 import { get } from "react-hook-form";
 
 export function useRecentRounds() {
   const [searchParams] = useSearchParams();
 
   const currentDate = !searchParams.get("day") ? 0 : searchParams.get("day");
-  console.log(currentDate);
 
   const {
     isPending,
     data: rounds,
     error,
   } = useQuery({
-    queryFn: () => getRoundsSelectedDate(currentDate),
-    queryKey: ["rounds", `day-${currentDate}`], //"rounds" = query name, "today" = query key
+    queryFn: () => getRoundsSelectedDate(),
+    queryKey: ["rounds"], //"rounds" = query name, "today" = query key
   });
-  console.log(rounds);
+
+  // console.log(rounds);
+
   const confirmedRounds = rounds?.filter(
     (round) => round.status === "checked-in"
   );
   const playingRounds = rounds?.filter((round) => round.status === "playing");
+  const completedRounds = rounds?.filter(
+    (round) => round.status === "completed"
+  );
+
+  //*
+  // let timeex = "10:05:29";
+
+  function timeStringToFloat(time) {
+    //remove the seconds
+    let hoursMinutes = time.split(":").slice(0, 2);
+    // console.log(hoursMinutes); // [ '10', '05' ]
+    let hours = parseInt(hoursMinutes[0]); // 10 is the radix radix is the base of the numeral system
+    // console.log(hours); // 10
+    let minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0; //
+    // console.log(minutes); // 5
+    return parseFloat(hours + "." + minutes);
+  }
+  //*
+
+  const startTime = rounds?.map((round) => timeStringToFloat(round.startTime));
+  const endTime = rounds?.map((round) => round.endTime);
+  const time = rounds?.map(
+    (round) =>
+      timeStringToFloat(round.endTime) - timeStringToFloat(round.startTime)
+  );
 
   return {
     isPending,
     rounds,
     confirmedRounds,
     playingRounds,
-
+    completedRounds,
+    currentDate,
+    time,
     error,
   };
 }
+
 /*
   const [searchParams] = useSearchParams();
 

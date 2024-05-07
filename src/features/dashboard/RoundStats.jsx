@@ -22,8 +22,10 @@ function RoundStats({
   const numConfirmedRounds = confirmedRounds?.length;
   const numPlayingRounds = playingRounds?.length;
   const numCompletedRounds = completedRounds?.length;
-  const avgTime = time.reduce((acc, time) => acc + time, 0) / time.length;
 
+  //3. get the average duration of a round
+  // const avgTime = time.reduce((a, b) => a + b, 0) / time.length;
+  // console.log(avgTime);
   return (
     <>
       <Stat
@@ -48,7 +50,7 @@ function RoundStats({
         title="Average Duration (hrs/mins)"
         color="yellow"
         icon={<HiOutlineClock />}
-        value={avgTime}
+        // value={avgTime}
       />
     </>
   );

@@ -35,6 +35,12 @@ export function useRecentRounds() {
   //*
   // let timeex = "10:05:29";
 
+  const time = rounds?.map(
+    (round) =>
+      timeStringToFloat(round.endTime) - timeStringToFloat(round.startTime)
+  );
+  console.log(time);
+
   function timeStringToFloat(time) {
     //remove the seconds
     let hoursMinutes = time.split(":").slice(0, 2);
@@ -49,10 +55,6 @@ export function useRecentRounds() {
 
   const startTime = rounds?.map((round) => timeStringToFloat(round.startTime));
   const endTime = rounds?.map((round) => round.endTime);
-  const time = rounds?.map(
-    (round) =>
-      timeStringToFloat(round.endTime) - timeStringToFloat(round.startTime)
-  );
 
   return {
     isPending,

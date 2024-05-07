@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Heading from "../../ui/Heading";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { HiClock, HiOutlineClock } from "react-icons/hi2";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 const ChartBox = styled.div`
   /* Box */
@@ -20,7 +21,7 @@ const ChartBox = styled.div`
     font-weight: 600;
   }
 `;
-
+/*
 const startDataLight = [
   {
     duration: "1 night",
@@ -106,17 +107,68 @@ const startDataDark = [
     color: "#7e22ce",
   },
 ];
+*/
+const startDataLight = [
+  {
+    duration: "less than 3 hours",
+    value: 0,
+    color: "#15803d",
+  },
+  {
+    duration: "3-4 hours",
+    value: 0,
+    color: "##1d4ed8",
+  },
+  {
+    duration: "4+ hours",
+    value: 0,
+    color: "#eab308",
+  },
+];
+
+const startDataDark = [
+  {
+    duration: "less than 3 hours",
+    value: 0,
+    color: "#15803d",
+  },
+  {
+    duration: "3-4 hours",
+    value: 0,
+    color: "##1d4ed8",
+  },
+  {
+    duration: "4+ hours",
+    value: 0,
+    color: "#b91c1c",
+  },
+];
 
 function prepareData(startData, time) {
   // A bit ugly code, but sometimes this is what it takes when working with real data 😅
-
   function incArrayValue(arr, field) {
+    console.log(arr);
     return arr.map((obj) =>
       obj.duration === field ? { ...obj, value: obj.value + 1 } : obj
     );
   }
 
-  // increases the value of the object in the array that has the same duration as the current stay by 1
+  const data = time
+    .reduce((arr, cur) => {
+      const num = cur;
+      console.log(num);
+      if (num < 3) return incArrayValue(arr, "less than 3 hours");
+      if (num >= 3 && num < 4) return incArrayValue(arr, "3-4 hours");
+      if (num >= 4) return incArrayValue(arr, "4+ hours");
+      return arr;
+    }, startData)
+    .filter((obj) => obj.value > 0); // remove objects with value 0
+  console.log(data);
+  return data;
+}
+
+// increases the value of the object in the array that has the same duration as the current stay by 1
+/*
   const data = time
     .reduce((arr, cur) => {
       const num = cur.numNights;
@@ -133,25 +185,29 @@ function prepareData(startData, time) {
     .filter((obj) => obj.value > 0);
 
   return data;
-}
+  */
 
-function DurationChart({ confirmedRounds }) {
+function DurationChart({ time }) {
+  const { isDarkMode } = useDarkMode();
+  const startData = isDarkMode ? startDataDark : startDataLight;
+  const data = prepareData(startData, time);
+
   return (
     <ChartBox>
       <Heading as="h2">Average Round Duration</Heading>
       <ResponsiveContainer width="100%" height={240}>
         <PieChart>
           <Pie
-            data={startDataLight}
+            data={data}
             nameKey="duration"
             dataKey="value"
-            innerRadius={85}
-            outerRadius={110}
+            innerRadius={65}
+            outerRadius={85}
             cx="40%"
             cy="50%"
-            paddingAngle={3}
+            paddingAngle={5}
           >
-            {startDataLight.map((entry) => (
+            {data.map((entry) => (
               <Cell
                 fill={entry.color}
                 stroke={entry.color}

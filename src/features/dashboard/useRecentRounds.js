@@ -19,7 +19,7 @@ export function useRecentRounds() {
     error,
   } = useQuery({
     queryFn: () => getRoundsSelectedDate(),
-    queryKey: ["rounds"], //"rounds" = query name, "today" = query key
+    queryKey: ["rounds"],
   });
 
   // console.log(rounds);
@@ -32,15 +32,6 @@ export function useRecentRounds() {
     (round) => round.status === "completed"
   );
 
-  //*
-  // let timeex = "10:05:29";
-
-  const time = rounds?.map(
-    (round) =>
-      timeStringToFloat(round.endTime) - timeStringToFloat(round.startTime)
-  );
-  console.log(time);
-
   function timeStringToFloat(time) {
     //remove the seconds
     let hoursMinutes = time.split(":").slice(0, 2);
@@ -51,10 +42,16 @@ export function useRecentRounds() {
     // console.log(minutes); // 5
     return parseFloat(hours + "." + minutes);
   }
-  //*
+  // const startTime = rounds?.map((round) => timeStringToFloat(round.startTime));
+  // const endTime = rounds?.map((round) => round.endTime);
 
-  const startTime = rounds?.map((round) => timeStringToFloat(round.startTime));
-  const endTime = rounds?.map((round) => round.endTime);
+  const time = rounds?.map(
+    (round) =>
+      timeStringToFloat(round.endTime) - timeStringToFloat(round.startTime)
+  );
+  console.log(time);
+
+  //*
 
   return {
     isPending,

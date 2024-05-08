@@ -3,6 +3,7 @@ import Heading from "../../ui/Heading";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { HiClock, HiOutlineClock } from "react-icons/hi2";
 import { useDarkMode } from "../../context/DarkModeContext";
+import { startOfDay } from "date-fns";
 
 const ChartBox = styled.div`
   /* Box */
@@ -191,6 +192,7 @@ function DurationChart({ time }) {
   const { isDarkMode } = useDarkMode();
   const startData = isDarkMode ? startDataDark : startDataLight;
   const data = prepareData(startData, time);
+  console.log(data);
 
   return (
     <ChartBox>

@@ -14,7 +14,7 @@ function RoundStats({
   completedRounds,
   time,
 }) {
-  console.log(time);
+  // console.log(time);
   //1. get the total number of bookings
   const numBookings = bookings?.length; // the amount of bookings made depending on the filter range
   //2. get the total number of confirmed rounds

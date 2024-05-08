@@ -119,7 +119,7 @@ export async function getRoundsAfterDate(date) {
   return data;
 }
 
-export async function getRoundsSelectedDate(currentDate) {
+export async function getRoundsSelectedDate() {
   // let date;
   // if (currentDate === 0) {
   //   date = getYesterday();
@@ -128,7 +128,7 @@ export async function getRoundsSelectedDate(currentDate) {
   // }
   // console.log(currentDate);
   // console.log(currentDate({ end: true }));
-
+  console.log(getToday());
   const { data, error } = await supabase
     .from("bookings")
     .select("*, golfers(fullName)")
@@ -139,7 +139,7 @@ export async function getRoundsSelectedDate(currentDate) {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
-
+  console.log(data);
   return data;
 }
 

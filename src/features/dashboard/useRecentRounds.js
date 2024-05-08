@@ -6,6 +6,7 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getToday, getTodayNoTime } from "../../utils/helpers";
 import Spinner from "../../ui/Spinner";
+import { is } from "date-fns/locale";
 
 export function useRecentRounds() {
   const [searchParams] = useSearchParams();
@@ -15,8 +16,6 @@ export function useRecentRounds() {
     queryFn: getRoundsSelectedDate2,
     queryKey: ["rounds"],
   });
-
-  console.log(rounds);
 
   const confirmedRounds = rounds?.filter(
     (round) => round.status === "checked-in"
@@ -43,9 +42,10 @@ export function useRecentRounds() {
     (round) =>
       timeStringToFloat(round.endTime) - timeStringToFloat(round.startTime)
   );
-  console.log(getToday());
-  console.log(getTodayNoTime());
-  console.log(time);
+
+  // console.log(getToday());
+  // console.log(getTodayNoTime());
+  // console.log(time);
 
   //*
 

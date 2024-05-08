@@ -42,8 +42,7 @@ export const formatCurrency = (value) =>
   );
 
 export const getTodayNoTime = function () {
-  const today = new Date();
-  console.log(today); //!
-  today.setUTCHours(0, 0, 0, 0);
-  return today.toISOString();
+  let today = new Date().toISOString();
+  today = today.slice(0, 10);
+  return today;
 };

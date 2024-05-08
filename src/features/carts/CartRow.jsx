@@ -33,8 +33,6 @@ const Img = styled.img`
   transform: scale(1.5) translateX(-7px);
 `;
 
-
-
 const Cart = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
@@ -42,14 +40,12 @@ const Cart = styled.div`
   font-family: "Sono";
 `;
 
-const Active = styled.div`
- 
-`;
+const Active = styled.div``;
 
 const Number = styled.div`
   font-family: "Sono";
   font-weight: 500;
-  
+
   border-radius: 70%;
   border: 3px solid var(--color-grey-200);
   padding: 0.4rem;
@@ -72,75 +68,65 @@ const Location = styled.div`
   color: var(--color-green-700);
 `;
 
-function CartRow({cart}) { //* cart is passed as a prop to the CartRow from the CartTable 
-// const [showForm, setShowForm] = useState(false); //* showForm is a state variable that is used to toggle the form on and off. Obsolete after moving the state to the modal
+function CartRow({ cart }) {
+  //* cart is passed as a prop to the CartRow from the CartTable
+  // const [showForm, setShowForm] = useState(false); //* showForm is a state variable that is used to toggle the form on and off. Obsolete after moving the state to the modal
 
-const {active, id: cartId, number, description, image} = cart //* destructure the cart object
-const {isDeleting, deleteCart} = useDeleteCart();  //* custom hook that returns isDeleting and deleteCart (isDeleting is a boolean that is true when the mutation is in progress. deleteCart(mutate renamed))
-const {isCreating, createCart} = useCreateCart();
+  const { active, id: cartId, number, description, image } = cart; //* destructure the cart object
+  const { isDeleting, deleteCart } = useDeleteCart(); //* custom hook that returns isDeleting and deleteCart (isDeleting is a boolean that is true when the mutation is in progress. deleteCart(mutate renamed))
+  const { isCreating, createCart } = useCreateCart();
 
-
-
-function handleDuplicate() {
-  createCart({
-    number: `${number}`,
-    description: `copy of ${number}`,
-    active,
-    image,
-  })
-}
+  function handleDuplicate() {
+    createCart({
+      number: `${number}`,
+      description: `copy of ${number}`,
+      active,
+      image,
+    });
+  }
 
   return (
-
-  <Table.Row>
-    <Img src={image} />
-    <Number>{number}</Number>
-    <Active>{active ? <HiCheck/> : <HiX/>}</Active>
-    <Description>{description}</Description>
-    <div>
-   
-
-      <Modal>
-
-      <Menus.Menu>
-<Menus.Toggle id={cartId}/> {/* Toggle is a button that toggles the menu id same purpose to name/open from modals (connecting)  */}
-
-<Menus.List id={cartId}> {/* List contains then menu buttons */}
-<Menus.Button onClick={handleDuplicate} icon={<HiSquare2Stack/>}>Duplicate</Menus.Button>
-<Modal.OpenButton open='edit-form'>
-        <Menus.Button icon={<HiPencil/>}>Edit</Menus.Button>
-      </Modal.OpenButton>
-
-      <Modal.OpenButton open='delete-form'>
-      <Menus.Button icon={<HiTrash/>}>Delete</Menus.Button>
-      </Modal.OpenButton>
-</Menus.List>
-
-    
-      <Modal.Window name='edit-form'>
-      <CreateCartForm cartToEdit={cart}/>
-      </Modal.Window>
-
-     
-      <Modal.Window name='delete-form'>
-      <ConfirmDelete 
-      resourceName='cart'
-      disabled={isDeleting}
-      onConfirm={() => deleteCart(cartId)}
-      />
-      </Modal.Window>
-
-
-      </Menus.Menu>
-      </Modal>
+    <Table.Row>
+      <Img src={image} />
+      <Number>{number}</Number>
+      <Active>{active ? <HiCheck /> : undefined}</Active>
+      <Description>{description}</Description>
+      <div>
+        <Modal>
+          <Menus.Menu>
+            <Menus.Toggle id={cartId} />{" "}
+            {/* Toggle is a button that toggles the menu id same purpose to name/open from modals (connecting)  */}
+            <Menus.List id={cartId}>
+              {" "}
+              {/* List contains then menu buttons */}
+              <Menus.Button onClick={handleDuplicate} icon={<HiSquare2Stack />}>
+                Duplicate
+              </Menus.Button>
+              <Modal.OpenButton open="edit-form">
+                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              </Modal.OpenButton>
+              <Modal.OpenButton open="delete-form">
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Modal.OpenButton>
+            </Menus.List>
+            <Modal.Window name="edit-form">
+              <CreateCartForm cartToEdit={cart} />
+            </Modal.Window>
+            <Modal.Window name="delete-form">
+              <ConfirmDelete
+                resourceName="cart"
+                disabled={isDeleting}
+                onConfirm={() => deleteCart(cartId)}
+              />
+            </Modal.Window>
+          </Menus.Menu>
+        </Modal>
       </div>
-      </Table.Row>
-    
-  
-  )
+    </Table.Row>
+  );
 }
 
-export default CartRow
+export default CartRow;
 
 /* //* refactored into a custom hook useDeleteCart
 const queryClient = useQueryClient(); //* useQueryClient is a react-query hook that is used to access the queryClient

@@ -1,6 +1,15 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { HiOutlineHome, HiCog, HiOutlineHomeModern, HiOutlineUser, HiMiniUserGroup, HiOutlineCog8Tooth, HiOutlineMapPin} from "react-icons/hi2";
+import {
+  HiOutlineHome,
+  HiCog,
+  HiOutlineHomeModern,
+  HiOutlineUser,
+  HiMiniUserGroup,
+  HiOutlineCog8Tooth,
+  HiOutlineMapPin,
+} from "react-icons/hi2";
+import { GiCarWheel } from "react-icons/gi";
 import { IoGolfOutline } from "react-icons/io5";
 import { FaGear } from "react-icons/fa6";
 import { PiCarSimple } from "react-icons/pi";
@@ -11,7 +20,8 @@ const NavList = styled.ul`
 `;
 
 // const Link = styled.a`
-const StyledNavLink = styled(NavLink)` //* can pass in another component to styled to style that component
+const StyledNavLink = styled(NavLink)`
+  //* can pass in another component to styled to style that component
   &:link,
   &:visited {
     display: flex;
@@ -52,29 +62,51 @@ const StyledNavLink = styled(NavLink)` //* can pass in another component to styl
 
 function MainNav() {
   return (
-    <nav> {/*//* nav is a semantic element used to define navigation links*/}
-    <NavList>
-      <li><StyledNavLink to="/dashboard"><HiOutlineHome/>
-      <span>Home</span></StyledNavLink></li>
-      <li><StyledNavLink to="/bookings"><IoGolfOutline />
-      <span>Bookings</span></StyledNavLink></li>
-      <li><StyledNavLink to="/map"><HiOutlineMapPin/>
-      <span>Map</span></StyledNavLink></li>
-      <li><StyledNavLink to="/cabins"><HiOutlineHomeModern />
-      <span>Cabins</span></StyledNavLink></li>
-      <li><StyledNavLink to="/carts"><PiCarSimple/>
-      <span>Carts</span></StyledNavLink></li>
-      <li><StyledNavLink to="/users"><HiMiniUserGroup />
-      <span>Users</span></StyledNavLink></li>
-      <li><StyledNavLink to="/settings"><HiOutlineCog8Tooth />
-      <span>Settings</span></StyledNavLink></li>
+    <nav>
+      {" "}
+      {/*//* nav is a semantic element used to define navigation links*/}
+      <NavList>
+        <li>
+          <StyledNavLink to="/dashboard">
+            <HiOutlineHome />
+            <span>Home</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/bookings">
+            <IoGolfOutline />
+            <span>Bookings</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/map">
+            <HiOutlineMapPin />
+            <span>Map</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/carts">
+            <GiCarWheel />
+            <span>Carts</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/users">
+            <HiMiniUserGroup />
+            <span>Users</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/settings">
+            <HiOutlineCog8Tooth />
+            <span>Settings</span>
+          </StyledNavLink>
+        </li>
 
-
-      {/* <li><Link href="/bookings">Bookings</Link></li> //* using NavLink (part of react router) over this because Link causes page transitions*/}
-
-    </NavList>
+        {/* <li><Link href="/bookings">Bookings</Link></li> //* using NavLink (part of react router) over this because Link causes page transitions*/}
+      </NavList>
     </nav>
-  )
+  );
 }
 
-export default MainNav
+export default MainNav;

@@ -40,3 +40,10 @@ export const formatCurrency = (value) =>
   new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
     value
   );
+
+export const getTodayNoTime = function () {
+  const today = new Date();
+  console.log(today); //!
+  today.setUTCHours(0, 0, 0, 0);
+  return today.toISOString();
+};

@@ -1,28 +1,22 @@
-import { subDays } from "date-fns";
 import { useSearchParams } from "react-router-dom";
 import {
-  getRoundsAfterDate,
   getRoundsSelectedDate,
+  getRoundsSelectedDate2,
 } from "../../services/apiBookings";
-import { useQuery } from "@tanstack/react-query";
-import { getToday, getYesterday, subtractDates } from "../../utils/helpers";
-import { get } from "react-hook-form";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getToday, getTodayNoTime } from "../../utils/helpers";
+import Spinner from "../../ui/Spinner";
 
 export function useRecentRounds() {
   const [searchParams] = useSearchParams();
-
   const currentDate = !searchParams.get("day") ? 0 : searchParams.get("day");
 
-  const {
-    isPending,
-    data: rounds,
-    error,
-  } = useQuery({
-    queryFn: () => getRoundsSelectedDate(),
+  const { isPending, data: rounds } = useQuery({
+    queryFn: getRoundsSelectedDate2,
     queryKey: ["rounds"],
   });
 
-  // console.log(rounds);
+  console.log(rounds);
 
   const confirmedRounds = rounds?.filter(
     (round) => round.status === "checked-in"
@@ -49,6 +43,8 @@ export function useRecentRounds() {
     (round) =>
       timeStringToFloat(round.endTime) - timeStringToFloat(round.startTime)
   );
+  console.log(getToday());
+  console.log(getTodayNoTime());
   console.log(time);
 
   //*
@@ -61,7 +57,6 @@ export function useRecentRounds() {
     completedRounds,
     currentDate,
     time,
-    error,
   };
 }
 

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Tag from "../../ui/Tag";
 
 const StyledTodayItem = styled.li`
   display: grid;
@@ -18,3 +19,17 @@ const StyledTodayItem = styled.li`
 const Guest = styled.div`
   font-weight: 500;
 `;
+
+function TodayItem({ round }) {
+  const { id, status, carts, golfers } = round;
+
+  return (
+    <StyledTodayItem>
+      {status === "upcoming" && <Tag type="green">Upcoming</Tag>}
+      {status === "checked-in" && <Tag type="blue">Checked in</Tag>}
+      {status === "playing" && <Tag type="yellow">Playing</Tag>}
+    </StyledTodayItem>
+  );
+}
+
+export default TodayItem;

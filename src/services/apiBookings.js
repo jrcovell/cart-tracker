@@ -1,6 +1,6 @@
 import { da } from "date-fns/locale";
 import { NUMBER_OF_ITEMS } from "../utils/globals";
-import { getToday, getYesterday } from "../utils/helpers";
+import { getToday, getTodayNoTime, getYesterday } from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function getBookings({ filter, sort, page }) {
@@ -120,15 +120,6 @@ export async function getRoundsAfterDate(date) {
 }
 
 export async function getRoundsSelectedDate() {
-  // let date;
-  // if (currentDate === 0) {
-  //   date = getYesterday();
-  // } else if (currentDate === 1) {
-  //   date = getToday();
-  // }
-  // console.log(currentDate);
-  // console.log(currentDate({ end: true }));
-  console.log(getToday());
   const { data, error } = await supabase
     .from("bookings")
     .select("*, golfers(fullName)")
@@ -139,7 +130,39 @@ export async function getRoundsSelectedDate() {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
-  console.log(data);
+
+  return data;
+}
+
+export async function getRoundsSelectedDate2() {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*, golfers(fullName)")
+    .eq("startDate2", getTodayNoTime()); //
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not get loaded");
+  }
+
+  return data;
+}
+
+//! add startDate2 ? no time to implement should be easier than startDate
+export async function getRoundsTodayActivity() {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*, golfers(fullName)")
+    .or(
+      `and(status.eq.playing,startDate.eq.${getToday()})`,
+      `and(status.eq.checked-in,startDate.eq.${getToday()})`
+    )
+    .order("created_at");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not get loaded");
+  }
   return data;
 }
 

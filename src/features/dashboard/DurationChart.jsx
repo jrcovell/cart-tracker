@@ -146,6 +146,7 @@ const startDataDark = [
 ];
 
 function prepareData(startData, time) {
+  if (!time) return startData; //!time is true when time is null or undefined
   // A bit ugly code, but sometimes this is what it takes when working with real data 😅
   function incArrayValue(arr, field) {
     console.log(arr);

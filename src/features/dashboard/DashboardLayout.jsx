@@ -7,6 +7,7 @@ import RoundStats from "./RoundStats";
 import SalesChart from "./RoundsChart";
 import RoundsChart from "./RoundsChart";
 import DurationChart from "./DurationChart";
+import TodayActivity from "../check-in-out/TodayActivity";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -40,7 +41,7 @@ function DashboardLayout() {
         time={time}
         rounds={rounds}
       />
-      <div>Stats</div>
+      <TodayActivity />
       <DurationChart time={time} />
       <RoundsChart rounds={rounds} numDays={numDays} />
     </StyledDashboardLayout>

@@ -47,3 +47,8 @@ export const getTodayNoTime = function () {
   today.setUTCHours(0, 0, 0, 0);
   return today.toISOString();
 };
+
+export const getDateNoTime = function () {
+  const date = new Date().toISOString().split("T")[0];
+  return date; // 2021-09-01
+};

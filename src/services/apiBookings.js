@@ -1,6 +1,11 @@
 import { da } from "date-fns/locale";
 import { NUMBER_OF_ITEMS } from "../utils/globals";
-import { getToday, getTodayNoTime, getYesterday } from "../utils/helpers";
+import {
+  getDateNoTime,
+  getToday,
+  getTodayNoTime,
+  getYesterday,
+} from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function getBookings({ filter, sort, page }) {
@@ -138,7 +143,7 @@ export async function getRoundsSelectedDate2() {
   const { data, error } = await supabase
     .from("bookings")
     .select("*, golfers(fullName)")
-    .eq("startDate2", getTodayNoTime()); //
+    .eq("startDate2", getDateNoTime());
 
   if (error) {
     console.error(error);

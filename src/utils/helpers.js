@@ -46,3 +46,8 @@ export const getTodayNoTime = function () {
   today = today.slice(0, 10);
   return today;
 };
+
+export const getDateNoTime = function () {
+  const date = new Date().toISOString().split("T")[0];
+  return date; // 2021-09-01
+};

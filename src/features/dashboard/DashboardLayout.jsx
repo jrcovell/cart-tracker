@@ -8,17 +8,23 @@ import SalesChart from "./RoundsChart";
 import RoundsChart from "./RoundsChart";
 import DurationChart from "./DurationChart";
 import TodayActivity from "../check-in-out/TodayActivity";
+import { useRecentWeather } from "./useRecentWeather";
+import WeatherStats from "./WeatherStats";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.3fr; // 4 columns for top stats
-  grid-template-rows: auto 34rem auto;
+  grid-template-columns: 1fr 1fr 1fr 1.8fr; // 4 columns for top stats
+  grid-template-rows: auto auto auto;
   gap: 1.4rem;
 `;
 
 function DashboardLayout() {
   const { bookings, isPending, numDays, error } = useRecentBookings();
-
+  const {
+    weather,
+    isPending: isPendingWeather,
+    error: errorWeather,
+  } = useRecentWeather();
   const {
     rounds,
     confirmedRounds,
@@ -29,8 +35,10 @@ function DashboardLayout() {
     error: errorRounds,
   } = useRecentRounds();
 
-  if (isPending || isPendingRounds) <Spinner />;
+  if (isPending || isPendingRounds || isPendingWeather) <Spinner />;
+  if (error || errorRounds || errorWeather) return <div>{error}</div>;
 
+  console.log(weather);
   return (
     <StyledDashboardLayout>
       <RoundStats
@@ -41,7 +49,7 @@ function DashboardLayout() {
         time={time}
         rounds={rounds}
       />
-      <TodayActivity />
+      <WeatherStats weather={weather} isPending={isPendingWeather} />
       <DurationChart time={time} />
       <RoundsChart rounds={rounds} numDays={numDays} />
     </StyledDashboardLayout>

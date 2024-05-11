@@ -11,5 +11,6 @@ export function useRecentWeather() {
     queryKey: ["weather"],
   });
 
-  return { isPending, weather, error };
+  const weatherData = weather?.data;
+  return { isPending, weather, weatherData, error };
 }

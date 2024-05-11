@@ -9,7 +9,7 @@ import styled from "styled-components";
 
 const StyledBorder = styled.div`
   background-color: var(--color-grey-0);
-  border: 1px solid var(--color-indigo-100);
+  border: 1px solid var(--color-indigo-700);
   border-radius: var(--border-radius-md);
   padding: 1.1rem;
   display: grid;

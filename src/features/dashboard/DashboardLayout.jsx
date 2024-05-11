@@ -60,6 +60,7 @@ function DashboardLayout() {
         />
         <WeatherStats weather={weather} isPending={isPendingWeather} />
       </StyledDashboardLayout>
+      <DashboardFilter />
       <StyledChartLayout>
         <RoundsChart rounds={rounds} numDays={numDays} />
         <DurationChart time={time} />

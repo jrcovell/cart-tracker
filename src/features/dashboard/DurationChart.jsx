@@ -278,8 +278,8 @@ function DurationChart({ time }) {
               dataKey="value" // dataKey is the key in the data object that will be used as the value of the slice
               // startAngle={180}
               // endAngle={0}
-              innerRadius={40}
-              outerRadius={60}
+              innerRadius={50}
+              outerRadius={90}
               cx="50%"
               cy="50%"
 
@@ -304,8 +304,8 @@ function DurationChart({ time }) {
               align="center"
               width="100%"
               layout="horizontal"
-              // wrapperStyle={{ fontSize: "1.4rem" }}
-              iconSize={10}
+              wrapperStyle={{ fontSize: "2.0rem" }}
+              iconSize={12}
               iconType="square"
             />
           </PieChart>

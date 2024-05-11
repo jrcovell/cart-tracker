@@ -4,10 +4,11 @@ import Filter from "../../ui/Filter";
 
 const StyledFilter = styled.div`
   display: block;
-  justify-content: flex-end;
+  justify-self: end;
+  margin-left: auto;
   gap: 1.4rem;
 
-  margin-bottom: 1.4rem;
+  /* margin-bottom: 1.4rem; */
 `;
 
 function DashboardFilter() {
@@ -16,8 +17,11 @@ function DashboardFilter() {
       <Filter
         filterField="day"
         options={[
-          { value: "1", label: "Yesterday" },
-          { value: "0", label: "Today" },
+          // { value: "1", label: "Yesterday" },
+          // { value: "0", label: "Today" },
+          { value: "7", label: "Last 7 days" },
+          { value: "30", label: "Last 30 days" },
+          { value: "90", label: "Last 90 days" },
         ]}
       />
     </StyledFilter>

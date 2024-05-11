@@ -40,8 +40,7 @@ function RoundsChart({ rounds, numDays }) {
     end: new Date(), // today
   });
 
-  /*
-  const data = allDates.map((date) => {
+  const data = allDates?.map((date) => {
     return {
       label: format(date, "MMM dd"),
       totalRounds: rounds
@@ -53,9 +52,9 @@ function RoundsChart({ rounds, numDays }) {
         .reduce((acc, round) => acc + round.rounds, 0),
     };
   });
-*/
 
-  // console.log(numDays);
+  console.log(data);
+  console.log(numDays);
   // console.log(allDates);
 
   const colors = isDarkMode
@@ -79,7 +78,7 @@ function RoundsChart({ rounds, numDays }) {
         {format(allDates.at(-1), "MMM dd yyyy")}
       </Heading>
       <ResponsiveContainer height={300} width="100%">
-        <AreaChart data={fakeData}>
+        <AreaChart data={data}>
           <XAxis
             dataKey="label"
             tick={{ fill: colors.text }}

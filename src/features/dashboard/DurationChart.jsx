@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import Heading from "../../ui/Heading";
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  XAxis,
+} from "recharts";
 import { HiClock, HiOutlineClock } from "react-icons/hi2";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { startOfDay } from "date-fns";
@@ -8,15 +15,14 @@ import { startOfDay } from "date-fns";
 const ChartBox = styled.div`
   /* Box */
   background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
+  border: 1px solid var(--color-indigo-700);
   border-radius: var(--border-radius-md);
+  padding: 3rem 2rem;
+  /* grid-column: 1 / span 1; */
 
-  padding: 2.4rem 3.2rem;
-  grid-column: 3 / span 2;
-
-  & > *:first-child {
+  /* & > *:first-child {
     margin-bottom: 1.6rem;
-  }
+  } */
 
   & .recharts-pie-label-text {
     font-weight: 600;
@@ -108,22 +114,80 @@ const startDataDark = [
     color: "#7e22ce",
   },
 ];
-*/
+// */
 const startDataLight = [
   {
-    duration: "less than 3 hours",
+    duration: "< 3 hours",
+    value: 2,
+    color: "#15803d",
+  },
+  {
+    duration: "3.25 hours",
+    value: 0,
+    color: "#1d4ed8",
+  },
+  {
+    duration: "3.5 hours",
+    value: 2,
+    color: "#4d7c0f",
+  },
+  {
+    duration: "3.75 hours",
+    value: 2,
+    color: "#7e22ce",
+  },
+  {
+    duration: "4 hours",
+    value: 3,
+    color: "##1d4ed8",
+  },
+  {
+    duration: "4.25 hours",
+    value: 4,
+    color: "#eab308",
+  },
+  {
+    duration: "4.5+ hours",
+    value: 1,
+    color: "#b91c1c",
+  },
+];
+
+const startDataLight2 = [
+  {
+    // duration: "< 3 hours",
     value: 0,
     color: "#15803d",
   },
   {
-    duration: "3-4 hours",
-    value: 0,
+    // duration: "3.25 hours",
+    value: 1,
+    color: "#1d4ed8",
+  },
+  {
+    // duration: "3.5 hours",
+    value: 1,
+    color: "#4d7c0f",
+  },
+  {
+    // duration: "3.75 hours",
+    value: 5,
+    color: "#7e22ce",
+  },
+  {
+    // duration: "4 hours",
+    value: 2,
     color: "##1d4ed8",
   },
   {
-    duration: "4+ hours",
-    value: 0,
+    // duration: "4.25 hours",
+    value: 2,
     color: "#eab308",
+  },
+  {
+    // duration: "4.5+ hours",
+    value: 3,
+    color: "#b91c1c",
   },
 ];
 
@@ -133,6 +197,12 @@ const startDataDark = [
     value: 0,
     color: "#15803d",
   },
+  {
+    duration: "3.25 hours",
+    value: 0,
+    color: "#1d4ed8",
+  },
+
   {
     duration: "3-4 hours",
     value: 0,
@@ -146,7 +216,7 @@ const startDataDark = [
 ];
 
 function prepareData(startData, time) {
-  if (!time) return startData; //!time is true when time is null or undefined
+  // if (!time) return startData; //!time is true when time is null or undefined
   // A bit ugly code, but sometimes this is what it takes when working with real data 😅
   function incArrayValue(arr, field) {
     console.log(arr);
@@ -196,40 +266,74 @@ function DurationChart({ time }) {
   console.log(data);
 
   return (
-    <ChartBox>
-      <Heading as="h2">Average Round Duration</Heading>
-      <ResponsiveContainer width="100%" height={240}>
-        <PieChart>
-          <Pie
-            data={data}
-            nameKey="duration"
-            dataKey="value"
-            innerRadius={65}
-            outerRadius={85}
-            cx="40%"
-            cy="50%"
-            paddingAngle={5}
-          >
-            {data.map((entry) => (
-              <Cell
-                fill={entry.color}
-                stroke={entry.color}
-                key={entry.duration}
-              />
-            ))}
-          </Pie>
-          <Legend
-            verticalAlign="middle"
-            align="right"
-            width="30%"
-            layout="vertical"
-            wrapperStyle={{ fontSize: "1.4rem" }}
-            iconSize={10}
-            iconType="square"
-          />
-        </PieChart>
-      </ResponsiveContainer>
-    </ChartBox>
+    <>
+      <ChartBox>
+        <Heading as="h2">Average Round Duration</Heading>
+
+        <ResponsiveContainer width="100%" height={340}>
+          <PieChart>
+            <Pie
+              data={startDataLight}
+              nameKey="duration" // nameKey is the key in the data object that will be used as the name of the slice
+              dataKey="value" // dataKey is the key in the data object that will be used as the value of the slice
+              startAngle={180}
+              endAngle={0}
+              innerRadius={50}
+              outerRadius={85}
+              cx="60%"
+              cy="40%"
+
+              // paddingAngle={9}
+            >
+              {startDataLight.map((entry) => (
+                <Cell
+                  fill={entry.color}
+                  stroke={entry.color}
+                  key={entry.duration}
+                />
+              ))}
+            </Pie>
+
+            <Pie
+              data={startDataLight2}
+              nameKey="duration"
+              dataKey="value"
+              startAngle={180}
+              endAngle={0}
+              innerRadius={50}
+              outerRadius={85}
+              cx="60%"
+              cy="90%"
+
+              // paddingAngle={9}
+            >
+              {startDataLight2.map((entry) => (
+                <Cell
+                  fill={entry.color} // fill is the color of the slice
+                  stroke={entry.color} // stroke is the color of the border of the slice
+                  key={entry.duration} // key is a unique identifier for the slice
+                />
+              ))}
+            </Pie>
+
+            <Legend
+              payload={startDataLight.map((entry) => ({
+                value: entry.duration,
+                type: "square",
+                color: entry.color,
+              }))}
+              horizontalAlign="center"
+              align="center"
+              width="100%"
+              layout="horizontal"
+              // wrapperStyle={{ fontSize: "1.4rem" }}
+              iconSize={10}
+              iconType="square"
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </ChartBox>
+    </>
   );
 }
 

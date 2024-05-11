@@ -14,7 +14,8 @@ import { useDarkMode } from "../../context/DarkModeContext";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 
 const StyledRoundsChart = styled(DashboardBox)`
-  grid-column: 1 / -1;
+  grid-column: 1 / span 1;
+  /* width: 75%; */
 
   /* Hack to change grid line colors */
   & .recharts-cartesian-grid-horizontal line,

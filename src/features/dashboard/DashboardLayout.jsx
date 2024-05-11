@@ -8,6 +8,8 @@ import SalesChart from "./RoundsChart";
 import RoundsChart from "./RoundsChart";
 import DurationChart from "./DurationChart";
 import TodayActivity from "../check-in-out/TodayActivity";
+import DashboardFilter from "./DashboardFilter";
+import Row from "../../ui/Row";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -41,6 +43,8 @@ function DashboardLayout() {
         time={time}
         rounds={rounds}
       />
+      <DashboardFilter />
+
       <TodayActivity />
       <DurationChart time={time} />
       <RoundsChart rounds={rounds} numDays={numDays} />

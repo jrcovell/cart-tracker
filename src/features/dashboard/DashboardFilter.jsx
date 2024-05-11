@@ -1,15 +1,26 @@
 //^ same as filter component in the ui folder, but with different options
+import styled from "styled-components";
 import Filter from "../../ui/Filter";
+
+const StyledFilter = styled.div`
+  display: block;
+  justify-content: flex-end;
+  gap: 1.4rem;
+
+  margin-bottom: 1.4rem;
+`;
 
 function DashboardFilter() {
   return (
-    <Filter
-      filterField="day"
-      options={[
-        { value: "1", label: "Yesterday" },
-        { value: "0", label: "Today" },
-      ]}
-    />
+    <StyledFilter>
+      <Filter
+        filterField="day"
+        options={[
+          { value: "1", label: "Yesterday" },
+          { value: "0", label: "Today" },
+        ]}
+      />
+    </StyledFilter>
   );
 }
 

@@ -10,12 +10,18 @@ import DurationChart from "./DurationChart";
 import TodayActivity from "../check-in-out/TodayActivity";
 import { useRecentWeather } from "./useRecentWeather";
 import WeatherStats from "./WeatherStats";
+import Row from "../../ui/Row";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.8fr; // 4 columns for top stats
+  grid-template-columns: 1fr 1fr 1fr 1fr; // 4 columns for top stats
   grid-template-rows: auto auto auto;
   gap: 1.4rem;
+`;
+const StyledChartLayout = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
 `;
 
 function DashboardLayout() {
@@ -40,19 +46,23 @@ function DashboardLayout() {
 
   console.log(weather);
   return (
-    <StyledDashboardLayout>
-      <RoundStats
-        bookings={bookings}
-        confirmedRounds={confirmedRounds}
-        playingRounds={playingRounds}
-        completedRounds={completedRounds}
-        time={time}
-        rounds={rounds}
-      />
-      <WeatherStats weather={weather} isPending={isPendingWeather} />
-      <DurationChart time={time} />
-      <RoundsChart rounds={rounds} numDays={numDays} />
-    </StyledDashboardLayout>
+    <>
+      <StyledDashboardLayout>
+        <RoundStats
+          bookings={bookings}
+          confirmedRounds={confirmedRounds}
+          playingRounds={playingRounds}
+          completedRounds={completedRounds}
+          time={time}
+          rounds={rounds}
+        />
+        <WeatherStats weather={weather} isPending={isPendingWeather} />
+      </StyledDashboardLayout>
+      <StyledChartLayout>
+        <RoundsChart rounds={rounds} numDays={numDays} />
+        <DurationChart time={time} />
+      </StyledChartLayout>
+    </>
   );
 }
 export default DashboardLayout;

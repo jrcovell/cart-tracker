@@ -5,6 +5,18 @@ import {
   HiOutlineNewspaper,
 } from "react-icons/hi2";
 import Stat from "./Stat";
+import styled from "styled-components";
+
+const StyledBorder = styled.div`
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-indigo-100);
+  border-radius: var(--border-radius-md);
+  padding: 1.1rem;
+  display: grid;
+  grid-gap: auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin-left: 2.1rem;
+`;
 
 function RoundStats({
   bookings,
@@ -27,7 +39,7 @@ function RoundStats({
   // const avgTime = time.reduce((a, b) => a + b, 0) / time.length;
   // console.log(avgTime);
   return (
-    <>
+    <StyledBorder>
       <Stat
         title="Checked In"
         color="green"
@@ -52,7 +64,7 @@ function RoundStats({
         icon={<HiOutlineClock />}
         // value={avgTime}
       />
-    </>
+    </StyledBorder>
   );
 }
 

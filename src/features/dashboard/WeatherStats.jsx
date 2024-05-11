@@ -29,6 +29,18 @@ const StyledWeather = styled.div`
   padding-top: 2.4rem;
 `;
 
+const StyledBorder = styled.div`
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-indigo-100);
+  border-radius: var(--border-radius-md);
+  padding: 1.1rem 0.2rem;
+  display: grid;
+  flex-direction: row;
+  grid-column: 1 / span 2;
+  grid-gap: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+`;
+
 const NoActivity = styled.p`
   text-align: center;
   font-size: 1.8rem;
@@ -56,36 +68,27 @@ function WeatherStats({ weather, isPending }) {
     );
 
   return (
-    <StyledWeather>
-      <Row type="horizontal">
-        <Heading as="h2">Current Weather</Heading>
-      </Row>
-      {!isPending ? (
-        <>
-          <Stat
-            title="Current Conditions:"
-            color="silver"
-            icon={icon}
-            value={Description}
-          />
+    <StyledBorder>
+      <Stat
+        title="Current Conditions:"
+        color="silver"
+        icon={icon}
+        value={Description}
+      />
 
-          <Stat
-            title="Temperature:"
-            color="orange"
-            icon={<WiThermometer />}
-            value={Temperature}
-          />
-          <Stat
-            title="Wind Speed:"
-            color="pink"
-            icon={<WiStrongWind />}
-            value={weather.wind.speed + " mph"}
-          />
-        </>
-      ) : (
-        <NoActivity>No weather data</NoActivity>
-      )}
-    </StyledWeather>
+      <Stat
+        title="Temperature:"
+        color="orange"
+        icon={<WiThermometer />}
+        value={Temperature}
+      />
+      <Stat
+        title="Wind Speed:"
+        color="pink"
+        icon={<WiStrongWind />}
+        value={weather.wind.speed + " mph"}
+      />
+    </StyledBorder>
   );
 }
 

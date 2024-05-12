@@ -26,7 +26,7 @@ const StyledChartLayout = styled.div`
 `;
 
 function DashboardLayout() {
-  const { bookings, isPending, numDays, error } = useRecentBookings();
+  const { bookings, numDays, isPending, error } = useRecentBookings();
   const {
     weather,
     weatherData,
@@ -47,6 +47,7 @@ function DashboardLayout() {
   if (error || errorRounds || errorWeather) return <div>{error}</div>;
   console.log(weatherData);
   console.log(weather);
+  console.log(rounds);
   return (
     <>
       <StyledDashboardLayout>

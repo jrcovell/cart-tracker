@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 export function useRecentBookings() {
   const [searchParams] = useSearchParams();
 
-  const numDays = !searchParams.get("day") ? 1 : searchParams.get("day");
+  const numDays = !searchParams.get("day") ? 7 : searchParams.get("day");
 
   //subDays is a date-fns function that subtracts days from a given date
   // queryDate is a string that represents the date of the last numDays

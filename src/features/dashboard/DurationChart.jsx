@@ -15,7 +15,7 @@ import { startOfDay } from "date-fns";
 const ChartBox = styled.div`
   /* Box */
   background-color: var(--color-grey-0);
-  border: 1px solid var(--color-indigo-700);
+  border: 1px solid var(--color-indigo-100);
   border-radius: var(--border-radius-md);
   padding: 3rem 2rem;
   /* grid-column: 1 / span 1; */
@@ -226,7 +226,7 @@ function prepareData(startData, time) {
   }
 
   const data = time
-    .reduce((arr, cur) => {
+    ?.reduce((arr, cur) => {
       const num = cur;
       console.log(num);
       if (num < 3) return incArrayValue(arr, "less than 3 hours");
@@ -268,7 +268,7 @@ function DurationChart({ time }) {
   return (
     <>
       <ChartBox>
-        <Heading as="h2">Average Round Duration</Heading>
+        <Heading as="h2">Round Duration</Heading>
 
         <ResponsiveContainer width="100%" height={340}>
           <PieChart>
@@ -276,12 +276,12 @@ function DurationChart({ time }) {
               data={startDataLight}
               nameKey="duration" // nameKey is the key in the data object that will be used as the name of the slice
               dataKey="value" // dataKey is the key in the data object that will be used as the value of the slice
-              startAngle={180}
-              endAngle={0}
+              // startAngle={180}
+              // endAngle={0}
               innerRadius={50}
-              outerRadius={85}
-              cx="60%"
-              cy="40%"
+              outerRadius={90}
+              cx="50%"
+              cy="50%"
 
               // paddingAngle={9}
             >
@@ -290,28 +290,6 @@ function DurationChart({ time }) {
                   fill={entry.color}
                   stroke={entry.color}
                   key={entry.duration}
-                />
-              ))}
-            </Pie>
-
-            <Pie
-              data={startDataLight2}
-              nameKey="duration"
-              dataKey="value"
-              startAngle={180}
-              endAngle={0}
-              innerRadius={50}
-              outerRadius={85}
-              cx="60%"
-              cy="90%"
-
-              // paddingAngle={9}
-            >
-              {startDataLight2.map((entry) => (
-                <Cell
-                  fill={entry.color} // fill is the color of the slice
-                  stroke={entry.color} // stroke is the color of the border of the slice
-                  key={entry.duration} // key is a unique identifier for the slice
                 />
               ))}
             </Pie>
@@ -326,8 +304,8 @@ function DurationChart({ time }) {
               align="center"
               width="100%"
               layout="horizontal"
-              // wrapperStyle={{ fontSize: "1.4rem" }}
-              iconSize={10}
+              wrapperStyle={{ fontSize: "2.0rem" }}
+              iconSize={12}
               iconType="square"
             />
           </PieChart>

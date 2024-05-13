@@ -7,13 +7,20 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getToday, getTodayNoTime } from "../../utils/helpers";
 import Spinner from "../../ui/Spinner";
 import { is } from "date-fns/locale";
+import { subDays } from "date-fns";
 
 export function useRecentRounds() {
   const [searchParams] = useSearchParams();
-  const currentDate = !searchParams.get("day") ? 0 : searchParams.get("day");
+  const currentDate = !searchParams.get("day") ? 30 : searchParams.get("day");
+  const queryDate = subDays(new Date(), currentDate)
+    .toISOString()
+    .split("T")[0];
+  console.log(currentDate); //
+  console.log(queryDate); //
 
   const { isPending, data: rounds } = useQuery({
-    queryFn: getRoundsSelectedDate2,
+    // queryFn: getRoundsSelectedDate2,
+    queryFn: () => getRoundsSelectedDate2(queryDate),
     queryKey: ["rounds"],
   });
 

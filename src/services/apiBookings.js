@@ -139,11 +139,12 @@ export async function getRoundsSelectedDate() {
   return data;
 }
 
-export async function getRoundsSelectedDate2() {
+export async function getRoundsSelectedDate2(date) {
   const { data, error } = await supabase
     .from("bookings")
     .select("*, golfers(fullName)")
-    .eq("startDate2", getDateNoTime());
+    .gte("startDate2", date)
+    .lte("startDate2", getDateNoTime());
 
   if (error) {
     console.error(error);

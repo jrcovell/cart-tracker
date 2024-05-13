@@ -9,7 +9,15 @@ export function useRecentWeather() {
   } = useQuery({
     queryFn: getTodaysWeather,
     queryKey: ["weather"],
+
+    if(error) {
+      console.error(error);
+
+      throw new Error("Weather could not get loaded");
+    },
   });
 
-  return { isPending, weather, error };
+  const weatherData = weather?.data;
+  console.log(weatherData);
+  return { isPending, weather, weatherData, error };
 }

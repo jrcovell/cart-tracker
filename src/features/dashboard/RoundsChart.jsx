@@ -12,6 +12,12 @@ import {
 } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
+import {
+  eachDayOfIntervalNoTime,
+  getTodayNoTime,
+  isSameDayNoTime,
+  subDaysNoTime,
+} from "../../utils/helpers";
 
 const StyledRoundsChart = styled(DashboardBox)`
   grid-column: 1 / span 1;
@@ -40,14 +46,25 @@ function RoundsChart({ rounds, numDays }) {
     end: new Date(), // today
   });
 
+  const allDatesNoTime = eachDayOfIntervalNoTime({
+    //
+    start: subDaysNoTime(getTodayNoTime(), numDays), //subDays is a date-fns function that subtracts days from a given date
+    end: getTodayNoTime(), // today
+  });
+
+  console.log(getTodayNoTime()); // 2024-05-12
+  console.log(subDaysNoTime(getTodayNoTime(), 10)); // 2024-05-02
+  console.log(allDatesNoTime);
+  console.log(rounds);
+
   /*
-  const data = allDates.map((date) => {
+  const data = allDatesNoTime?.map((date) => {
     return {
       label: format(date, "MMM dd"),
       totalRounds: rounds
         .filter((round) =>
           // isSameDay is a date-fns function that checks if two dates are the same day
-          isSameDay(date, new Date(round.created_at))
+          isSameDayNoTime(date, new Date(round.startDate))
         )
         // add up the number of rounds for selected date
         .reduce((acc, round) => acc + round.rounds, 0),
@@ -55,7 +72,21 @@ function RoundsChart({ rounds, numDays }) {
   });
 */
 
-  // console.log(numDays);
+  /*
+  const data = allDates?.map((date) => {
+    return {
+      label: format(date, "MMM dd"),
+      totalRounds: rounds
+        .filter((round) =>
+          // isSameDay is a date-fns function that checks if two dates are the same day
+          isSameDay(date, new Date(round.startDate))
+        )
+        // add up the number of rounds for selected date
+        .reduce((acc, round) => acc + round.rounds, 0),
+    };
+  });
+*/
+  console.log(numDays);
   // console.log(allDates);
 
   const colors = isDarkMode

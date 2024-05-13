@@ -1,4 +1,10 @@
-import { differenceInDays, formatDistance, parseISO } from "date-fns";
+import {
+  differenceInDays,
+  eachDayOfInterval,
+  formatDistance,
+  parseISO,
+  subDays,
+} from "date-fns";
 
 // We want to make this function work for both Date objects and strings (which come from Supabase)
 export const subtractDates = (dateStr1, dateStr2) =>
@@ -50,4 +56,17 @@ export const getTodayNoTime = function () {
 export const getDateNoTime = function () {
   const date = new Date().toISOString().split("T")[0];
   return date; // 2021-09-01
+};
+
+export const subDaysNoTime = function (date, days) {
+  return subDays(date, days).toISOString().slice(0, 10);
+};
+
+export const eachDayOfIntervalNoTime = function ({ start, end }) {
+  const days = eachDayOfInterval({ start, end });
+  return days.map((day) => day.toISOString().slice(0, 10));
+};
+
+export const isSameDayNoTime = function (date1, date2) {
+  return date1.toISOString().slice(0, 10) === date2.toISOString().slice(0, 10);
 };

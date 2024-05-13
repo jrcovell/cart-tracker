@@ -4,7 +4,7 @@ import { getTodaysWeather } from "../../services/apiWeather";
 export function useRecentWeather() {
   const {
     isPending,
-    data: weather,
+    data: { data: weather } = {},
     error,
   } = useQuery({
     queryFn: getTodaysWeather,

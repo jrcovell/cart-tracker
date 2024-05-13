@@ -10,6 +10,6 @@ export async function getTodaysWeather() {
     throw new Error(response.statusText);
   }
   const data = await response.json();
-  console.log(data);
+  // console.log(data);
   return data;
 }

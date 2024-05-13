@@ -139,6 +139,7 @@ export async function getRoundsSelectedDate() {
   return data;
 }
 
+// get previous rounds depending on the filter (7 days, 30 days, 90 days)
 export async function getRoundsSelectedDate2(date) {
   const { data, error } = await supabase
     .from("bookings")

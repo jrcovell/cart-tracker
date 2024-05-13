@@ -1,12 +1,7 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  getRoundsSelectedDate,
-  getRoundsSelectedDate2,
-} from "../../services/apiBookings";
+import { getRoundsSelectedDate2 } from "../../services/apiBookings";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getToday, getTodayNoTime } from "../../utils/helpers";
-import Spinner from "../../ui/Spinner";
-import { is } from "date-fns/locale";
+
 import { subDays } from "date-fns";
 
 export function useRecentRounds() {
@@ -15,8 +10,8 @@ export function useRecentRounds() {
   const queryDate = subDays(new Date(), currentDate)
     .toISOString()
     .split("T")[0];
-  console.log(currentDate); //
-  console.log(queryDate); //
+  // console.log(currentDate); //
+  // console.log(queryDate); //
 
   const { isPending, data: rounds } = useQuery({
     // queryFn: getRoundsSelectedDate2,
@@ -32,7 +27,10 @@ export function useRecentRounds() {
     (round) => round.status === "completed"
   );
 
+  // console.log(rounds);
+
   function timeStringToFloat(time) {
+    // console.log(time); // 10:05:00
     //remove the seconds
     let hoursMinutes = time.split(":").slice(0, 2);
     // console.log(hoursMinutes); // [ '10', '05' ]
@@ -47,7 +45,7 @@ export function useRecentRounds() {
 
   const time = rounds?.map(
     (round) =>
-      timeStringToFloat(round.endTime) - timeStringToFloat(round.startTime)
+      timeStringToFloat(round?.endTime) - timeStringToFloat(round?.startTime)
   );
 
   // console.log(getToday());

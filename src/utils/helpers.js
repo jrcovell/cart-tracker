@@ -5,6 +5,7 @@ import {
   parseISO,
   subDays,
 } from "date-fns";
+import { format } from "date-fns/format";
 
 // We want to make this function work for both Date objects and strings (which come from Supabase)
 export const subtractDates = (dateStr1, dateStr2) =>
@@ -53,6 +54,11 @@ export const getTodayNoTime = function () {
   return today;
 };
 
+export const formatDate = function (date) {
+  // May 05
+  return format(parseISO(date), "MMM dd");
+};
+
 export const getDateNoTime = function () {
   const date = new Date().toISOString().split("T")[0];
   return date; // 2021-09-01
@@ -68,5 +74,8 @@ export const eachDayOfIntervalNoTime = function ({ start, end }) {
 };
 
 export const isSameDayNoTime = function (date1, date2) {
-  return date1.toISOString().slice(0, 10) === date2.toISOString().slice(0, 10);
+  // console.log(date1); // 2024-05-05
+  // console.log(date2); // 2024-05-09
+  if (date1 === date2) return true;
+  return false;
 };

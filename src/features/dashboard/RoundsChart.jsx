@@ -14,6 +14,8 @@ import { useDarkMode } from "../../context/DarkModeContext";
 import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 import {
   eachDayOfIntervalNoTime,
+  formatDate,
+  getDateNoTime,
   getTodayNoTime,
   isSameDayNoTime,
   subDaysNoTime,
@@ -31,62 +33,51 @@ const StyledRoundsChart = styled(DashboardBox)`
 `;
 
 const fakeData = [
-  { label: "Jan 09", totalRounds: 50, lastYearRounds: 65 },
-  { label: "Jan 10", totalRounds: 75, lastYearRounds: 26 },
-  { label: "Jan 11", totalRounds: 66, lastYearRounds: 0 },
-  { label: "Jan 12", totalRounds: 85, lastYearRounds: 65 },
-  { label: "Jan 13", totalRounds: 22, lastYearRounds: 65 },
+  { label: "Jan 09", totalRounds: 50 },
+  { label: "Jan 10", totalRounds: 75 },
+  { label: "Jan 11", totalRounds: 66 },
+  { label: "Jan 12", totalRounds: 85 },
+  { label: "Jan 13", totalRounds: 22 },
 ];
 
-function RoundsChart({ rounds, numDays }) {
+function RoundsChart({ rounds, numDays, allDatesNoTime }) {
   const { isDarkMode } = useDarkMode();
 
-  const allDates = eachDayOfInterval({
-    start: subDays(new Date(), numDays), //subDays is a date-fns function that subtracts days from a given date
-    end: new Date(), // today
-  });
-
-  const allDatesNoTime = eachDayOfIntervalNoTime({
-    //
-    start: subDaysNoTime(getTodayNoTime(), numDays), //subDays is a date-fns function that subtracts days from a given date
-    end: getTodayNoTime(), // today
-  });
-
-  console.log(getTodayNoTime()); // 2024-05-12
-  console.log(subDaysNoTime(getTodayNoTime(), 10)); // 2024-05-02
-  console.log(allDatesNoTime);
-  console.log(rounds);
-
-  /*
+  // console.log(isSameDayNoTime("2024-05-05", "2024-05-05"));
+  // console.log(isSameDay("2024-05-05", "2024-05-05"));
+  // console.log(allDatesNoTime);
+  // console.log(rounds);
+  // console.log(allDatesNoTime[0]);
+  // console.log(new Date(rounds[0].startDate2).toISOString().slice(0, 10));
+  // console.log(new Date(rounds[1].startDate2).toISOString().slice(0, 10));
   const data = allDatesNoTime?.map((date) => {
+    console.log(date);
     return {
-      label: format(date, "MMM dd"),
-      totalRounds: rounds
-        .filter((round) =>
-          // isSameDay is a date-fns function that checks if two dates are the same day
-          isSameDayNoTime(date, new Date(round.startDate))
-        )
-        // add up the number of rounds for selected date
-        .reduce((acc, round) => acc + round.rounds, 0),
+      // format to "MMM dd"
+      label: formatDate(date),
+      // add up the number of rounds for selected date without reduce
+      totalRounds: rounds.reduce((acc, round) => {
+        // let totalRounds = 1;
+        if (
+          // if the date is the same as the date of the round
+          isSameDayNoTime(
+            date,
+            new Date(round.startDate2).toISOString().slice(0, 10)
+          )
+        ) {
+          // add the number of rounds for that date
+          // console.log(round);
+          // need to keep a column for each round for this to work (numRounds = 1) better way to do this?
+          return acc + 1;
+        }
+        return acc;
+      }, 0),
     };
   });
-*/
 
-  /*
-  const data = allDates?.map((date) => {
-    return {
-      label: format(date, "MMM dd"),
-      totalRounds: rounds
-        .filter((round) =>
-          // isSameDay is a date-fns function that checks if two dates are the same day
-          isSameDay(date, new Date(round.startDate))
-        )
-        // add up the number of rounds for selected date
-        .reduce((acc, round) => acc + round.rounds, 0),
-    };
-  });
-*/
-  console.log(numDays);
+  // console.log(data);
+
+  // console.log(numDays); // 7 30 90
   // console.log(allDates);
 
   const colors = isDarkMode
@@ -105,12 +96,9 @@ function RoundsChart({ rounds, numDays }) {
 
   return (
     <StyledRoundsChart>
-      <Heading as="h2">
-        Total Rounds from {format(allDates.at(0), "MMM dd yyyy")} to{" "}
-        {format(allDates.at(-1), "MMM dd yyyy")}
-      </Heading>
+      <Heading as="h2">Number of Rounds</Heading>
       <ResponsiveContainer height={300} width="100%">
-        <AreaChart data={fakeData}>
+        <AreaChart data={data}>
           <XAxis
             dataKey="label"
             tick={{ fill: colors.text }}
@@ -131,14 +119,6 @@ function RoundsChart({ rounds, numDays }) {
             strokeWidth={4}
             name="Total Rounds"
           />
-          <Area
-            dataKey="lastYearRounds"
-            type="monotone"
-            stroke={colors.lastYearRounds.stroke}
-            fill={colors.lastYearRounds.fill}
-            strokeWidth={4}
-            name="Previous Year Rounds"
-          />
         </AreaChart>
       </ResponsiveContainer>
     </StyledRoundsChart>
@@ -146,3 +126,29 @@ function RoundsChart({ rounds, numDays }) {
 }
 
 export default RoundsChart;
+
+// const allDates = eachDayOfInterval({
+//   start: subDays(new Date(), numDays), //subDays is a date-fns function that subtracts days from a given date
+//   end: new Date(), // today
+// });
+
+// console.log(getTodayNoTime()); // 2024-05-12
+// console.log(subDaysNoTime(getTodayNoTime(), 10)); // 2024-05-02
+// console.log(allDatesNoTime);
+// console.log(rounds);
+//
+
+/*
+  const data = allDates?.map((date) => {
+    return {
+      label: format(date, "MMM dd"),
+      totalRounds: rounds
+        .filter((round) =>
+          // isSameDay is a date-fns function that checks if two dates are the same day
+          isSameDay(date, new Date(round.startDate))
+        )
+        // add up the number of rounds for selected date
+        .reduce((acc, round) => acc + round.rounds, 0),
+    };
+  });
+*/

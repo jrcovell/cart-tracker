@@ -12,6 +12,14 @@ import DashboardFilter from "./DashboardFilter";
 import { useRecentWeather } from "./useRecentWeather";
 import WeatherStats from "./WeatherStats";
 import Row from "../../ui/Row";
+import Heading from "../../ui/Heading";
+import { format } from "date-fns";
+import { eachDayOfInterval } from "date-fns/eachDayOfInterval";
+import {
+  eachDayOfIntervalNoTime,
+  getTodayNoTime,
+  subDaysNoTime,
+} from "../../utils/helpers";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -43,11 +51,21 @@ function DashboardLayout() {
     error: errorRounds,
   } = useRecentRounds();
 
-  if (isPending || isPendingRounds || isPendingWeather) <Spinner />;
+  const allDatesNoTime = eachDayOfIntervalNoTime({
+    //
+    start: subDaysNoTime(getTodayNoTime(), numDays), //subDays is a date-fns function that subtracts days from a given date
+    end: getTodayNoTime(), // today
+  });
+
+  // console.log(getTodayNoTime());
+  // console.log(allDatesNoTime);
+
+  if (isPending || isPendingRounds || isPendingWeather) return <Spinner />;
+
   if (error || errorRounds || errorWeather) return <div>{error}</div>;
-  console.log(weatherData);
-  console.log(weather);
-  console.log(rounds);
+  // console.log(weatherData);
+  // console.log(weather);
+  // console.log(rounds);
   return (
     <>
       <StyledDashboardLayout>
@@ -61,9 +79,20 @@ function DashboardLayout() {
         />
         <WeatherStats weather={weather} isPending={isPendingWeather} />
       </StyledDashboardLayout>
-      <DashboardFilter />
+
+      <Row type="horizontal">
+        <Heading as="h2">
+          Round Stats from {format(allDatesNoTime.at(0), "MMM dd yyyy")} to{" "}
+          {format(allDatesNoTime.at(-1), "MMM dd yyyy")}
+        </Heading>
+        <DashboardFilter />
+      </Row>
       <StyledChartLayout>
-        <RoundsChart rounds={rounds} numDays={numDays} />
+        <RoundsChart
+          rounds={rounds}
+          numDays={numDays}
+          allDatesNoTime={allDatesNoTime}
+        />
         <DurationChart time={time} />
       </StyledChartLayout>
     </>

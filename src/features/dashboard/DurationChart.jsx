@@ -153,25 +153,40 @@ const startDataLight = [
   },
 ];
 
+//* maybe update the colors to match the theme (change text color to white?)
 const startDataDark = [
   {
-    duration: "less than 3 hours",
+    duration: "<3 hours",
     value: 0,
-    color: "#15803d",
+    color: "#15803c63",
   },
   {
-    duration: "3.25 hours",
+    duration: "<3.25 hours",
+    value: 0,
+    color: "#15803cf4",
+  },
+  {
+    duration: "<3.5 hours",
+    value: 0,
+    color: "#f4ec00",
+  },
+  {
+    duration: "<3.75 hours",
+    value: 0,
+    color: "#ce7222",
+  },
+  {
+    duration: "<4 hours",
     value: 0,
     color: "#1d4ed8",
   },
-
   {
-    duration: "3-4 hours",
+    duration: "<4.25 hours",
     value: 0,
-    color: "##1d4ed8",
+    color: "#e74949",
   },
   {
-    duration: "4+ hours",
+    duration: "+4.25 hours",
     value: 0,
     color: "#b91c1c",
   },
@@ -206,32 +221,12 @@ function prepareData(startData, time) {
   return data;
 }
 
-// increases the value of the object in the array that has the same duration as the current stay by 1
-/*
-  const data = time
-    .reduce((arr, cur) => {
-      const num = cur.numNights;
-      if (num === 1) return incArrayValue(arr, "1 night");
-      if (num === 2) return incArrayValue(arr, "2 nights");
-      if (num === 3) return incArrayValue(arr, "3 nights");
-      if ([4, 5].includes(num)) return incArrayValue(arr, "4-5 nights");
-      if ([6, 7].includes(num)) return incArrayValue(arr, "6-7 nights");
-      if (num >= 8 && num <= 14) return incArrayValue(arr, "8-14 nights");
-      if (num >= 15 && num <= 21) return incArrayValue(arr, "15-21 nights");
-      if (num >= 21) return incArrayValue(arr, "21+ nights");
-      return arr;
-    }, startData)
-    .filter((obj) => obj.value > 0);
-
-  return data;
-  */
-
 function DurationChart({ time }) {
   const { isDarkMode } = useDarkMode();
   const startData = isDarkMode ? startDataDark : startDataLight;
   const data = prepareData(startData, time);
-  console.log(time);
-  console.log(data);
+  // console.log(time);
+  // console.log(data);
 
   return (
     <>
@@ -253,7 +248,7 @@ function DurationChart({ time }) {
 
               // paddingAngle={9}
             >
-              {startDataLight.map((entry) => (
+              {data.map((entry) => (
                 <Cell
                   fill={entry.color}
                   stroke={entry.color}
@@ -263,7 +258,7 @@ function DurationChart({ time }) {
             </Pie>
 
             <Legend
-              payload={startDataLight.map((entry) => ({
+              payload={data.map((entry) => ({
                 value: entry.duration,
                 type: "square",
                 color: entry.color,

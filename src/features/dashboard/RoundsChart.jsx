@@ -23,6 +23,9 @@ import {
 
 const StyledRoundsChart = styled(DashboardBox)`
   grid-column: 1 / span 1;
+  border: 1px solid var(--color-indigo-700);
+  border-radius: var(--border-radius-md);
+
   /* width: 75%; */
 
   /* Hack to change grid line colors */
@@ -51,7 +54,7 @@ function RoundsChart({ rounds, numDays, allDatesNoTime }) {
   // console.log(new Date(rounds[0].startDate2).toISOString().slice(0, 10));
   // console.log(new Date(rounds[1].startDate2).toISOString().slice(0, 10));
   const data = allDatesNoTime?.map((date) => {
-    console.log(date);
+    // console.log(date);
     return {
       // format to "MMM dd"
       label: formatDate(date),

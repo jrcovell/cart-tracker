@@ -8,7 +8,7 @@ import AppLayout from "./ui/AppLayout";
 
 import DashBoard from "./pages/Dashboard";
 import Bookings from "./pages/Bookings";
-import Cabins from "./pages/Cabins";
+
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Map from "./pages/Map";
@@ -55,7 +55,6 @@ function App() {
               <Route path="bookings" element={<Bookings />} />
               <Route path="bookings/:bookingId" element={<Booking />} />
               <Route path="checkin/:bookingId" element={<CheckIn />} />
-              <Route path="cabins" element={<Cabins />} />
               <Route path="carts" element={<Carts />} />
               <Route path="users" element={<Users />} />
               <Route path="settings" element={<Settings />} />

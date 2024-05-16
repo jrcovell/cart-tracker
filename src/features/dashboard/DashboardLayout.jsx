@@ -47,6 +47,7 @@ function DashboardLayout() {
     playingRounds,
     completedRounds,
     time,
+    timeToday,
     isPending: isPendingRounds,
     error: errorRounds,
   } = useRecentRounds();
@@ -69,14 +70,7 @@ function DashboardLayout() {
   return (
     <>
       <StyledDashboardLayout>
-        <RoundStats
-          bookings={bookings}
-          confirmedRounds={confirmedRounds}
-          playingRounds={playingRounds}
-          completedRounds={completedRounds}
-          time={time}
-          rounds={rounds}
-        />
+        <RoundStats bookings={bookings} timeToday={timeToday} rounds={rounds} />
         <WeatherStats weather={weather} isPending={isPendingWeather} />
       </StyledDashboardLayout>
 

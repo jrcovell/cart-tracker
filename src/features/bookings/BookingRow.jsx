@@ -17,6 +17,9 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { deleteBooking } from "../../services/apiBookings";
 import useDeleteBooking from "./useDeleteBooking";
+import { useCheckIn } from "../check-in-out/useCheckIn";
+import { useStartRound } from "../check-in-out/useStartRound";
+import { GiCarWheel } from "react-icons/gi";
 
 const Cart = styled.div`
   font-size: 1.6rem;
@@ -44,13 +47,15 @@ function BookingRow({
   booking: {
     id: bookingId,
     status,
-    startDate,
+    startDate2,
     carts: { id: cartId },
     golfers: { fullName },
   },
 }) {
   const navigate = useNavigate(); // useNavigate hook from react-router-dom
   const { checkOut, isCheckOut } = useCheckOut();
+  const { checkIn, isCheckIn } = useCheckIn();
+  const { startRound, isStartRound } = useStartRound();
   const { deleteBooking, isDeleting } = useDeleteBooking();
 
   const statusToTagName = {
@@ -60,6 +65,7 @@ function BookingRow({
     "behind schedule": "red",
     completed: "silver",
     cancelled: "red",
+    null: "grey",
   };
 
   return (
@@ -72,15 +78,9 @@ function BookingRow({
         <span>Trolley</span>
       </Stacked>
 
-      <Stacked>
-        <span>18</span>
-        <span>Test</span>
-        <span>Trolley</span>
-      </Stacked>
-
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
-      <div>{startDate}</div>
+      <div>{startDate2}</div>
       <Modal>
         <Menus.Menu>
           <Menus.Toggle id={bookingId} />
@@ -91,14 +91,26 @@ function BookingRow({
             >
               Details
             </Menus.Button>
+
             {status === "upcoming" && (
               <Menus.Button
-                onClick={() => navigate(`/checkin/${bookingId}`)}
-                icon={<HiCash />}
+                onClick={() => checkIn(bookingId)}
+                icon={<HiArrowDownOnSquare />}
+                disabled={isCheckIn}
               >
-                Pay / Check In
+                Check In
               </Menus.Button>
             )}
+            {status === "checked-in" && (
+              <Menus.Button
+                onClick={() => startRound(bookingId)}
+                icon={<GiCarWheel />}
+                disabled={isCheckIn}
+              >
+                Start Round
+              </Menus.Button>
+            )}
+
             {(status === "playing" || status === "behind schedule") && (
               <Menus.Button
                 onClick={() => checkOut(bookingId)}

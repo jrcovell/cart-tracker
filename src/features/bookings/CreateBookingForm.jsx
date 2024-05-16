@@ -8,7 +8,7 @@ import Form from "../../ui/Form";
 import { useCarts } from "../carts/useCarts";
 import { useGolfers } from "../golfers/useGolfers";
 
-function CreateBookingForm(onCloseModal) {
+function CreateBookingForm({ onCloseModal }) {
   const { register, handleSubmit, reset, formState } = useForm({
     defaultValues: {},
   });
@@ -51,16 +51,16 @@ function CreateBookingForm(onCloseModal) {
           type="date"
           id="startDate2"
           disabled={isCreating}
-          {...register("date", { required: "Date is required" })}
+          {...register("startDate2", { required: "Date is required" })}
           error={errors?.date?.message}
         />
       </FormRow>
 
       <FormRow label="Cart Number" error={errors?.cart?.message}>
         <select
-          id="cart"
+          id="cartId"
           disabled={isCreating}
-          {...register("cart", { required: "Cart is required" })}
+          {...register("cartId", { required: "Cart is required" })}
         >
           {carts.map((cart) => (
             <option key={cart.id} value={cart.id}>
@@ -72,9 +72,9 @@ function CreateBookingForm(onCloseModal) {
 
       <FormRow label="Golfer" error={errors?.golfers?.message}>
         <select
-          id="golfers"
+          id="golferId"
           disabled={isCreating}
-          {...register("golfers", { required: "Golfers are required" })}
+          {...register("golferId", { required: "Golfers are required" })}
         >
           {golfers.map((golfer) => (
             <option key={golfer.id} value={golfer.id}>

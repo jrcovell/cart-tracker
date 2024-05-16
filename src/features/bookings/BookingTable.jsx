@@ -9,18 +9,17 @@ import Pagination from "../../ui/Pagination";
 function BookingTable() {
   const { bookings, count, isPending } = useBookings();
 
-  if(isPending) return <Spinner/>
+  if (isPending) return <Spinner />;
 
-if(!bookings) return 
-<Empty resourceName="bookings" />;
+  if (!bookings) return;
+  <Empty resourceName="bookings" />;
 
   return (
     <Menus>
-      <Table columns="0.6fr 2fr 2fr 2fr 0.6fr 0.6fr ">
+      <Table columns="0.6fr 2fr 2fr 2fr 0.6fr ">
         <Table.Header>
           <div>Cart Number</div>
           <div>Golfer 1</div>
-          <div>Golfer 2</div>
           <div>Status</div>
           <div>Date</div>
         </Table.Header>
@@ -33,9 +32,8 @@ if(!bookings) return
         />
 
         <Table.Footer>
-          < Pagination count={count} />
+          <Pagination count={count} />
         </Table.Footer>
-
       </Table>
     </Menus>
   );

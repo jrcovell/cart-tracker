@@ -16,7 +16,7 @@ export function useRecentRounds() {
   const { isPending, data: rounds } = useQuery({
     // queryFn: getRoundsSelectedDate2,
     queryFn: () => getRoundsSelectedDate2(queryDate),
-    queryKey: ["rounds"],
+    queryKey: ["rounds", `day-${currentDate}`],
   });
 
   const confirmedRounds = rounds?.filter(
@@ -32,7 +32,7 @@ export function useRecentRounds() {
   function timeStringToFloat(time) {
     // console.log(time); // 10:05:00
     //remove the seconds
-    let hoursMinutes = time.split(":").slice(0, 2);
+    let hoursMinutes = time?.split(":").slice(0, 2); // error when checking in a round (end time is null)
     // console.log(hoursMinutes); // [ '10', '05' ]
     let hours = parseInt(hoursMinutes[0]); // 10 is the radix radix is the base of the numeral system
     // console.log(hours); // 10
@@ -42,15 +42,35 @@ export function useRecentRounds() {
   }
   // const startTime = rounds?.map((round) => timeStringToFloat(round.startTime));
   // const endTime = rounds?.map((round) => round.endTime);
+  const timeToday = rounds
+    ?.filter(
+      (round) => round.startDate2 === new Date().toISOString().slice(0, 10)
+    )
+    .map((round) =>
+      round?.endTime === null
+        ? null //* guard against null end time (when checking in a round, redirects to dashboard, end time is null on newly checked in round)
+        : timeStringToFloat(round?.endTime) -
+          timeStringToFloat(round?.startTime)
+    );
 
   const time = rounds?.map(
     (round) =>
+      round?.endTime === null
+        ? null //* guard against null end time (when checking in a round, redirects to dashboard, end time is null on newly checked in round)
+        : timeStringToFloat(round?.endTime) -
+          timeStringToFloat(round?.startTime)
+    /*
+     (round?.endTime === null) {
+        return 
+      }
       timeStringToFloat(round?.endTime) - timeStringToFloat(round?.startTime)
+      */
   );
 
   // console.log(getToday());
   // console.log(getTodayNoTime());
   // console.log(time);
+  // console.log(timeToday);
 
   //*
 
@@ -62,6 +82,7 @@ export function useRecentRounds() {
     completedRounds,
     currentDate,
     time,
+    timeToday,
   };
 }
 

@@ -11,7 +11,7 @@ import supabase from "./supabase";
 export async function getBookings({ filter, sort, page }) {
   let query = supabase
     .from("bookings")
-    .select("id, status, startDate, carts(id), golfers(fullName)", {
+    .select("id, status, startDate2, carts(id), golfers(fullName)", {
       count: "exact",
     });
   //* count: 'exact' returns the number of results, without any other data. Useful for pagination. (can also use bookings.length to get the count which seems easier here)
@@ -68,7 +68,7 @@ export async function getBooking(id) {
 export async function updateBooking(id, obj) {
   const { data, error } = await supabase
     .from("bookings")
-    .update(obj)
+    .update(obj) //
     .eq("id", id)
     .select()
     .single();
@@ -92,6 +92,8 @@ export async function deleteBooking(id) {
 }
 
 export async function createBooking(newBooking) {
+  // console.log(newBooking);
+
   const { data, error } = await supabase
     .from("bookings")
     .insert([newBooking])
@@ -155,6 +157,7 @@ export async function getRoundsSelectedDate() {
 
 // get previous rounds depending on the filter (7 days, 30 days, 90 days)
 export async function getRoundsSelectedDate2(date) {
+  console.log(date);
   const { data, error } = await supabase
     .from("bookings")
     .select("*, golfers(fullName)")

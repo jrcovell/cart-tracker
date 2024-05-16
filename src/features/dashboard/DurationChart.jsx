@@ -205,7 +205,7 @@ function prepareData(startData, time) {
   const data = time
     ?.reduce((arr, cur) => {
       const num = cur;
-      console.log(num);
+
       if (num < 3) return incArrayValue(arr, "<3 hours");
       if (num <= 3.25) return incArrayValue(arr, "<3.25 hours");
       if (num <= 3.5) return incArrayValue(arr, "<3.5 hours");
@@ -237,6 +237,7 @@ function DurationChart({ time }) {
           <PieChart>
             <Pie
               data={data}
+              label
               nameKey="duration" // nameKey is the key in the data object that will be used as the name of the slice
               dataKey="value" // dataKey is the key in the data object that will be used as the value of the slice
               // startAngle={180}

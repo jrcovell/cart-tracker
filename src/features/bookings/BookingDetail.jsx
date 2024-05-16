@@ -16,6 +16,8 @@ import { HiCheckBadge, HiTrash } from "react-icons/hi2";
 import useDeleteBooking from "./useDeleteBooking";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import CreateBookingForm from "./CreateBookingForm";
+import EditBookingForm from "./EditBookingForm";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -24,29 +26,26 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const {booking, isPending} = useBooking();
-  const {checkOut, isCheckOut} = useCheckOut();
-  const {deleteBooking, isDeleting} = useDeleteBooking();
+  const { booking, isPending } = useBooking();
+  const { checkOut, isCheckOut } = useCheckOut();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
   const navigate = useNavigate();
   const moveBack = useMoveBack();
-  console.log(booking)
+  console.log(booking);
 
-
-  if(isPending) return <Spinner/>
+  if (isPending) return <Spinner />;
 
   // const status = "checked-in";
-  const {status, id: bookingId} = booking;
+  const { status, id: bookingId } = booking;
 
   const statusToTagName = {
-    'upcoming': "yellow",
-    'checked-in': 'blue',
-    'playing': "green",
-    'behind schedule': "red",
-    'completed': "silver",
-    'cancelled': "red",
+    upcoming: "yellow",
+    "checked-in": "blue",
+    playing: "green",
+    "behind schedule": "red",
+    completed: "silver",
+    cancelled: "red",
   };
-
-
 
   return (
     <>
@@ -56,38 +55,47 @@ function BookingDetail() {
           <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
         </HeadingGroup>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
-        </Row>
+      </Row>
 
-        <ButtonGroup>
+      <ButtonGroup>
         {status === "upcoming" && (
-        <Button
-   onClick={() => navigate(`/checkin/${bookingId}`)} >Pay / Check In
-        </Button>
-  )}
-  {(status === "playing" || status === 'behind schedule') && (
-  <Button onClick={() => checkOut(bookingId)} icon={<HiCheckBadge/>} disabled={isCheckOut} >Complete Round</Button>
-)}
-
+          <Button onClick={() => navigate(`/checkin/${bookingId}`)}>
+            Pay / Check In
+          </Button>
+        )}
+        {(status === "playing" || status === "behind schedule") && (
+          <Button
+            onClick={() => checkOut(bookingId)}
+            icon={<HiCheckBadge />}
+            disabled={isCheckOut}
+          >
+            Complete Round
+          </Button>
+        )}
 
         <Modal>
-          <Modal.OpenButton open='delete'>
-            <Button variation='danger'>
-              Delete Booking
-            </Button>
+          <Modal.OpenButton open="delete">
+            <Button variation="danger">Delete Booking</Button>
           </Modal.OpenButton>
-          <Modal.Window name='delete'>
-            <ConfirmDelete resourceName='booking' disabled={isDeleting} onConfirm={() => deleteBooking(bookingId, {
-              onSettled: () => navigate(-1)
-            })}/>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="booking"
+              disabled={isDeleting}
+              onConfirm={() =>
+                deleteBooking(bookingId, {
+                  onSettled: () => navigate(-1),
+                })
+              }
+            />
           </Modal.Window>
-      
-        <Button variation="secondary" onClick={moveBack}>
-          Back
-        </Button>
+
+          <Button variation="secondary" onClick={moveBack}>
+            Back
+          </Button>
         </Modal>
       </ButtonGroup>
+      <EditBookingForm booking={booking} />
     </>
   );
 }
 export default BookingDetail;
-

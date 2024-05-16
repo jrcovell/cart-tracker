@@ -40,8 +40,6 @@ const Cart = styled.div`
   font-family: "Sono";
 `;
 
-const Active = styled.div``;
-
 const Number = styled.div`
   font-family: "Sono";
   font-weight: 500;
@@ -89,7 +87,6 @@ function CartRow({ cart }) {
     <Table.Row>
       <Img src={image} />
       <Number>{number}</Number>
-      <Active>{active ? <HiCheck /> : undefined}</Active>
       <Description>{description}</Description>
       <div>
         <Modal>

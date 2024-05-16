@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
 
-
 const sizes = {
   small: css`
     font-size: 1.2rem;
@@ -8,6 +7,7 @@ const sizes = {
     text-transform: uppercase;
     font-weight: 600;
     text-align: center;
+    margin: auto;
   `,
   medium: css`
     font-size: 1.4rem;
@@ -47,17 +47,29 @@ const variations = {
       background-color: var(--color-red-800);
     }
   `,
+  booking: css`
+    color: var(--color-grey-0);
+    background-color: var(--color-grey-500);
+
+    &:hover {
+      background-color: var(--color-grey-800);
+    }
+  `,
 };
 
 /////////
 
 export const Button = styled.button`
-border: none;
-border-radius: 7px;
-box-shadow: var(--shadow-sm);
+  border: none;
+  border-radius: 7px;
+  box-shadow: var(--shadow-sm);
 
-${(props) => sizes[props.size || "medium"]}; //* default to medium if no size is provided 
-${(props) => variations[props.variation || "primary"]} //* default to primary if no variation is provided
+  ${(props) =>
+    sizes[props.size || "medium"]}; //* default to medium if no size is provided
+  ${(props) =>
+    variations[
+      props.variation || "primary"
+    ]}//* default to primary if no variation is provided
 `;
 
 // Button.defaultProps = { //* different way to set default props(set above)

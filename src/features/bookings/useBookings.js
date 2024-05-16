@@ -42,6 +42,12 @@ export function useBookings() {
     queryKey: ["bookings", filter, sort, page], //* stores result of getCart in cache with key 'cart'. whenever filter/sort changes, the cache is invalidated and new data is fetched.
     queryFn: () => getBookings({ filter, sort, page }), //* used to fetch data from api (needs to return a promise) (getCarts from apiCarts.js)
   });
+
+  // per pagination. only want to show active bookings, but still keep completed bookings for data
+  const activeBookings = bookings?.filter(
+    (booking) => booking.status !== "completed"
+  );
+
   //& console.log(x) //* logs the data from the api data:, isLoading: true, error: undefined, isStale, etc.
   //pre fetching data
   const pageCount = Math.ceil(count / NUMBER_OF_ITEMS); //
@@ -60,5 +66,5 @@ export function useBookings() {
       queryFn: () => getBookings({ filter, sort, page: page - 1 }),
     }); // prefetches the previous page
 
-  return { isPending, bookings, count, error };
+  return { isPending, bookings, activeBookings, count, error };
 }

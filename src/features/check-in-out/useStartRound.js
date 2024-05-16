@@ -7,13 +7,13 @@ export function useStartRound() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate: StartRound, isPending: isStartRound } = useMutation({
+  const { mutate: startRound, isPending: isStartRound } = useMutation({
     mutationFn: (bookingId) =>
       updateBooking(bookingId, {
         status: "playing",
         notes: "Round started by staff",
+        startTime: new Date().toTimeString().slice(0, 5),
       }),
-
     onSuccess: (data) => {
       //* onSuccess receives the data returned by the mutationFn (updateBooking)
       //* console.log(data) // {id: 1, status: 'checked-in', notes: 'Checked in by staff'}
@@ -27,5 +27,5 @@ export function useStartRound() {
     },
   });
 
-  return { StartRound, isStartRound };
+  return { startRound, isStartRound };
 }

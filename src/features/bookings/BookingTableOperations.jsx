@@ -1,4 +1,4 @@
-import Sort from "../../ui/Sort"
+import Sort from "../../ui/Sort";
 import Filter from "../../ui/Filter";
 import TableOperations from "../../ui/TableOperations";
 
@@ -10,8 +10,9 @@ function BookingTableOperations() {
         options={[
           { value: "all", label: "All" },
           { value: "upcoming", label: "Upcoming" },
+          { value: "checked-in", label: "Checked In" },
           { value: "playing", label: "Playing" },
-          { value: "behind schedule", label: "Behind Schedule" },
+          { value: "completed", label: "Completed" },
         ]}
       />
 
@@ -19,7 +20,6 @@ function BookingTableOperations() {
         options={[
           { value: "startDate-desc", label: "Sort by time (later first)" },
           { value: "startDate-asc", label: "Sort by time (earlier first)" },
-          
         ]}
       />
     </TableOperations>

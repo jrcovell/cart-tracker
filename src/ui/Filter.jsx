@@ -51,7 +51,7 @@ function Filter({ filterField, options }) {
         <FilterButton
           onClick={() => handleClick(option.value)}
           key={option.label}
-          active={option.value === currentSelection ? "active" : "default"} //! causing error
+          active={option.value === currentSelection ? "active" : "default"}
           disabled={option.value === currentSelection}
         >
           {option.label}

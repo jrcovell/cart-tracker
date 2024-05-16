@@ -7,10 +7,21 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import { useCarts } from "../carts/useCarts";
 import { useGolfers } from "../golfers/useGolfers";
+import { useBooking } from "./useBooking";
 
-function CreateBookingForm({ onCloseModal }) {
+function EditBookingForm() {
+  const { booking } = useBooking();
+  console.log(booking);
+  console.log(booking.startTime);
   const { register, handleSubmit, reset, formState } = useForm({
-    defaultValues: {},
+    defaultValues: {
+      startTime: booking.startTime,
+      endTime: booking.endTime,
+      startDate2: booking.startDate2,
+      cartId: booking.cartId,
+      golferId: booking.golferId,
+      notes: booking.notes,
+    },
   });
 
   const { carts, isPending: isPendingCarts } = useCarts();
@@ -19,9 +30,9 @@ function CreateBookingForm({ onCloseModal }) {
   const { errors } = formState;
 
   function onSubmitData(data) {
-    createBooking(data);
-    reset();
-    onCloseModal();
+    console.log(data);
+    // editBooking(data);
+    // reset();
   }
 
   function onError(errors) {
@@ -31,10 +42,7 @@ function CreateBookingForm({ onCloseModal }) {
   if (isPendingCarts || isPendingGolfers) return <Spinner />;
 
   return (
-    <Form
-      onSubmit={handleSubmit(onSubmitData, onError)}
-      type={onCloseModal ? "modal" : "standard"}
-    >
+    <Form onSubmit={handleSubmit(onSubmitData, onError)}>
       {/* //* onSubmit called when form is submitted(when button is clicked)  */}
 
       <FormRow label="Date" error={errors?.date?.message}>
@@ -44,6 +52,24 @@ function CreateBookingForm({ onCloseModal }) {
           disabled={isCreating}
           {...register("startDate2", { required: "Date is required" })}
           error={errors?.date?.message}
+        />
+      </FormRow>
+
+      <FormRow label="Start Time" error={errors?.startTime?.message}>
+        <Input
+          type="time"
+          id="startTime"
+          disabled={isCreating}
+          {...register("startTime", { required: "Start Time is required" })}
+        />
+      </FormRow>
+
+      <FormRow label="End Time" error={errors?.endTime?.message}>
+        <Input
+          type="time"
+          id="endTime"
+          disabled={isCreating}
+          {...register("endTime", { required: "End Time is required" })}
         />
       </FormRow>
 
@@ -75,20 +101,23 @@ function CreateBookingForm({ onCloseModal }) {
         </select>
       </FormRow>
 
+      <FormRow label="Notes" error={errors?.notes?.message}>
+        <Input
+          type="text"
+          id="notes"
+          disabled={isCreating}
+          {...register("notes")}
+        />
+      </FormRow>
+
       <FormRow>
         {/* type is an HTML attribute. Resets the form */}
         {/* optional chaining here in case form is used outside of modal(will not receive the onCloseModal prop) */}
-        <Button
-          onClick={() => onCloseModal?.()}
-          variation="secondary"
-          type="reset"
-        >
-          Cancel
-        </Button>
-        <Button>Create new Booking</Button>
+
+        <Button>Edit Booking</Button>
       </FormRow>
     </Form>
   );
 }
 
-export default CreateBookingForm;
+export default EditBookingForm;

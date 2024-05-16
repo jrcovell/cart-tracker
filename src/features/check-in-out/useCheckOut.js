@@ -4,26 +4,27 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export function useCheckOut() {
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
-    const {mutate: checkOut, isPending: isCheckOut} = useMutation({
-        mutationFn: (bookingId) => updateBooking(bookingId, {status: 'completed', notes: 'Checked out by staff'
-    }),
-    
+  const { mutate: checkOut, isPending: isCheckOut } = useMutation({
+    mutationFn: (bookingId) =>
+      updateBooking(bookingId, {
+        status: "completed",
+        notes: "Checked out by staff",
+        endTime: new Date().toTimeString().slice(0, 5),
+      }),
 
-onSuccess: (data) => { 
+    onSuccess: (data) => {
+      toast.success(`Booking #${data.id} has been checked out`);
+      queryClient.invalidateQueries({ active: true });
 
-    toast.success(`Booking #${data.id} has been checked out`)
-    queryClient.invalidateQueries({active: true}) 
-    
-    navigate('/');
-},
-onError: () => {
-    toast.error('Error occurred while checking out')
-}
-    })
+      //   navigate("/"); //* commented out to prevent redirect to dashboard
+    },
+    onError: () => {
+      toast.error("Error occurred while checking out");
+    },
+  });
 
-    return {checkOut, isCheckOut}
-   
+  return { checkOut, isCheckOut };
 }

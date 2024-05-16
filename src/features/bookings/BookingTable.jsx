@@ -7,7 +7,7 @@ import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
 
 function BookingTable() {
-  const { bookings, count, isPending } = useBookings();
+  const { bookings, activeBookings, count, isPending } = useBookings();
 
   if (isPending) return <Spinner />;
 
@@ -16,12 +16,11 @@ function BookingTable() {
 
   return (
     <Menus>
-      <Table columns="0.6fr 2fr 2fr 2fr 0.6fr ">
+      <Table columns="2fr 2fr 2fr 2fr 0.6fr ">
         <Table.Header>
-          <div>Cart Number</div>
-          <div>Golfer 1</div>
-          <div>Status</div>
+          <div>Golfer</div>
           <div>Date</div>
+          <div>Status</div>
         </Table.Header>
 
         <Table.Body

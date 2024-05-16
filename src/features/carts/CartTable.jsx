@@ -17,53 +17,53 @@ const Table = styled.div`
 `;
 */
 
-
-
 function CartTable() {
-const {isPending, carts, error} = useCarts() 
-const [searchParams] = useSearchParams() //* from Filter.jsx
+  const { isPending, carts, error } = useCarts();
+  const [searchParams] = useSearchParams(); //* from Filter.jsx
 
-if (isPending) return <Spinner/> //* same as above but with a spinner component
+  if (isPending) return <Spinner />; //* same as above but with a spinner component
 
-if (!carts.length) return <Empty resourceName="carts"/> 
+  if (!carts.length) return <Empty resourceName="carts" />;
 
-//* filter logic
-const filteredCarts = searchParams.get('type') || 'allCarts' //* short circuit to default to allCarts (usually null)
-// console.log(filteredCarts) //* (allCarts || activeCarts)
+  //* filter logic
+  const filteredCarts = searchParams.get("type") || "allCarts"; //* short circuit to default to allCarts (usually null)
+  // console.log(filteredCarts) //* (allCarts || activeCarts)
 
-let filteredCartsList;
-if (filteredCarts === 'allCarts') {
-  filteredCartsList = carts
-}
-if (filteredCarts === 'activeCarts') {
- filteredCartsList = carts.filter((cart) => cart.active !== null)
-}
+  let filteredCartsList;
+  if (filteredCarts === "allCarts") {
+    filteredCartsList = carts;
+  }
+  if (filteredCarts === "activeCarts") {
+    filteredCartsList = carts.filter((cart) => cart.active !== null);
+  }
 
-//* sort logic
-const sortValue = searchParams.get('sort') || 'ascending' //* short circuit to default to ascending (usually null)
+  //* sort logic
+  const sortValue = searchParams.get("sort") || "ascending"; //* short circuit to default to ascending (usually null)
 
-let sortedCartsList; //* takes the filteredCartsList and sorts it based on the sortValue
-if (sortValue === 'ascending') {
-  sortedCartsList = filteredCartsList.sort((a, b) => a.number - b.number)
-}
-if (sortValue === 'descending') {
-  sortedCartsList = filteredCartsList.sort((a, b) => b.number - a.number)
-}
+  let sortedCartsList; //* takes the filteredCartsList and sorts it based on the sortValue
+  if (sortValue === "ascending") {
+    sortedCartsList = filteredCartsList.sort((a, b) => a.number - b.number);
+  }
+  if (sortValue === "descending") {
+    sortedCartsList = filteredCartsList.sort((a, b) => b.number - a.number);
+  }
 
-//* wrap table in menus component
+  //* wrap table in menus component
   return (
-    <Menus> 
-    <Table columns='1fr 0.5fr 0.5fr 2fr 1fr'> 
-      <Table.Header>
-        <div>Icon</div>
-        <div>Number</div>
-        <div>Active</div>
-        <div>Description?</div>
-      </Table.Header>
-      <Table.Body data={filteredCartsList} render={(cart) => <CartRow cart={cart} key={cart.id}/>}/>
-    </Table>
+    <Menus>
+      <Table columns="0.5fr 0.3fr 2fr 1fr">
+        <Table.Header>
+          <div>Icon</div>
+          <div>Number</div>
+          <div>Description</div>
+        </Table.Header>
+        <Table.Body
+          data={filteredCartsList}
+          render={(cart) => <CartRow cart={cart} key={cart.id} />}
+        />
+      </Table>
     </Menus>
-  )
+  );
 }
 
 export default CartTable;

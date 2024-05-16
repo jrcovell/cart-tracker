@@ -20,6 +20,7 @@ import useDeleteBooking from "./useDeleteBooking";
 import { useCheckIn } from "../check-in-out/useCheckIn";
 import { useStartRound } from "../check-in-out/useStartRound";
 import { GiCarWheel } from "react-icons/gi";
+import Button from "../../ui/Button";
 
 const Cart = styled.div`
   font-size: 1.6rem;
@@ -48,7 +49,7 @@ function BookingRow({
     id: bookingId,
     status,
     startDate2,
-    carts: { id: cartId },
+    carts: { id: cartId = "N/A" },
     golfers: { fullName },
   },
 }) {
@@ -68,19 +69,57 @@ function BookingRow({
     null: "grey",
   };
 
+  const isWorking = isCheckIn || isStartRound || isCheckOut || isDeleting;
+
+  // console.log(new Date().toTimeString().slice(0, 8)); // 08:17:33
+
   return (
     <Table.Row>
-      <Cart>{cartId}</Cart>
-
       <Stacked>
-        <span>18</span>
         <span>{fullName}</span>
-        <span>Trolley</span>
+        <span>{bookingId}</span>
       </Stacked>
-
+      <span>{startDate2}</span>
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
-      <div>{startDate2}</div>
+      {status === "upcoming" && (
+        <Button
+          size="small"
+          variation="booking"
+          disabled={isWorking}
+          onClick={() => checkIn(bookingId)}
+        >
+          Check In
+        </Button>
+      )}
+      {status === "checked-in" && (
+        <Button
+          size="small"
+          variation="booking"
+          disabled={isWorking}
+          onClick={() => startRound(bookingId)}
+        >
+          Start Round
+        </Button>
+      )}
+      {(status === "playing" || status === "behind schedule") && (
+        <Button
+          size="small"
+          variation="booking"
+          onClick={() => checkOut(bookingId)}
+        >
+          Complete Round
+        </Button>
+      )}
+      {status === "completed" && ( // if status is completed, show the cash icon
+        <Button
+          size="small"
+          variation="booking"
+          onClick={() => navigate(`/bookings/${bookingId}`)}
+        >
+          Details
+        </Button>
+      )}
       <Modal>
         <Menus.Menu>
           <Menus.Toggle id={bookingId} />

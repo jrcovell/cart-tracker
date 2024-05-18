@@ -43,9 +43,6 @@ function DashboardLayout() {
   } = useRecentWeather();
   const {
     rounds,
-    confirmedRounds,
-    playingRounds,
-    completedRounds,
     time,
     timeToday,
     isPending: isPendingRounds,
@@ -67,6 +64,7 @@ function DashboardLayout() {
   // console.log(weatherData);
   // console.log(weather);
   // console.log(rounds);
+
   return (
     <>
       <StyledDashboardLayout>
@@ -76,8 +74,8 @@ function DashboardLayout() {
 
       <Row type="horizontal">
         <Heading as="h2">
-          Round Stats from {format(allDatesNoTime.at(0), "MMM dd yyyy")} to{" "}
-          {format(allDatesNoTime.at(-1), "MMM dd yyyy")}
+          Round Stats {format(allDatesNoTime.at(1), "MMM dd")} -{" "}
+          {format(getTodayNoTime(), "MMM dd")}
         </Heading>
         <DashboardFilter />
       </Row>

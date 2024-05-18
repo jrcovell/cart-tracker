@@ -8,6 +8,7 @@ import {
 } from "react-icons/hi2";
 import Stat from "./Stat";
 import styled from "styled-components";
+import { getToday, getTodayNoTime } from "../../utils/helpers";
 
 const StyledBorder = styled.div`
   background-color: var(--color-grey-0);
@@ -31,7 +32,7 @@ function RoundStats({
   // const numRounds = rounds?.length;
 
   const roundsToday = rounds?.filter(
-    (round) => round.startDate2 === new Date().toISOString().slice(0, 10)
+    (round) => round.startDate2 === getTodayNoTime()
   );
   // console.log(roundsToday);
   const scheduledRoundsToday = roundsToday?.filter(
@@ -85,7 +86,7 @@ function RoundStats({
         title="Average Duration"
         color="teal"
         icon={<HiOutlineClock />}
-        value={avgTime + " hours"}
+        value={avgTime.toFixed(2) + " hours"}
       />
     </StyledBorder>
   );

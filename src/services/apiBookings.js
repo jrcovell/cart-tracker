@@ -107,6 +107,22 @@ export async function createBooking(newBooking) {
   return data;
 }
 
+//* booking id being passed in as a default value, so no need to pass it in when calling the function
+export async function editBooking(updatedBooking) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .update(updatedBooking)
+    .eq("id", updatedBooking.id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be updated");
+  }
+
+  return data;
+}
+
 //date variable needs to be an ISO string(what supabase expects)
 //getToday() returns an ISO string of the current date
 export async function getBookingsAfterDate(date) {

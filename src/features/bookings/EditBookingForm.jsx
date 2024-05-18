@@ -8,11 +8,13 @@ import Form from "../../ui/Form";
 import { useCarts } from "../carts/useCarts";
 import { useGolfers } from "../golfers/useGolfers";
 import { useBooking } from "./useBooking";
+import { useNavigate } from "react-router-dom";
+import { useEditBooking } from "./useEditBooking";
 
 function EditBookingForm() {
   const { booking } = useBooking();
-  console.log(booking);
-  console.log(booking.startTime);
+  //   console.log(booking);
+  //   console.log(booking.startTime);
   const { register, handleSubmit, reset, formState } = useForm({
     defaultValues: {
       startTime: booking.startTime,
@@ -21,18 +23,20 @@ function EditBookingForm() {
       cartId: booking.cartId,
       golferId: booking.golferId,
       notes: booking.notes,
+      id: booking.id,
     },
   });
 
   const { carts, isPending: isPendingCarts } = useCarts();
   const { golfers, isPending: isPendingGolfers } = useGolfers();
-  const { createBooking, isCreating } = useCreateBooking();
+  const { editBooking, isEditing } = useEditBooking();
   const { errors } = formState;
+  const navigate = useNavigate();
 
   function onSubmitData(data) {
-    console.log(data);
-    // editBooking(data);
-    // reset();
+    editBooking(data);
+    reset();
+    navigate("/bookings");
   }
 
   function onError(errors) {
@@ -49,7 +53,7 @@ function EditBookingForm() {
         <Input
           type="date"
           id="startDate2"
-          disabled={isCreating}
+          disabled={isEditing}
           {...register("startDate2", { required: "Date is required" })}
           error={errors?.date?.message}
         />
@@ -59,7 +63,7 @@ function EditBookingForm() {
         <Input
           type="time"
           id="startTime"
-          disabled={isCreating}
+          disabled={isEditing}
           {...register("startTime", { required: "Start Time is required" })}
         />
       </FormRow>
@@ -68,7 +72,7 @@ function EditBookingForm() {
         <Input
           type="time"
           id="endTime"
-          disabled={isCreating}
+          disabled={isEditing}
           {...register("endTime", { required: "End Time is required" })}
         />
       </FormRow>
@@ -76,7 +80,7 @@ function EditBookingForm() {
       <FormRow label="Cart Number" error={errors?.cart?.message}>
         <select
           id="cartId"
-          disabled={isCreating}
+          disabled={isEditing}
           {...register("cartId", { required: "Cart is required" })}
         >
           {carts.map((cart) => (
@@ -90,7 +94,7 @@ function EditBookingForm() {
       <FormRow label="Golfer" error={errors?.golfers?.message}>
         <select
           id="golferId"
-          disabled={isCreating}
+          disabled={isEditing}
           {...register("golferId", { required: "Golfers are required" })}
         >
           {golfers.map((golfer) => (
@@ -105,7 +109,7 @@ function EditBookingForm() {
         <Input
           type="text"
           id="notes"
-          disabled={isCreating}
+          disabled={isEditing}
           {...register("notes")}
         />
       </FormRow>

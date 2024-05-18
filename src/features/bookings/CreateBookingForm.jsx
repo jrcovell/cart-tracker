@@ -20,7 +20,7 @@ function CreateBookingForm({ onCloseModal }) {
 
   function onSubmitData(data) {
     createBooking(data);
-    reset();
+    reset(); // resets the form
     onCloseModal();
   }
 

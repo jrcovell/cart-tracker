@@ -31,7 +31,6 @@ function BookingDetail() {
   const { deleteBooking, isDeleting } = useDeleteBooking();
   const navigate = useNavigate();
   const moveBack = useMoveBack();
-  console.log(booking);
 
   if (isPending) return <Spinner />;
 

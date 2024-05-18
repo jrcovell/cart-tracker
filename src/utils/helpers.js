@@ -48,8 +48,9 @@ export const formatCurrency = (value) =>
     value
   );
 
-export const getTodayNoTime = function () {
+export const getTodayNoTime = function (addDays = 0) {
   let today = new Date().toISOString();
+  today = subDays(today, addDays).toISOString();
   today = today.slice(0, 10);
   return today;
 };

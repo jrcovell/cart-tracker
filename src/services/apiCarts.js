@@ -29,19 +29,20 @@ export async function getLocation(id) {
   return data;
 }
 
-export async function updateLocation(id, location) {
-  const { data, error } = await supabase
-    .from("carts")
-    .update({ location })
-    .eq("id", id);
+// export async function updateLocation(id, lat, lng) {
+//   console.log(id, lat, lng); // 19 37.7749 -122.4194
+//   const { data, error } = await supabase
+//     .from("carts")
+//     .update({ cartLocation: { lat: 50, lng: 55 } })
+//     .eq("id", id);
 
-  if (error) {
-    console.error(error);
-    throw new Error("location could not be updated");
-  }
-
-  return data;
-}
+//   if (error) {
+//     console.error(error);
+//     throw new Error("location could not be updated");
+//   }
+//   //   console.log(data);
+//   return data;
+// }
 
 export async function deleteCart(id) {
   const { data, error } = await supabase.from("carts").delete().eq("id", id); //* eq is equal to. deletes the row with the id that matches the id passed in

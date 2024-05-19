@@ -124,12 +124,17 @@ const {mutate: editCabin, isLoading: isEditing} = useMutation({ //* whenever we 
         />
       </FormRow>
 
-      <FormRow label="Location" error={errors?.location?.message}>
+      <FormRow label={"cartLocation"} error={errors?.cartLocation?.message}>
         <Input
           type="text"
-          id="location"
+          id="cartLocation"
           disabled={isWorking}
-          {...register("location", { required: "Location is required" })}
+          {...register("cartLocation", {
+            required: "Cart location is required",
+            validate: (value) =>
+              value.length > 10 ||
+              "Cart location must be at least 10 characters",
+          })}
         />
       </FormRow>
 

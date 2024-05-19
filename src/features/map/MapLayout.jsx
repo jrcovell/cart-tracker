@@ -11,6 +11,7 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useCarts } from "../carts/useCarts";
+import Spinner from "../../ui/Spinner";
 
 const center = {
   lat: 40.156118,
@@ -29,13 +30,16 @@ const cartTwo = {
 
 function MapLayout() {
   const { isPending, carts, error } = useCarts();
+  //   const { isUpdating, updateLocation } = useLocation();
   const moveBack = useMoveBack();
-  const [currentLocation, setCurrentLocation] = useState([]);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyA2Bd6UgLUAt-MUAg564Rh1VWnhHmp2rvg",
   });
+
+  if (isPending) return <Spinner />;
+
   return isLoaded ? (
     <>
       <ButtonGroup>
@@ -49,22 +53,36 @@ function MapLayout() {
         zoom={16}
         mapContainerStyle={{ width: "70%", height: "100vh" }}
         options={{
-          mapTypeId: "satellite",
+          mapTypeId: "satellite", // "roadmap", "satellite", "hybrid", "terrain
           zoomControl: false,
           tilt: 45,
           streetViewControl: false,
           mapTypeControl: false,
           rotateControl: true,
           fullscreenControl: false,
+          rotate: 20,
         }}
       >
-        <MarkerF position={cartOne} onClick={() => setCurrentLocation(cartOne)}>
+        {carts.map((cart) =>
+          cart.cartLocation ? (
+            <MarkerF key={cart.id} position={cart.cartLocation}>
+              <InfoWindow position={cart.cartLocation}>
+                <div>
+                  <h2>{cart.number}</h2>
+                  {/* <p>{cart.description}</p> */}
+                </div>
+              </InfoWindow>
+            </MarkerF>
+          ) : null
+        )}
+
+        {/* <MarkerF position={cartOne} onClick={() => setCurrentLocation(cartOne)}>
           <InfoWindow position={cartOne}>
             <h2>Cart 1</h2>
           </InfoWindow>
-        </MarkerF>
+        </MarkerF> */}
 
-        <MarkerF position={cartTwo} onClick={() => setCurrentLocation(cartOne)}>
+        {/* <MarkerF position={cartTwo} onClick={() => setCurrentLocation(cartOne)}>
           <InfoWindow
             position={cartTwo}
             onCloseClick={() => setCurrentLocation({})}
@@ -73,12 +91,11 @@ function MapLayout() {
               <h2>Cart 2</h2>
             </div>
           </InfoWindow>
-        </MarkerF>
-        {/* <Marker position={cartTwo}></Marker> */}
+        </MarkerF> */}
       </GoogleMap>
     </>
   ) : (
-    <p>Loading...</p>
+    <Spinner />
   );
 }
 

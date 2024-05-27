@@ -49,6 +49,7 @@ function RoundStats({
   );
   const avgTime = timeToday.reduce((a, b) => a + b, 0) / timeToday.length;
 
+  console.log(timeToday);
   // const numConfirmedRounds = confirmedRounds?.length;
   // const numPlayingRounds = playingRounds?.length;
   // const numCompletedRounds = completedRounds?.length;

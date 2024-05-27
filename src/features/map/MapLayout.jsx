@@ -40,6 +40,15 @@ function MapLayout() {
 
   if (isPending) return <Spinner />;
 
+  // console.log(
+  //   carts.map((cart) => ({
+  //     lat: cart.latitude,
+  //     lng: cart.longitude,
+  //   }))
+  // );
+
+  // console.log(carts.map((cart) => cart.cartLocation));
+
   return isLoaded ? (
     <>
       <ButtonGroup>
@@ -64,8 +73,15 @@ function MapLayout() {
         }}
       >
         {carts.map((cart) =>
+          //! change this to active maybe? boolean when cart is active on the map
           cart.cartLocation ? (
-            <MarkerF key={cart.id} position={cart.cartLocation}>
+            <MarkerF
+              key={cart.id}
+              position={{
+                lat: cart.latitude,
+                lng: cart.longitude,
+              }}
+            >
               <InfoWindow position={cart.cartLocation}>
                 <div>
                   <h2>{cart.number}</h2>

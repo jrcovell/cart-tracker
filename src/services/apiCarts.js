@@ -44,6 +44,20 @@ export async function getLocation(id) {
 //   return data;
 // }
 
+export async function updateLocation(id, lat, lng) {
+  const { data, error } = await supabase
+    .from("carts")
+    .update({ latitude: lat, longitude: lng })
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Location could not be updated");
+  }
+
+  return data;
+}
+
 export async function deleteCart(id) {
   const { data, error } = await supabase.from("carts").delete().eq("id", id); //* eq is equal to. deletes the row with the id that matches the id passed in
 

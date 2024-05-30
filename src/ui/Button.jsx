@@ -47,6 +47,14 @@ const variations = {
       background-color: var(--color-red-800);
     }
   `,
+  active: css`
+    color: var(--color-green-100);
+    background-color: var(--color-green-700);
+
+    &:hover {
+      background-color: var(--color-green-800);
+    }
+  `,
   booking: css`
     color: var(--color-grey-0);
     background-color: var(--color-grey-500);

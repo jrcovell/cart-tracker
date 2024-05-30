@@ -1,14 +1,20 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateCartForm from "./CreateCartForm";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import useDeleteCart from "./useDeleteCart";
-import { HiCheck, HiPencil, HiTrash, HiX } from "react-icons/hi";
-import { HiSquare2Stack } from "react-icons/hi2";
+import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiMapPin, HiSquare2Stack } from "react-icons/hi2";
 import { useCreateCart } from "./useCreateCart";
+import TrackCart from "./TrackCart";
 import Modal from "../../ui/Modal";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import Button from "../../ui/Button";
+import { useGetLocation } from "./useGetLocation";
+import { ca } from "date-fns/locale";
+import { useCarts } from "./useCarts";
+import Spinner from "../../ui/Spinner";
 
 /*
 const TableRow = styled.div`
@@ -66,13 +72,15 @@ const Location = styled.div`
   color: var(--color-green-700);
 `;
 
-function CartRow({ cart }) {
+function CartRow({ cart, setMonitorLocation, monitorLocation, setIntervalId }) {
   //* cart is passed as a prop to the CartRow from the CartTable
   // const [showForm, setShowForm] = useState(false); //* showForm is a state variable that is used to toggle the form on and off. Obsolete after moving the state to the modal
-
+  const { carts } = useCarts();
   const { active, id: cartId, number, description, image } = cart; //* destructure the cart object
   const { isDeleting, deleteCart } = useDeleteCart(); //* custom hook that returns isDeleting and deleteCart (isDeleting is a boolean that is true when the mutation is in progress. deleteCart(mutate renamed))
   const { isCreating, createCart } = useCreateCart();
+  const { isUpdating, updateLocation } = useGetLocation();
+  const [selectedCart, setSelectedCart] = useState(cartId);
 
   function handleDuplicate() {
     createCart({
@@ -83,11 +91,75 @@ function CartRow({ cart }) {
     });
   }
 
+  // async function useHandleActive() {
+  //   setMonitorLocation(!monitorLocation);
+  //   setSelectedCart(cart.id);
+
+  //   // if (monitorLocation) {
+  //   //   return (
+  //   //     <Spinner />
+  //   //     // clearInterval(intervalId)
+  //   //   );
+  //   // }
+
+  //   setIntervalId(
+  //     setInterval(async () => {
+  //       if (navigator.geolocation) {
+  //         navigator.geolocation.getCurrentPosition((position) => {
+  //           const { latitude, longitude } = position.coords;
+  //           console.log(latitude, longitude, cartId);
+  //           updateLocation({
+  //             cartId: cartId,
+  //             latitude: latitude,
+  //             longitude: longitude,
+  //           });
+  //         });
+  //       }
+  //     }, 5000)
+  //   );
+  // }
+  /*
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        console.log(latitude, longitude, cartId);
+        updateLocation({
+          cartId: cartId,
+          latitude: latitude,
+          longitude: longitude,
+        });
+      });
+    }
+  }
+  */
+
   return (
     <Table.Row>
       <Img src={image} />
       <Number>{number}</Number>
       <Description>{description}</Description>
+      <TrackCart cart={cart} />
+
+      {/* 
+      <Modal>
+        <Modal.OpenButton open="track-cart">
+          <Button size="medium" variation="active">
+            Test
+          </Button>
+        </Modal.OpenButton>
+        <Modal.Window name="track-cart">
+          <span>Test</span>
+        </Modal.Window>
+      </Modal> */}
+
+      {/* <Button
+        size="medium"
+        variation={monitorLocation ? "active" : "danger"}
+        onClick={useHandleActive}
+      > */}
+      {/* <HiMapPin />
+      </Button> */}
+
       <div>
         <Modal>
           <Menus.Menu>

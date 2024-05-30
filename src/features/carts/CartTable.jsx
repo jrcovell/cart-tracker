@@ -3,8 +3,10 @@ import CartRow from "./CartRow";
 import { useCarts } from "./useCarts";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import Button from "../../ui/Button";
 import { useSearchParams } from "react-router-dom";
 import Empty from "../../ui/Empty";
+import { useState } from "react";
 
 /* //* Using Table component from ui (compounded component)
 const Table = styled.div`
@@ -20,6 +22,8 @@ const Table = styled.div`
 function CartTable() {
   const { isPending, carts, error } = useCarts();
   const [searchParams] = useSearchParams(); //* from Filter.jsx
+  const [monitorLocation, setMonitorLocation] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
 
   if (isPending) return <Spinner />; //* same as above but with a spinner component
 
@@ -49,13 +53,31 @@ function CartTable() {
   }
 
   //* wrap table in menus component
+
+  if (monitorLocation) {
+    return (
+      <>
+        <Spinner />
+        <Button
+          onClick={() => {
+            setMonitorLocation(false);
+            clearInterval(intervalId);
+          }}
+          // clearInterval(intervalId)
+        >
+          Stop Tracking
+        </Button>
+      </>
+    );
+  }
   return (
     <Menus>
-      <Table columns="0.5fr 0.3fr 2fr 1fr">
+      <Table columns="0.5fr 0.3fr 2fr 0.5fr 1fr">
         <Table.Header>
           <div>Icon</div>
           <div>Number</div>
           <div>Description</div>
+          <div>Track Location</div>
         </Table.Header>
         <Table.Body
           data={filteredCartsList}

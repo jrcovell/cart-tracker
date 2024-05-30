@@ -21,7 +21,7 @@ function CreateCartForm({ cartToEdit = {}, onCloseModal }) {
   const { errors } = formState; //* destructuring errors from formState (shows error messages on the form)
 
   const { isCreating, createCart } = useCreateCart();
-  const { isEditing, editCabin } = useEditCart();
+  const { isEditing, editCart } = useEditCart();
 
   const isWorking = isCreating || isEditing; //* isWorking is true if isCreating or isEditing is true
   console.log(getLocation(cartToEdit.id));
@@ -60,7 +60,7 @@ const {mutate: editCabin, isLoading: isEditing} = useMutation({ //* whenever we 
     const image = typeof data.image === "string" ? data.image : data.image[0]; //* if image is a string, use that, otherwise use the first element of the array (again choosing which form of the image to use (file or bucket path))
 
     if (isEditSession)
-      editCabin(
+      editCart(
         { newCartData: { ...data, image }, id: editId },
         {
           onSuccess: (data) => {

@@ -29,34 +29,59 @@ export async function getLocation(id) {
   return data;
 }
 
-// export async function updateLocation(id, lat, lng) {
-//   console.log(id, lat, lng); // 19 37.7749 -122.4194
-//   const { data, error } = await supabase
-//     .from("carts")
-//     .update({ cartLocation: { lat: 50, lng: 55 } })
-//     .eq("id", id);
-
-//   if (error) {
-//     console.error(error);
-//     throw new Error("location could not be updated");
-//   }
-//   //   console.log(data);
-//   return data;
-// }
-
-export async function updateLocation(id, lat, lng) {
+export async function updateLocation(cart) {
   const { data, error } = await supabase
     .from("carts")
-    .update({ latitude: lat, longitude: lng })
-    .eq("id", id);
+    .update({
+      latitude: cart.latitude,
+      longitude: cart.longitude,
+      active: !cart.active,
+    })
+    .eq("id", cart.cartId);
 
   if (error) {
     console.error(error);
-    throw new Error("Location could not be updated");
+    throw new Error("location could not be updated");
   }
-
   return data;
 }
+
+/*
+ async function getLocation() {
+    // const getLocation = async () => {
+    setIntervalId(
+      setInterval(async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setError("Permission to access location was denied");
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        console.log(location);
+
+        // update the state on screen
+        setLat(location.coords.latitude.toString());
+        setLng(location.coords.longitude.toString());
+
+        // update the location in the supabase
+        const { error } = await supabase
+          .from("carts")
+          .update({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          })
+          .eq("id", id);
+
+        if (error) {
+          Alert.alert("Error updating location");
+        }
+      }, 10000) // update every 10 seconds
+    );
+
+    // this will clear the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }
+*/
 
 export async function deleteCart(id) {
   const { data, error } = await supabase.from("carts").delete().eq("id", id); //* eq is equal to. deletes the row with the id that matches the id passed in

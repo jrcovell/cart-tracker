@@ -11,7 +11,7 @@ function BookingTable() {
 
   if (isPending) return <Spinner />;
 
-  if (!bookings) return;
+  if (!bookings.length) return;
   <Empty resourceName="bookings" />;
 
   return (

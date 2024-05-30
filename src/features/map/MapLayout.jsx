@@ -93,7 +93,7 @@ function MapLayout() {
                   lat: cart.latitude,
                   lng: cart.longitude,
                 }}
-                icon={gpsLogoV2}
+                // icon={gpsLogoV2}
               >
                 <InfoWindow
                   position={{ lat: cart.latitude, lng: cart.longitude }}

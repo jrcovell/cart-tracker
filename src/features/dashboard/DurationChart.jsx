@@ -20,9 +20,6 @@ const ChartBox = styled.div`
   border-radius: var(--border-radius-md);
   padding: 3rem 2rem;
 
-  @media (max-width: 1280px) {
-    background-color: var(--color-green-700);
-  }
   /* grid-column: 1 / span 1; */
 
   /* & > *:first-child {

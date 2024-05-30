@@ -59,8 +59,8 @@ function App() {
               <Route path="users" element={<Users />} />
               <Route path="settings" element={<Settings />} />
               <Route path="account" element={<Account />} />
+              <Route path="map" element={<Map />} />
             </Route>
-            <Route path="map" element={<Map />} />
 
             <Route path="login" element={<Login />} />
             <Route path="*" element={<PageNotFound />} />

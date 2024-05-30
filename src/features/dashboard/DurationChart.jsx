@@ -14,10 +14,15 @@ import { startOfDay } from "date-fns";
 
 const ChartBox = styled.div`
   /* Box */
+
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-indigo-100);
   border-radius: var(--border-radius-md);
   padding: 3rem 2rem;
+
+  @media (max-width: 1280px) {
+    background-color: var(--color-green-700);
+  }
   /* grid-column: 1 / span 1; */
 
   /* & > *:first-child {
@@ -268,7 +273,7 @@ function DurationChart({ time }) {
               align="center"
               width="100%"
               layout="horizontal"
-              wrapperStyle={{ fontSize: "2.0rem" }}
+              wrapperStyle={{ fontSize: "1.8rem" }}
               iconSize={12}
               iconType="square"
             />

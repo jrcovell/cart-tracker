@@ -1,18 +1,16 @@
-import { HiMapPin, HiXMark } from "react-icons/hi2";
+import { HiMapPin } from "react-icons/hi2";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
 import { useContext, useEffect, useState } from "react";
 import Spinner from "../../ui/Spinner";
 import { updateLocation } from "../../services/apiCarts";
-// import react from "../../../node_modules/react"
 function TrackCart({ cart }) {
   const [monitorLocation, setMonitorLocation] = useState(true);
-  const [intervalId, setIntervalId] = useState(null);
+  // const [intervalId, setIntervalId] = useState(null);
 
   function stopTracking() {
     console.log("stop tracking");
     setMonitorLocation(true);
-    clearInterval(intervalId);
   }
 
   function useHandleActive() {

@@ -29,7 +29,7 @@ function TrackCart({ cart }) {
           });
         });
       }
-    }, 5000);
+    }, 30000);
   }
 
   return (

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export function useOutsideClick(handler) {
+export function useOutsideClick(handler, listenCapturing = true) {
   // console.log('useOutsideClick')
 
   const ref = useRef();
@@ -16,12 +16,16 @@ export function useOutsideClick(handler) {
         }
       }
       //* setting true to capture the event in the capturing phase(downwards) default is false(bubbling phase moving up the tree)
-      document.addEventListener("click", handleClickedOutside, true);
+      document.addEventListener("click", handleClickedOutside, listenCapturing);
       //* remove event listener when modal is closed
       return () =>
-        document.removeEventListener("click", handleClickedOutside, true);
+        document.removeEventListener(
+          "click",
+          handleClickedOutside,
+          listenCapturing
+        );
     },
-    [handler]
+    [handler, listenCapturing]
   );
 
   return ref;

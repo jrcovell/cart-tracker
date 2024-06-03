@@ -7,7 +7,10 @@ const DarkModeContext = createContext();
 
 function DarkModeProvider({ children }) {
   //* useLocalStorageState is a custom hook created earlier. state is stored in local storage and in useState.
-  const [isDarkMode, setIsDarkMode] = useLocalStorageState(false, "isDarkMode"); // key is "isDarkMode" for local storage
+  const [isDarkMode, setIsDarkMode] = useLocalStorageState(
+    window.matchMedia("(prefers-color-scheme: dark)").matches,
+    "isDarkMode" //window.matchMedia("(prefers-color-scheme: dark)").matches preference set by user on their device
+  ); // key is "isDarkMode" for local storage
   //   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(

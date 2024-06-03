@@ -37,7 +37,9 @@ const StyledList = styled.ul`
   box-shadow: var(--shadow-md);
   border-radius: var(--border-radius-md);
 
-  right: ${(props) => props.position.x}px; //* passing in coordinates of the button to position the menu directly under.
+  right: ${(props) =>
+    props.position
+      .x}px; //* passing in coordinates of the button to position the menu directly under.
   top: ${(props) => props.position.y}px;
 `;
 
@@ -68,75 +70,82 @@ const StyledButton = styled.button`
 
 const MenusContext = createContext();
 
-
-function Menus({children}) {
-  const [openId, setOpenId] = useState('');
-  const [position, setPosition] = useState(null) //* stored here so we can pass it to the list component from the toggle component
-  const closeMenu = () => setOpenId('')
+function Menus({ children }) {
+  const [openId, setOpenId] = useState("");
+  const [position, setPosition] = useState(null); //* stored here so we can pass it to the list component from the toggle component
+  const closeMenu = () => setOpenId("");
   // const openMenu = setOpenId //* simplified ver 1.
   // const openMenu = (id) => setOpenId(id)  //* simplified ver 2.
   function openMenu(id) {
-    setOpenId(id)
- }
-  return (
-  <MenusContext.Provider value={{openId, openMenu, closeMenu, position, setPosition}}>
-    {children}
-  </MenusContext.Provider>
-  )
-}
-
-function Toggle({id}) {
-  const {openId, closeMenu, openMenu, position, setPosition} = useContext(MenusContext)
-  function handleClick(e) {
-    openId === '' || openId !== id ? openMenu(id) : console.log('not'); 
-  // if(openId === id) return console.log('clock') //! if the menu is already open, close it not working
-
-    const rect = e.target.closest('button').getBoundingClientRect() //* closest will find the closest button parent. getBoundingClientRect will give the coordinates of the button 
-    //* console.log(rect) // DOMRect { x: 0, y: 0, width: 32, height: 32, top: 0, right: 32, bottom: 32, left: 0 }
-setPosition({
-  x: window.innerWidth - rect.width - rect.x,
-  y: rect.y + rect.height + 8,
-})
-
-    
+    setOpenId(id);
   }
-  
-  return <StyledToggle onClick={handleClick}>
-    <HiEllipsisVertical/>
-  </StyledToggle>
+  return (
+    <MenusContext.Provider
+      value={{ openId, openMenu, closeMenu, position, setPosition }}
+    >
+      {children}
+    </MenusContext.Provider>
+  );
 }
 
-function List({id, children}) {
-  const {openId, closeMenu, position} = useContext(MenusContext)
-  const ref = useOutsideClick(closeMenu) //* close the menu when clicking outside of the menu 
+function Toggle({ id }) {
+  const { openId, closeMenu, openMenu, position, setPosition } =
+    useContext(MenusContext);
+  function handleClick(e) {
+    e.stopPropagation(); //* stop the event from bubbling up to the parent element (the button in this case
+    openId === "" || openId !== id ? openMenu(id) : closeMenu();
+    // if(openId === id) return console.log('clock') //! if the menu is already open, close it not working
 
-  if(openId !== id) return null;
-  
-  return createPortal( //* this menu will float on top of ui(like a modal) so portal
-<StyledList position={position} ref={ref}>
-  {children}
-</StyledList>, document.body
-  )
+    const rect = e.target.closest("button").getBoundingClientRect(); //* closest will find the closest button parent. getBoundingClientRect will give the coordinates of the button
+    //* console.log(rect) // DOMRect { x: 0, y: 0, width: 32, height: 32, top: 0, right: 32, bottom: 32, left: 0 }
+    setPosition({
+      x: window.innerWidth - rect.width - rect.x,
+      y: rect.y + rect.height + 8,
+    });
+  }
+
+  return (
+    <StyledToggle onClick={handleClick}>
+      <HiEllipsisVertical />
+    </StyledToggle>
+  );
 }
 
-function Button({children, icon, onClick}) {
-  const {closeMenu} = useContext(MenusContext)
-function handleClick(){
-  onClick?.() //* onClick on exist for 'duplicate' atm
-  closeMenu()
+function List({ id, children }) {
+  const { openId, closeMenu, position } = useContext(MenusContext);
+  const ref = useOutsideClick(closeMenu, false); //* close the menu when clicking outside of the menu. false to listen to the bubbling phase (not the capturing phase set to true in useOutsideClick.js)
+
+  if (openId !== id) return null;
+
+  return createPortal(
+    //* this menu will float on top of ui(like a modal) so portal
+    <StyledList position={position} ref={ref}>
+      {children}
+    </StyledList>,
+    document.body
+  );
 }
+
+function Button({ children, icon, onClick }) {
+  const { closeMenu } = useContext(MenusContext);
+  function handleClick() {
+    onClick?.(); //* onClick on exist for 'duplicate' atm
+    closeMenu();
+  }
 
   return (
     <li>
-<StyledButton onClick={handleClick}>{icon}<span>{children}</span></StyledButton>
+      <StyledButton onClick={handleClick}>
+        {icon}
+        <span>{children}</span>
+      </StyledButton>
     </li>
-  )
+  );
 }
 
-Menus.Menu = Menu //* just the styled component 
-Menus.Toggle = Toggle
-Menus.List = List
-Menus.Button = Button
+Menus.Menu = Menu; //* just the styled component
+Menus.Toggle = Toggle;
+Menus.List = List;
+Menus.Button = Button;
 
-export default Menus
-
+export default Menus;

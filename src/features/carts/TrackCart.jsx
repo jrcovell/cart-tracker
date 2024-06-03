@@ -20,6 +20,7 @@ function TrackCart({ cart }) {
     setTimeout(() => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
+          console.log(position);
           const { latitude, longitude } = position.coords;
           console.log(latitude, longitude, cart.id);
           updateLocation({
@@ -29,7 +30,7 @@ function TrackCart({ cart }) {
           });
         });
       }
-    }, 30000);
+    }, 5000);
   }
 
   return (

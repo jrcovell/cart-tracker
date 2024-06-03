@@ -30,6 +30,7 @@ export async function getLocation(id) {
 }
 
 export async function updateLocation(cart) {
+  console.log(cart);
   const { data, error } = await supabase
     .from("carts")
     .update({

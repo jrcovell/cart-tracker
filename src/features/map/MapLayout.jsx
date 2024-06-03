@@ -83,9 +83,10 @@ function MapLayout() {
           rotate: 20,
         }}
       >
-        {carts.map((cart) =>
-          //! change this to active maybe? boolean when cart is active on the map
-          cart.cartLocation ? (
+        {carts.map(
+          (cart) => (
+            //! change this to active maybe? boolean when cart is active on the map
+            // cart.cartActive ? (
             <>
               <MarkerF
                 key={cart.id}
@@ -102,7 +103,8 @@ function MapLayout() {
                 </InfoWindow>
               </MarkerF>
             </>
-          ) : null
+          )
+          // ) : null
         )}
 
         {/* <MarkerF position={cartOne} onClick={() => setCurrentLocation(cartOne)}>

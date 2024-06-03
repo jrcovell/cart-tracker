@@ -19,7 +19,8 @@ const Form = styled.form`
     `}
     
   overflow: hidden;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
+  color: var(--color-red-700);
 `;
 
 Form.defaultProps = {

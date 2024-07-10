@@ -10,7 +10,7 @@ function Dashboard() {
     <>
       <Row type="horizontal">
         <Heading as="h1">
-          Todays Highlights {format(getTodayNoTime(-1), "MMM dd")}
+          Todays Highlights - {format(getTodayNoTime(-1), "MMM dd")}
         </Heading>
       </Row>
       <DashboardLayout />

@@ -75,6 +75,16 @@ function CreateBookingForm({ onCloseModal }) {
         </select>
       </FormRow>
 
+      {/* <FormRow label="Start Time" error={errors?.startTime?.message}>
+        <Input
+          type="time"
+          id="startTime"
+          disabled={isCreating}
+          {...register("startTime", { required: "Start time is required" })}
+          error={errors?.startTime?.message}
+        />
+      </FormRow> */}
+
       <FormRow>
         {/* type is an HTML attribute. Resets the form */}
         {/* optional chaining here in case form is used outside of modal(will not receive the onCloseModal prop) */}

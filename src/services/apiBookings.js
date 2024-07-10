@@ -145,8 +145,8 @@ export async function getRoundsAfterDate(date) {
   const { data, error } = await supabase
     .from("bookings")
     .select("*, golfers(fullName)")
-    .gte("startDate", date)
-    .lte("startDate", getToday());
+    .gte("startDate2", date)
+    .lte("startDate2", getToday());
 
   if (error) {
     console.error(error);
@@ -160,8 +160,8 @@ export async function getRoundsSelectedDate() {
   const { data, error } = await supabase
     .from("bookings")
     .select("*, golfers(fullName)")
-    .gte("startDate", getToday())
-    .lte("startDate", getToday({ end: true }));
+    .gte("startDate2", getToday())
+    .lte("startDate2", getToday({ end: true }));
 
   if (error) {
     console.error(error);

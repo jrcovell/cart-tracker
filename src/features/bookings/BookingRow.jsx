@@ -49,7 +49,7 @@ function BookingRow({
     id: bookingId,
     status,
     startDate2,
-    carts: { id: cartId = "N/A" },
+    // carts: { id: cartId = "N/A" },
     golfers: { fullName },
   },
 }) {

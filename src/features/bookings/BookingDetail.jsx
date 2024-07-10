@@ -58,11 +58,6 @@ function BookingDetail() {
       </Row>
 
       <ButtonGroup>
-        {status === "upcoming" && (
-          <Button onClick={() => navigate(`/checkin/${bookingId}`)}>
-            Pay / Check In
-          </Button>
-        )}
         {(status === "playing" || status === "behind schedule") && (
           <Button
             onClick={() => checkOut(bookingId)}

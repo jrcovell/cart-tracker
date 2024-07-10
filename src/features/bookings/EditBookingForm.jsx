@@ -73,16 +73,12 @@ function EditBookingForm() {
           type="time"
           id="endTime"
           disabled={isEditing}
-          {...register("endTime", { required: "End Time is required" })}
+          {...register("endTime")}
         />
       </FormRow>
 
       <FormRow label="Cart Number" error={errors?.cart?.message}>
-        <select
-          id="cartId"
-          disabled={isEditing}
-          {...register("cartId", { required: "Cart is required" })}
-        >
+        <select id="cartId" disabled={isEditing} {...register("cartId")}>
           {carts.map((cart) => (
             <option key={cart.id} value={cart.id}>
               {cart.number}
@@ -95,7 +91,7 @@ function EditBookingForm() {
         <select
           id="golferId"
           disabled={isEditing}
-          {...register("golferId", { required: "Golfers are required" })}
+          {...register("golferId", { required: "Golfer is required" })}
         >
           {golfers.map((golfer) => (
             <option key={golfer.id} value={golfer.id}>

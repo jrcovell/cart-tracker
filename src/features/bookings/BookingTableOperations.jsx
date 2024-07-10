@@ -18,8 +18,8 @@ function BookingTableOperations() {
 
       <Sort
         options={[
-          { value: "startDate-desc", label: "Sort by time (later first)" },
-          { value: "startDate-asc", label: "Sort by time (earlier first)" },
+          { value: "startDate2-desc", label: "Sort by date (later first)" },
+          { value: "startDate2-asc", label: "Sort by date (earlier first)" },
         ]}
       />
     </TableOperations>

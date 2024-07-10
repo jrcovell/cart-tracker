@@ -25,7 +25,7 @@ export function useBookings() {
   //& option to dynamically filter bookings with < or > status values {field: 'cartId', value: filterValue, method: 'gte'} (greater than or equal to filterValue)
 
   //sort booking by time
-  const sortValue = searchParams.get("sort") || "startDate-asc"; // if there is no sort value, default to 'startTime-asc'
+  const sortValue = searchParams.get("sort") || "startDate2-asc"; // if there is no sort value, default to 'startDate2-asc'
   const [field, direction] = sortValue.split("-"); // split the sort value into field and direction
   const sort = { field, direction }; // set sort to field and direction
 

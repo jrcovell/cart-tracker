@@ -33,10 +33,10 @@ const TableRow = styled.div`
 const Img = styled.img`
   display: block;
   width: 6.4rem;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 4;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.5) translateX(-7px);
+  transform: scale(1.2) translateX(-7px);
 `;
 
 const Cart = styled.div`

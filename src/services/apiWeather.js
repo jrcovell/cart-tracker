@@ -1,7 +1,13 @@
+
+
 export async function getTodaysWeather() {
-  const openWeatherApiKey = "2e1b1808400c0b4f18f88d853977d29c";
+ 
+// const openWeatherApiKey = process.env.WEATHER_KEY;
+const openWeatherApiKey = import.meta.env.VITE_WEATHER_KEY;
   const lat = 40.1533114942667;
   const lon = -75.48946578396848;
+  
+  // console.log(process.env.WEATHER_KEY);
   const openWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${openWeatherApiKey}&units=imperial`;
   // https://api.openweathermap.org/data/2.5/weather?lat=40.1533114942667&lon=-75.48946578396848&appid=2e1b1808400c0b4f18f88d853977d29c
   const response = await fetch(openWeatherUrl);

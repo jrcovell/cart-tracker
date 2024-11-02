@@ -6,6 +6,8 @@ import Row from "../ui/Row";
 import { getTodayNoTime } from "../utils/helpers";
 
 function Dashboard() {
+
+  // console.log(process.env.WEATHER_KEY);
   return (
     <>
       <Row type="horizontal">

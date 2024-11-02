@@ -52,7 +52,7 @@ function MapLayout() {
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyA2Bd6UgLUAt-MUAg564Rh1VWnhHmp2rvg",
+    googleMapsApiKey: import.meta.env.VITE_MAP_KEY,
   });
 
   if (isPending) return <Spinner />;

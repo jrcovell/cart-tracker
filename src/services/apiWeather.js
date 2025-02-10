@@ -6,7 +6,7 @@ export async function getTodaysWeather() {
 const openWeatherApiKey = import.meta.env.VITE_WEATHER_KEY;
   const lat = 40.1533114942667;
   const lon = -75.48946578396848;
-  
+  console.log('test')
   console.log(import.meta.env.VITE_WEATHER_KEY);
   // console.log(process.env.WEATHER_KEY);
   const openWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${openWeatherApiKey}&units=imperial`;

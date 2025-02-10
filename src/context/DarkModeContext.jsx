@@ -1,4 +1,4 @@
-//* making this state global with context bc it is used in multiple components (logout, header, and dark mode toggle)
+//* making this state global with context b/c it is used in multiple components (logout, header, and dark mode toggle)
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";

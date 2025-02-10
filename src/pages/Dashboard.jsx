@@ -7,7 +7,7 @@ import { getTodayNoTime } from "../utils/helpers";
 
 function Dashboard() {
 
-  // console.log(process.env.WEATHER_KEY);
+  console.log(process.env.WEATHER_KEY);
   return (
     <>
       <Row type="horizontal">
